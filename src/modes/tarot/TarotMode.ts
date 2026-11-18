@@ -298,10 +298,12 @@ export class TarotMode implements Mode {
         enter: () => {
           this.hideStatusBar();
           this.slotsOverlay?.hideConfirmButton();
+          this.slotsOverlay?.hide();
 
           // Nút bỏ qua: snap tất cả về trạng thái cuối ngay lập tức
           this.showSkipButton(() => {
             this.slotsOverlay?.hide();
+            this.deckView?.positionPickedCards(this.pickedCards3D);
             void this.snapAllCardsToRevealed().then(() => {
               this.fsm.go('SAVE');
             });
@@ -309,7 +311,6 @@ export class TarotMode implements Mode {
 
           // Truyền pickedCards3D tường minh để DeckView đảm bảo đúng danh sách
           this.deckView?.dismissUnpickedCards(this.pickedCards3D, () => {
-            this.slotsOverlay?.hide();
             this.fsm.go('INSPECT');
           });
         },

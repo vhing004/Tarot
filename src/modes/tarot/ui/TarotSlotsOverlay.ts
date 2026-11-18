@@ -145,10 +145,10 @@ export class TarotSlotsOverlay {
     slot.classList.remove('targeted', 'empty');
     slot.classList.add('filled');
 
-    // Thêm thẻ bài mini vào slot
+    // Thêm biểu tượng xác nhận vào slot
     const preview = document.createElement('div');
     preview.className = 'tarot-slot-card-preview';
-    preview.textContent = '🃏';
+    preview.textContent = '✦';
     slot.appendChild(preview);
 
     // Bắn hạt sáng ma thuật

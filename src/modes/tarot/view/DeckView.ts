@@ -197,9 +197,9 @@ export class DeckView extends Group {
 
     const total = this.cards.length;
     const rowConfigs = [
-      { rowZ: -0.55, radius: 3.1, arcAngle: Math.PI * 0.72, baseY: 0.015 }, // Hàng 0 (xa nhất / trên cùng)
-      { rowZ: 0.15, radius: 2.75, arcAngle: Math.PI * 0.78, baseY: 0.045 },  // Hàng 1 (ở giữa)
-      { rowZ: 0.85, radius: 2.4, arcAngle: Math.PI * 0.84, baseY: 0.075 },   // Hàng 2 (gần nhất / dưới cùng)
+      { rowZ: -0.70, radius: 3.1, arcAngle: Math.PI * 0.72, baseY: 0.015 }, // Hàng 0 (xa nhất / gần phù thủy)
+      { rowZ: 0.05, radius: 2.75, arcAngle: Math.PI * 0.78, baseY: 0.045 },  // Hàng 1 (giữa — lùi ra khỏi tâm bàn)
+      { rowZ: 0.95, radius: 2.4, arcAngle: Math.PI * 0.84, baseY: 0.075 },   // Hàng 2 (gần người chơi nhất)
     ];
 
     const baseCount = Math.floor(total / 3);
@@ -301,6 +301,10 @@ export class DeckView extends Group {
       this.selectedCards.push(card);
     }
 
+    // Nâng renderOrder để lá được chọn luôn hiển thị trên các lá khác
+    card.renderOrder = 10 + this.selectedCards.length;
+    card.traverse((child) => { child.renderOrder = card.renderOrder; });
+
     // Khóa click khi di chuyển
     this.isMoving = true;
 
@@ -310,17 +314,23 @@ export class DeckView extends Group {
       this.hoveredCard = null;
     }
 
-    // Tọa độ cận cảnh người chọn (vượt hoàn toàn trên mặt bàn xòe bài)
-    const spacing = 1.15;
+    // Tọa độ vị trí cận cảnh người chọn (nằm ở phía dưới màn hình, không che bài xòe)
+    const spacing = 1.05;
     const startX = -((totalSlots - 1) * spacing) / 2;
     const playerSlotX = startX + slotIndex * spacing;
-    const playerSlotY = 2.1;  // Tầm mắt người chơi — vượt cao hẳn 3 hàng bài (Y ≤ 0.08)
-    const playerSlotZ = 3.2;  // Bay gần về phía người chọn
+    const playerSlotY = 1.1;  // Độ cao phía trước bàn bói, gần tầm mắt người chơi
+    const playerSlotZ = 4.2;  // Bay gần hẳn về phía người chọn (ra ngoài mặt bàn xòe bài)
+
+    // Góc nghiêng để mặt sau bài nhìn thẳng trực diện vào camera (0, 4, 7):
+    const targetRx = Math.PI - Math.atan((4.0 - playerSlotY) / (7.0 - playerSlotZ));
 
     // Thông báo slot ngay khi bắt đầu di chuyển
     if (onSlotTargeted) onSlotTargeted();
 
     const tl = gsap.timeline({
+      onUpdate: () => {
+        this.engine.requestRender();
+      },
       onComplete: () => {
         // Mở lại khóa khi lá bài đã đến vị trí cận cảnh
         this.isMoving = false;
@@ -328,15 +338,15 @@ export class DeckView extends Group {
       },
     });
 
-    // 1. Nhấc bổng vút lên không trung
+    // 1. Nhấc bổng lá bài lên khỏi mặt bàn
     tl.to(card.position, {
-      y: 2.2,
-      duration: 0.28,
+      y: card.position.y + 0.45,
+      duration: 0.25,
       ease: 'power2.out',
       onUpdate: () => { this.engine.requestRender(); },
     });
 
-    // 2. Trôi lướt về ngay trước mắt người chọn, xoay trực diện camera (0, 4, 7)
+    // 2. Trôi lướt về ngay trước mắt người chọn, xoay trực diện camera và thu nhẹ kích thước
     tl.to(
       card.position,
       {
@@ -353,11 +363,25 @@ export class DeckView extends Group {
     tl.to(
       card.rotation,
       {
-        x: Math.PI / 2 - 0.52,  // Xoay nghiêng trực diện vào góc nhìn camera (0, 4, 7)
+        x: targetRx,
         y: 0,
         z: Math.PI,
         duration: 0.65,
         ease: 'power2.inOut',
+        onUpdate: () => { this.engine.requestRender(); },
+      },
+      '-=0.65',
+    );
+
+    tl.to(
+      card.scale,
+      {
+        x: 0.78,
+        y: 0.78,
+        z: 0.78,
+        duration: 0.65,
+        ease: 'power2.inOut',
+        onUpdate: () => { this.engine.requestRender(); },
       },
       '-=0.65',
     );
@@ -389,6 +413,9 @@ export class DeckView extends Group {
     });
 
     const tl = gsap.timeline({
+      onUpdate: () => {
+        this.engine.requestRender();
+      },
       onComplete: () => {
         gsap.ticker.remove(renderTicker);
         if (onComplete) onComplete();
@@ -426,6 +453,12 @@ export class DeckView extends Group {
     for (let i = 0; i < count; i++) {
       const card = this.selectedCards[i]!;
       const targetX = startX + i * spacing;
+
+      // Reset renderOrder khi hạ cánh để tránh artifact z-ordering sau này
+      tl.call(() => {
+        card.renderOrder = 0;
+        card.traverse((child) => { child.renderOrder = 0; });
+      }, undefined, landTimeStart + i * 0.1 + 0.74);
 
       tl.to(
         card.position,

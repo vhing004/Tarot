@@ -11,18 +11,19 @@ import type { Engine } from '@/core/Engine';
 import type { TarotCard } from '@/shared/types';
 
 // Dùng chung 1 geometry mỏng duy nhất cho toàn bộ các lá bài (R03 §5)
+// Độ dày 0.004 đủ mỏng để không tạo đường kẻ ngang rõ khi nhìn từ camera nghiêng
 const CARD_WIDTH = 1.0;
 const CARD_HEIGHT = 1.72;
-const CARD_THICKNESS = 0.012;
+const CARD_THICKNESS = 0.004;
 const sharedCardGeometry = new BoxGeometry(CARD_WIDTH, CARD_HEIGHT, CARD_THICKNESS);
 
-// Viền cạnh lá bài: vàng kim sáng để nổi bật trên bàn tối (tương phản màu sắc)
+// Viền cạnh lá bài: màu tối, không emissive — cạnh phải mỏng và khuất, không tạo đường sáng ngang bàn
 const sharedEdgeMaterial = new MeshStandardMaterial({
-  color: 0xd4af37,
-  emissive: 0xb8860b,
-  emissiveIntensity: 0.4,
-  metalness: 0.7,
-  roughness: 0.3,
+  color: 0x6b4c10,
+  emissive: 0x000000,
+  emissiveIntensity: 0.0,
+  metalness: 0.4,
+  roughness: 0.6,
 });
 
 export class Card3D extends Mesh {
@@ -61,8 +62,8 @@ export class Card3D extends Mesh {
     this.castShadow = true;
     this.receiveShadow = true;
 
-    // Khung viền hào quang phát sáng ma thuật ôm quanh 4 mép cạnh lá bài
-    const rimGeo = new BoxGeometry(CARD_WIDTH + 0.05, CARD_HEIGHT + 0.05, CARD_THICKNESS + 0.012);
+    // Khung viền hào quang phát sáng ma thuật ôm quanh 4 mép cạnh lá bài (chỉ hiện khi hover)
+    const rimGeo = new BoxGeometry(CARD_WIDTH + 0.05, CARD_HEIGHT + 0.05, CARD_THICKNESS + 0.006);
     this.glowMaterial = new MeshBasicMaterial({
       color: 0xffeb55, // Vàng kim ánh hào quang ma thuật rực rỡ
       transparent: true,
@@ -159,6 +160,9 @@ export class Card3D extends Mesh {
     const targetZRot = toReversed ? Math.PI : 0;
 
     const tl = gsap.timeline({
+      onUpdate: () => {
+        engine.requestRender();
+      },
       onComplete: () => {
         this.activeTween = null;
         if (onComplete) onComplete();
