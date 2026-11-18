@@ -9,8 +9,7 @@ import { SettingsModal } from '@/ui/Settings';
 import { ReadingPanel } from '@/ui/ReadingPanel';
 import { t } from '@/shared/i18n';
 import type { Mode, ModeContext } from '@/modes/Mode';
-import type { Reading, TarotResult, DivinationResult } from '@/shared/types';
-import { lookupHexagram } from '@/modes/divination/logic/lookup';
+import type { Reading, TarotResult } from '@/shared/types';
 
 class App {
   private engine: Engine;
@@ -49,8 +48,8 @@ class App {
 
     this.menu = new Menu(
       {
-        onSelectMode: (modeId) => {
-          void this.startMode(modeId);
+        onStartTarot: () => {
+          void this.startTarotMode();
         },
         onOpenHistory: () => {
           this.openHistory();
@@ -119,18 +118,6 @@ class App {
         reading.interpretation,
         reading,
       );
-    } else {
-      const res = reading.result as DivinationResult;
-      const primaryHex = lookupHexagram(res.primaryKey);
-      const changedHex = res.changedKey ? lookupHexagram(res.changedKey) : null;
-      this.detailReadingPanel.mountDivination(
-        this.uiRoot,
-        primaryHex,
-        changedHex,
-        res.movingLines,
-        reading.interpretation,
-        reading,
-      );
     }
   }
 
@@ -153,7 +140,7 @@ class App {
     this.settingsModal.mount(this.uiRoot);
   }
 
-  private async startMode(modeId: 'tarot' | 'divination'): Promise<void> {
+  private async startTarotMode(): Promise<void> {
     this.closeOverlays();
     this.menu.unmount();
 
@@ -173,21 +160,13 @@ class App {
     };
 
     try {
-      if (modeId === 'tarot') {
-        const { TarotMode } = await import('@/modes/tarot/TarotMode');
-        const mode = new TarotMode();
-        await mode.init(ctx);
-        mode.enter();
-        this.currentMode = mode;
-      } else if (modeId === 'divination') {
-        const { DivinationMode } = await import('@/modes/divination/DivinationMode');
-        const mode = new DivinationMode();
-        await mode.init(ctx);
-        mode.enter();
-        this.currentMode = mode;
-      }
+      const { TarotMode } = await import('@/modes/tarot/TarotMode');
+      const mode = new TarotMode();
+      await mode.init(ctx);
+      mode.enter();
+      this.currentMode = mode;
     } catch (err) {
-      console.error(`Không thể nạp mode ${modeId}`, err);
+      console.error('Không thể nạp TarotMode', err);
       this.showMenu();
     }
   }

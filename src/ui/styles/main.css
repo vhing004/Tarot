@@ -112,6 +112,25 @@ html, body {
   max-width: 320px;
 }
 
+.menu-tarot-primary-btn {
+  padding: 1.15rem 1.8rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #d4af37, #aa8210);
+  color: #120826;
+  font-weight: 700;
+  border: 1px solid #ffe44d;
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4), 0 0 15px rgba(255, 228, 77, 0.3);
+  transform: translateY(0);
+  transition: all 0.25s ease;
+}
+
+.menu-tarot-primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6), 0 0 20px rgba(255, 228, 77, 0.45);
+  background: linear-gradient(135deg, #ffe44d, #d4af37);
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

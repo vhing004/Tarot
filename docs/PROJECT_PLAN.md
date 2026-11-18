@@ -106,6 +106,7 @@
 - [x] Task T.6: Mở rộng `cards.json` thành 78 lá bài Tarot chuẩn quốc tế (22 Ẩn Chính + 56 Ẩn Phụ: Wands, Cups, Swords, Pentacles).
 - [x] Task T.7: Tích hợp tùy chọn chọn quy mô bộ bài (22 lá hoặc 78 lá) trong `QuestionForm.ts` và cơ chế fallback an toàn trong `CardInspectOverlay`.
 - [x] Task T.8: Hiển thị tranh ảnh các lá bài đã rút trong Màn hình Tóm tắt kết quả (`ReadingPanel`) và danh sách Lịch sử (`History`) (`PLAN-20261118-summary-card-images`).
+- [x] Task T.9: Chuyển đổi toàn diện trải nghiệm thành ứng dụng thuần Tarot 3D (Tarot Sanctum), lược bỏ Kinh Dịch khỏi giao diện và runtime bundle, tối ưu nút bấm chính menu và chuỗi hiển thị (`PLAN-20261118-tarot-only`).
 
 ---
 

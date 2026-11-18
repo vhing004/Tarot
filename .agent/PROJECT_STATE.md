@@ -49,6 +49,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | P4 | G6 | CSP + X-Frame-Options + security headers | Đạt | `public/_headers` cấu hình CSP strict, X-Frame-Options: DENY, Permissions-Policy, Cache-Control immutable |
 | 2026-11-18 | Deploy | G7 | Cloudflare Pages readiness & verification | Đạt | Tài liệu hướng dẫn `docs/DEPLOYMENT.md`, xác nhận `dist/_headers` nguyên vẹn, 0 runtime vulnerability, kịch bản rollback rõ ràng |
 | 2026-11-18 | Tarot Polish | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 57/57 tests pass, check:rules 47 files 0 vi phạm, hiển thị ảnh lá bài trong ReadingPanel & History |
+| 2026-11-18 | Tarot Only | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 57/57 tests pass, check:rules 47 files 0 vi phạm, bundle loại bỏ Divination chunk |
 ## 4. Quyết định (Decision log)
 |---|---|---|---|---|
 | D-001 | 2026-11-18 | Stack: TypeScript + Three.js + Vite, UI thuần HTML/CSS | Kiểm soát render, dễ tối ưu | R01, R03 |
@@ -62,6 +63,8 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 
 | D-009 | 2026-11-18 | Adaptive Quality dùng rolling window 60 frame, warmup 90 frame, debounce 120 frame giữa hai lần hạ | Tránh hạ cấu hình quá nhạy khi load, chỉ hạ khi FPS thấp kéo dài | R03 §5, W05 |
 | D-010 | 2026-11-18 | CSP `'unsafe-inline'` cho style-src (do three.js và GSAP inject style động) | Không thể dùng nonce/hash cho style 3rd-party injected; img-src/worker-src blob: cần cho Canvas share và Audio worklet | R06 §5, W05 |
+| D-011 | 2026-11-18 | Hiển thị thumbnail tranh ảnh các lá bài đã rút trong ReadingPanel và HistoryView | Giúp người dùng dễ dàng đối chiếu, hồi tưởng và chiêm nghiệm trực quan toàn bộ trải bài | R01, R06 |
+| D-012 | 2026-11-18 | Chuyển giao diện và điều phối sang thuần Tarot (Tarot Sanctum) | Tinh gọn menu, giảm dung lượng runtime bundle, tập trung 100% trải nghiệm vào bói bài Tarot 3D | R01, R03 |
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
 |---|---|---|---|---|
 | | Không có | | | |

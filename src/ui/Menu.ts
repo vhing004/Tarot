@@ -2,7 +2,7 @@ import { t } from '@/shared/i18n';
 import type { AudioManager } from '@/core/AudioManager';
 
 export interface MenuCallbacks {
-  onSelectMode: (mode: 'tarot' | 'divination') => void;
+  onStartTarot: () => void;
   onOpenHistory?: () => void;
   onOpenSettings?: () => void;
 }
@@ -59,17 +59,10 @@ export class Menu {
     btnGroup.className = 'menu-btn-group';
 
     const btnTarot = document.createElement('button');
-    btnTarot.className = 'btn btn-primary';
-    btnTarot.textContent = t('menu_tarot');
+    btnTarot.className = 'btn btn-primary menu-tarot-primary-btn';
+    btnTarot.textContent = `✨ ${t('menu_tarot')}`;
     btnTarot.addEventListener('click', () => {
-      this.callbacks.onSelectMode('tarot');
-    });
-
-    const btnDivination = document.createElement('button');
-    btnDivination.className = 'btn btn-primary';
-    btnDivination.textContent = t('menu_divination');
-    btnDivination.addEventListener('click', () => {
-      this.callbacks.onSelectMode('divination');
+      this.callbacks.onStartTarot();
     });
 
     const btnHistory = document.createElement('button');
@@ -87,7 +80,6 @@ export class Menu {
     });
 
     btnGroup.appendChild(btnTarot);
-    btnGroup.appendChild(btnDivination);
     btnGroup.appendChild(btnHistory);
     btnGroup.appendChild(btnSettings);
     root.appendChild(btnGroup);
