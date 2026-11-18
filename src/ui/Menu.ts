@@ -1,4 +1,5 @@
 import { t } from '@/shared/i18n';
+import type { AudioManager } from '@/core/AudioManager';
 
 export interface MenuCallbacks {
   onSelectMode: (mode: 'tarot' | 'divination') => void;
@@ -9,9 +10,11 @@ export interface MenuCallbacks {
 export class Menu {
   private element: HTMLElement | null = null;
   private readonly callbacks: MenuCallbacks;
+  private audio?: AudioManager;
 
-  constructor(callbacks: MenuCallbacks) {
+  constructor(callbacks: MenuCallbacks, audio?: AudioManager) {
     this.callbacks = callbacks;
+    this.audio = audio;
   }
 
   mount(parent: HTMLElement): void {
@@ -19,6 +22,21 @@ export class Menu {
 
     const root = document.createElement('div');
     root.className = 'menu-container';
+
+    // Nút tắt/bật loa ở góc màn hình
+    if (this.audio) {
+      const soundBtn = document.createElement('button');
+      soundBtn.className = 'menu-sound-toggle-btn';
+      soundBtn.textContent = this.audio.muted ? '🔇' : '🔊';
+      soundBtn.title = t('settings_mute');
+      soundBtn.addEventListener('click', () => {
+        if (!this.audio) return;
+        const newMuted = !this.audio.muted;
+        this.audio.setMuted(newMuted);
+        soundBtn.textContent = newMuted ? '🔇' : '🔊';
+      });
+      root.appendChild(soundBtn);
+    }
 
     // Header
     const header = document.createElement('div');
@@ -55,14 +73,18 @@ export class Menu {
     });
 
     const btnHistory = document.createElement('button');
-    btnHistory.className = 'btn btn-secondary disabled';
+    btnHistory.className = 'btn btn-secondary';
     btnHistory.textContent = t('menu_history');
-    btnHistory.disabled = true;
+    btnHistory.addEventListener('click', () => {
+      this.callbacks.onOpenHistory?.();
+    });
 
     const btnSettings = document.createElement('button');
-    btnSettings.className = 'btn btn-secondary disabled';
+    btnSettings.className = 'btn btn-secondary';
     btnSettings.textContent = t('menu_settings');
-    btnSettings.disabled = true;
+    btnSettings.addEventListener('click', () => {
+      this.callbacks.onOpenSettings?.();
+    });
 
     btnGroup.appendChild(btnTarot);
     btnGroup.appendChild(btnDivination);

@@ -1,6 +1,7 @@
 import { t } from '@/shared/i18n';
-import type { DrawnCard, Hexagram } from '@/shared/types';
+import type { DrawnCard, Hexagram, Reading } from '@/shared/types';
 import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
+import { generateShareCard, shareOrDownloadImage } from '@/services/share';
 
 export interface ReadingPanelCallbacks {
   onRetry: () => void;
@@ -10,6 +11,7 @@ export interface ReadingPanelCallbacks {
 export class ReadingPanel {
   private element: HTMLElement | null = null;
   private readonly callbacks: ReadingPanelCallbacks;
+  private currentReading: Reading | null = null;
 
   constructor(callbacks: ReadingPanelCallbacks) {
     this.callbacks = callbacks;
@@ -18,8 +20,14 @@ export class ReadingPanel {
   /**
    * Hiển thị kết quả bói bài Tarot
    */
-  mount(parent: HTMLElement, cards: readonly DrawnCard[], interpretation: string): void {
+  mount(
+    parent: HTMLElement,
+    cards: readonly DrawnCard[],
+    interpretation: string,
+    reading?: Reading,
+  ): void {
     this.unmount();
+    this.currentReading = reading ?? null;
 
     const root = document.createElement('div');
     root.className = 'reading-panel-container';
@@ -89,8 +97,10 @@ export class ReadingPanel {
     changedHex: Hexagram | null,
     movingLines: readonly number[],
     interpretation: string,
+    reading?: Reading,
   ): void {
     this.unmount();
+    this.currentReading = reading ?? null;
 
     const root = document.createElement('div');
     root.className = 'reading-panel-container';
@@ -207,6 +217,29 @@ export class ReadingPanel {
     // Nhóm nút bấm
     const btnGroup = document.createElement('div');
     btnGroup.className = 'reading-btn-group';
+
+    // Nút chia sẻ ảnh nếu có reading record
+    if (this.currentReading) {
+      const btnShare = document.createElement('button');
+      btnShare.className = 'btn btn-secondary';
+      btnShare.textContent = `🖼️ ${t('btn_share_card')}`;
+      btnShare.addEventListener('click', async () => {
+        if (!this.currentReading) return;
+        btnShare.disabled = true;
+        btnShare.textContent = 'Đang tạo ảnh...';
+        try {
+          const imgUrl = await generateShareCard(this.currentReading, false);
+          const fname = `fortune_${this.currentReading.mode}_${this.currentReading.id}.png`;
+          await shareOrDownloadImage(imgUrl, fname);
+        } catch (err) {
+          console.error('Không thể tạo ảnh chia sẻ', err);
+        } finally {
+          btnShare.disabled = false;
+          btnShare.textContent = `🖼️ ${t('btn_share_card')}`;
+        }
+      });
+      btnGroup.appendChild(btnShare);
+    }
 
     const btnRetry = document.createElement('button');
     btnRetry.className = 'btn btn-primary';
