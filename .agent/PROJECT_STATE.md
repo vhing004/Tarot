@@ -51,6 +51,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Tarot Polish | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 57/57 tests pass, check:rules 47 files 0 vi phạm, hiển thị ảnh lá bài trong ReadingPanel & History |
 | 2026-11-18 | Tarot Only | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 57/57 tests pass, check:rules 47 files 0 vi phạm, bundle loại bỏ Divination chunk |
 | 2026-11-18 | Tarot AI Oracle | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 50 files 0 vi phạm, tích hợp AiOracleModal & Gemini Free |
+| 2026-11-18 | Smooth Modals | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 50 files 0 vi phạm, animation modal 60fps mượt mà |
 ## 4. Quyết định (Decision log)
 |---|---|---|---|---|
 | D-001 | 2026-11-18 | Stack: TypeScript + Three.js + Vite, UI thuần HTML/CSS | Kiểm soát render, dễ tối ưu | R01, R03 |
@@ -67,6 +68,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-011 | 2026-11-18 | Hiển thị thumbnail tranh ảnh các lá bài đã rút trong ReadingPanel và HistoryView | Giúp người dùng dễ dàng đối chiếu, hồi tưởng và chiêm nghiệm trực quan toàn bộ trải bài | R01, R06 |
 | D-012 | 2026-11-18 | Chuyển giao diện và điều phối sang thuần Tarot (Tarot Sanctum) | Tinh gọn menu, giảm dung lượng runtime bundle, tập trung 100% trải nghiệm vào bói bài Tarot 3D | R01, R03 |
 | D-013 | 2026-11-18 | Tích hợp AI Oracle đa góc nhìn (Gemini Free + Offline Fallback) | Cung cấp lời khuyên chiêm nghiệm chuyên sâu với 4 lựa chọn, đảm bảo 100% không bị gián đoạn khi offline | R01, R05, R06 |
+| D-014 | 2026-11-18 | Tách riêng animation Backdrop và Dialog, giảm blur(8px) và dùng will-change | Khắc phục triệt để hiện tượng giật khựng khi mở modal trên WebGL canvas Three.js | R03, R07 |
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
 |---|---|---|---|---|
 | | Không có | | | |
