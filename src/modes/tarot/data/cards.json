@@ -1,0 +1,200 @@
+[
+  {
+    "id": 0,
+    "name": "The Fool",
+    "nameVi": "Chàng Khờ",
+    "image": "/textures/tarot/00-fool.webp",
+    "keywords": ["khởi đầu mới", "ngây thơ", "tự do", "tiềm năng vô hạn"],
+    "upright": "Một hành trình mới mở ra trước mắt. Hãy can đảm bước tới với trái tim thuần khiết và niềm tin tích cực.",
+    "reversed": "Sự liều lĩnh hoặc ngập ngừng trước khởi đầu mới. Hãy suy xét kỹ trước khi dấn thân vào những rủi ro không cần thiết."
+  },
+  {
+    "id": 1,
+    "name": "The Magician",
+    "nameVi": "Nhà Ảo Thuật",
+    "image": "/textures/tarot/01-magician.webp",
+    "keywords": ["sáng tạo", "ý chí", "nguồn lực sẵn có", "hành động quyết đoán"],
+    "upright": "Bạn đã có đủ mọi công cụ và năng lực để biến ý tưởng thành hiện thực. Hãy tập trung ý chí và hành động.",
+    "reversed": "Tiềm năng chưa được khai phá hết hoặc thiếu tập trung. Tránh sự thao túng hoặc kỳ vọng thiếu thực tế."
+  },
+  {
+    "id": 2,
+    "name": "The High Priestess",
+    "nameVi": "Nữ Tư Tế",
+    "image": "/textures/tarot/02-high-priestess.webp",
+    "keywords": ["trực giác", "bí ẩn", "thấu suốt", "tĩnh lặng"],
+    "upright": "Lắng nghe tiếng nói tĩnh lặng bên trong bạn. Trực giác sẽ là ngọn hải đăng soi sáng những điều mắt thường chưa thấy.",
+    "reversed": "Bỏ qua trực giác hoặc bị chi phối bởi những nghi ngờ thầm kín. Hãy dành thời gian tĩnh tâm để thấu hiểu bản thân."
+  },
+  {
+    "id": 3,
+    "name": "The Empress",
+    "nameVi": "Hoàng Hậu",
+    "image": "/textures/tarot/03-empress.webp",
+    "keywords": ["trù phú", "nuôi dưỡng", "sáng tạo", "tình yêu thương"],
+    "upright": "Thời kỳ của sự sinh sôi và phát triển rực rỡ. Hãy đón nhận và nuôi dưỡng những điều tốt đẹp với lòng rộng mở.",
+    "reversed": "Cảm giác cạn kiệt năng lượng chăm sóc hoặc phụ thuộc cảm xúc. Hãy học cách chăm sóc và yêu thương chính mình trước."
+  },
+  {
+    "id": 4,
+    "name": "The Emperor",
+    "nameVi": "Hoàng Đế",
+    "image": "/textures/tarot/04-emperor.webp",
+    "keywords": ["kỷ luật", "cấu trúc", "quyền lực", "bảo vệ"],
+    "upright": "Sự vững chãi, tổ chức mạch lạc và kỷ luật sẽ đem lại thành công. Hãy giữ vững nguyên tắc và định hướng của mình.",
+    "reversed": "Sự cứng nhắc, độc đoán hoặc thiếu kiểm soát bản thân. Cần linh hoạt và lắng nghe những góc nhìn khác."
+  },
+  {
+    "id": 5,
+    "name": "The Hierophant",
+    "nameVi": "Đại Giáo Hoàng",
+    "image": "/textures/tarot/05-hierophant.webp",
+    "keywords": ["truyền thống", "tri thức", "sự dẫn đường", "học hỏi"],
+    "upright": "Tìm kiếm lời khuyên từ những người đi trước hoặc học hỏi theo những khuôn mẫu giá trị bền vững.",
+    "reversed": "Sự bảo thủ lạc hậu hoặc khao khát phá vỡ những lề thói cũ để tìm ra lối đi riêng cho bản thân."
+  },
+  {
+    "id": 6,
+    "name": "The Lovers",
+    "nameVi": "Cặp Đôi",
+    "image": "/textures/tarot/06-lovers.webp",
+    "keywords": ["tình cảm", "hòa hợp", "lựa chọn giá trị", "gắn kết"],
+    "upright": "Sự hòa hợp sâu sắc trong mối quan hệ hoặc một lựa chọn mang tính bản lề dựa trên tiếng gọi của con tim.",
+    "reversed": "Mâu thuẫn giá trị hoặc xung đột nội tâm trong việc đưa ra quyết định. Cần thẳng thắn đối diện với sự thật."
+  },
+  {
+    "id": 7,
+    "name": "The Chariot",
+    "nameVi": "Cỗ Xe Chiến Thắng",
+    "image": "/textures/tarot/07-chariot.webp",
+    "keywords": ["ý chí", "quyết tâm", "vượt qua thử thách", "chiến thắng"],
+    "upright": "Kiểm soát những năng lượng trái chiều và tiến thẳng về phía trước. Ý chí kiên định sẽ đưa bạn đến đích.",
+    "reversed": "Mất kiểm soát phương hướng hoặc nôn nóng đốt cháy giai đoạn. Hãy bình tĩnh điều chỉnh lại tay lái."
+  },
+  {
+    "id": 8,
+    "name": "Strength",
+    "nameVi": "Sức Mạnh",
+    "image": "/textures/tarot/08-strength.webp",
+    "keywords": ["can đảm", "dịu dàng", "kiên nhẫn", "làm chủ nội tâm"],
+    "upright": "Sức mạnh thực sự đến từ lòng trắc ẩn và sự kiên nhẫn dịu dàng, chế ngự những xúc cảm mãnh liệt bằng sự điềm đạm.",
+    "reversed": "Tự ti, nghi ngờ sức mạnh của mình hoặc nóng nảy bộc phát. Hãy tìm lại sự bình yên và lòng tin nơi chính mình."
+  },
+  {
+    "id": 9,
+    "name": "The Hermit",
+    "nameVi": "Ẩn Sĩ",
+    "image": "/textures/tarot/09-hermit.webp",
+    "keywords": ["tự soi chiếu", "chiêm nghiệm", "tìm kiếm chân lý", "cô tịch"],
+    "upright": "Lùi lại một bước để tĩnh tâm soi rọi nội tâm. Ngọn đèn tri thức của riêng bạn sẽ dẫn dắt từng bước đi.",
+    "reversed": "Sự cô lập quá mức dẫn đến cô độc hoặc trốn tránh thực tại. Hãy sẵn sàng kết nối lại với thế giới khi đã thấu hiểu."
+  },
+  {
+    "id": 10,
+    "name": "Wheel of Fortune",
+    "nameVi": "Bánh Xe Số Phận",
+    "image": "/textures/tarot/10-wheel-of-fortune.webp",
+    "keywords": ["chu kỳ", "thay đổi", "cơ hội", "vận may"],
+    "upright": "Bánh xe cuộc sống đang chuyển dịch theo chiều hướng tích cực. Hãy linh hoạt đón nhận những cơ hội bất ngờ.",
+    "reversed": "Giai đoạn chuyển giao có đôi chút trắc trở. Hãy nhớ rằng mọi chu kỳ đều tuần hoàn, điều quan trọng là thái độ của bạn."
+  },
+  {
+    "id": 11,
+    "name": "Justice",
+    "nameVi": "Công Lý",
+    "image": "/textures/tarot/11-justice.webp",
+    "keywords": ["công bằng", "chân lý", "trách nhiệm", "nhân quả"],
+    "upright": "Sự thật và lẽ công bằng sẽ được tôn vinh. Mọi quyết định cần sự khách quan, minh bạch và chịu trách nhiệm với hành động.",
+    "reversed": "Cảm giác bất công hoặc né tránh trách nhiệm. Hãy trung thực nhìn nhận lại bản thân trước khi phán xét người khác."
+  },
+  {
+    "id": 12,
+    "name": "The Hanged Man",
+    "nameVi": "Người Treo Ngược",
+    "image": "/textures/tarot/12-hanged-man.webp",
+    "keywords": ["góc nhìn mới", "buông bỏ", "tạm dừng", "thức tỉnh"],
+    "upright": "Tạm dừng lại để nhìn cuộc sống từ một góc độ hoàn toàn khác. Sự buông bỏ kỳ vọng sẽ mở ra giác ngộ mới.",
+    "reversed": "Sự hy sinh vô ích hoặc chần chừ không muốn thay đổi. Đã đến lúc đưa ra quyết định dứt khoát để bước tiếp."
+  },
+  {
+    "id": 13,
+    "name": "Death",
+    "nameVi": "Chuyển Hóa",
+    "image": "/textures/tarot/13-death.webp",
+    "keywords": ["kết thúc", "chuyển hóa", "tái sinh", "khởi sắc mới"],
+    "upright": "Khép lại một chương cũ để nhường chỗ cho những điều mới mẻ đâm chồi. Sự chuyển hóa tất yếu mang lại tái sinh.",
+    "reversed": "Kháng cự sự thay đổi hoặc níu kéo những điều đã qua. Hãy can đảm buông tay để đón nhận luồng sinh khí mới."
+  },
+  {
+    "id": 14,
+    "name": "Temperance",
+    "nameVi": "Cân Bằng",
+    "image": "/textures/tarot/14-temperance.webp",
+    "keywords": ["hài hòa", "điều độ", "hòa hợp", "bình an"],
+    "upright": "Tìm thấy điểm cân bằng giữa những thái cực. Sự điềm tĩnh và kiên nhẫn giúp hòa tan mọi sự bất đồng.",
+    "reversed": "Mất cân bằng trong cuộc sống hoặc thái quá trong hành vi. Hãy điều chỉnh nhịp sống để tìm lại sự bình yên."
+  },
+  {
+    "id": 15,
+    "name": "The Devil",
+    "nameVi": "Ràng Buộc",
+    "image": "/textures/tarot/15-devil.webp",
+    "keywords": ["cám dỗ", "ràng buộc", "ảo tưởng", "nhận thức"],
+    "upright": "Nhận diện những thói quen, suy nghĩ tiêu cực hoặc sự ràng buộc vô hình đang kìm hãm bạn. Nhận thức là bước đầu để tự do.",
+    "reversed": "Bắt đầu cởi bỏ được xiềng xích của những thói quen cũ và giải thoát bản thân hướng tới cuộc sống lành mạnh hơn."
+  },
+  {
+    "id": 16,
+    "name": "The Tower",
+    "nameVi": "Tòa Tháp",
+    "image": "/textures/tarot/16-tower.webp",
+    "keywords": ["đột phá", "sụp đổ ảo tưởng", "thức tỉnh", "tái thiết"],
+    "upright": "Sự thật bất ngờ làm sụp đổ những nền tảng lung lay. Đây là cơ hội để xây dựng lại một điều chân thật và vững chắc hơn.",
+    "reversed": "Tránh né một cuộc khủng hoảng cần thiết hoặc cố bám víu vào những điều không còn phù hợp. Hãy dũng cảm tái thiết."
+  },
+  {
+    "id": 17,
+    "name": "The Star",
+    "nameVi": "Ngôi Sao",
+    "image": "/textures/tarot/17-star.webp",
+    "keywords": ["hy vọng", "chữa lành", "niềm tin", "cảm hứng"],
+    "upright": "Ngôi sao hy vọng soi sáng con đường bạn đi. Sự bình yên, niềm tin và cảm hứng sáng tạo đang tràn ngập tâm hồn.",
+    "reversed": "Cảm giác tuyệt vọng nhất thời hoặc đánh mất niềm tin. Hãy nhớ rằng bầu trời đêm càng tối thì ánh sao càng rực rỡ."
+  },
+  {
+    "id": 18,
+    "name": "The Moon",
+    "nameVi": "Mặt Trăng",
+    "image": "/textures/tarot/18-moon.webp",
+    "keywords": ["ảo ảnh", "nỗi sợ vô hình", "trực giác", "mơ hồ"],
+    "upright": "Điều hướng qua những cảm xúc mơ hồ hoặc nỗi sợ vô hình. Đừng vội vàng đưa ra quyết định khi chưa sáng tỏ mọi sự.",
+    "reversed": "Những hiểu lầm bắt đầu được giải tỏa, bức màn sương tan dần để lộ sự thật rõ ràng trước mắt."
+  },
+  {
+    "id": 19,
+    "name": "The Sun",
+    "nameVi": "Mặt Trời",
+    "image": "/textures/tarot/19-sun.webp",
+    "keywords": ["hân hoan", "thành công", "rực rỡ", "sức sống"],
+    "upright": "Ánh sáng rực rỡ của niềm vui, thành tựu và sự lạc quan. Năng lượng tích cực sẽ lan tỏa đến mọi khía cạnh trong đời sống bạn.",
+    "reversed": "Niềm vui bị che khuất bởi chút muộn phiền hoặc sự kiêu ngạo nhất thời. Hãy mở rộng lòng mình để đón nhận sự ấm áp."
+  },
+  {
+    "id": 20,
+    "name": "Judgement",
+    "nameVi": "Phán Quyết",
+    "image": "/textures/tarot/20-judgement.webp",
+    "keywords": ["thức tỉnh", "tiếng gọi định mệnh", "tha thứ", "tái sinh"],
+    "upright": "Thời khắc thức tỉnh và nhìn lại hành trình đã qua để tha thứ và giải thoát. Hãy lắng nghe tiếng gọi cao đẹp của tâm hồn.",
+    "reversed": "Tự phán xét bản thân quá mức hoặc do dự trước một quyết định làm mới cuộc đời. Hãy can đảm bước sang trang mới."
+  },
+  {
+    "id": 21,
+    "name": "The World",
+    "nameVi": "Thế Giới",
+    "image": "/textures/tarot/21-world.webp",
+    "keywords": ["viên mãn", "hoàn thành", "toàn vẹn", "hợp nhất"],
+    "upright": "Hành trình đã cán đích trong sự viên mãn và trọn vẹn. Mọi nỗ lực được đền đáp xứng đáng, chuẩn bị cho một tầm cao mới.",
+    "reversed": "Gần đạt tới đích nhưng còn chút việc dở dang. Hãy kiên trì hoàn thành những bước cuối cùng để tận hưởng trọn vẹn thành quả."
+  }
+]
