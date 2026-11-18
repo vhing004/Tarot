@@ -1,0 +1,92 @@
+import { t } from '@/shared/i18n';
+
+export interface MenuCallbacks {
+  onSelectMode: (mode: 'tarot' | 'divination') => void;
+  onOpenHistory?: () => void;
+  onOpenSettings?: () => void;
+}
+
+export class Menu {
+  private element: HTMLElement | null = null;
+  private readonly callbacks: MenuCallbacks;
+
+  constructor(callbacks: MenuCallbacks) {
+    this.callbacks = callbacks;
+  }
+
+  mount(parent: HTMLElement): void {
+    this.unmount();
+
+    const root = document.createElement('div');
+    root.className = 'menu-container';
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'menu-header';
+
+    const title = document.createElement('h1');
+    title.className = 'menu-title';
+    title.textContent = t('app_title');
+
+    const subtitle = document.createElement('p');
+    subtitle.className = 'menu-subtitle';
+    subtitle.textContent = t('app_subtitle');
+
+    header.appendChild(title);
+    header.appendChild(subtitle);
+    root.appendChild(header);
+
+    // Button group
+    const btnGroup = document.createElement('div');
+    btnGroup.className = 'menu-btn-group';
+
+    const btnTarot = document.createElement('button');
+    btnTarot.className = 'btn btn-primary';
+    btnTarot.textContent = t('menu_tarot');
+    btnTarot.addEventListener('click', () => {
+      this.callbacks.onSelectMode('tarot');
+    });
+
+    const btnDivination = document.createElement('button');
+    btnDivination.className = 'btn btn-primary';
+    btnDivination.textContent = t('menu_divination');
+    btnDivination.addEventListener('click', () => {
+      this.callbacks.onSelectMode('divination');
+    });
+
+    const btnHistory = document.createElement('button');
+    btnHistory.className = 'btn btn-secondary disabled';
+    btnHistory.textContent = t('menu_history');
+    btnHistory.disabled = true;
+
+    const btnSettings = document.createElement('button');
+    btnSettings.className = 'btn btn-secondary disabled';
+    btnSettings.textContent = t('menu_settings');
+    btnSettings.disabled = true;
+
+    btnGroup.appendChild(btnTarot);
+    btnGroup.appendChild(btnDivination);
+    btnGroup.appendChild(btnHistory);
+    btnGroup.appendChild(btnSettings);
+    root.appendChild(btnGroup);
+
+    // Disclaimer bắt buộc (R05 §2)
+    const footer = document.createElement('div');
+    footer.className = 'menu-footer';
+    const disclaimer = document.createElement('p');
+    disclaimer.className = 'disclaimer-text';
+    disclaimer.textContent = t('disclaimer');
+    footer.appendChild(disclaimer);
+    root.appendChild(footer);
+
+    this.element = root;
+    parent.appendChild(root);
+  }
+
+  unmount(): void {
+    if (this.element) {
+      this.element.remove();
+      this.element = null;
+    }
+  }
+}
