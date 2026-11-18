@@ -14,11 +14,13 @@ const CARD_HEIGHT = 1.72;
 const CARD_THICKNESS = 0.012;
 const sharedCardGeometry = new BoxGeometry(CARD_WIDTH, CARD_HEIGHT, CARD_THICKNESS);
 
-// Dùng chung material viền cạnh lá bài
+// Viền cạnh lá bài: vàng kim sáng để nổi bật trên bàn tối (tương phản màu sắc)
 const sharedEdgeMaterial = new MeshStandardMaterial({
-  color: 0x8a6d3b,
-  metalness: 0.5,
-  roughness: 0.5,
+  color: 0xd4af37,      // vàng kim
+  emissive: 0xb8860b,   // phát sáng vàng nhẹ để thấy được trong ánh nến
+  emissiveIntensity: 0.4,
+  metalness: 0.7,
+  roughness: 0.3,
 });
 
 export class Card3D extends Mesh {
