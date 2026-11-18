@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check:rules": "node scripts/check-rules.mjs",
+    "check:links": "node scripts/check-rules.mjs --links",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "npm run typecheck && npm run test && npm run check:rules && npm run build"
+  }
+}
