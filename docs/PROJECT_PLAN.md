@@ -43,7 +43,8 @@
 | **P1** | **Tarot Mode MVP** | 22 lá Ẩn Chính, xáo bài Fisher-Yates, trải bài quạt 3D, rút 1/3 lá, lật bài, hiển thị kết quả ReadingPanel, dispose sạch khi thoát. | Hoàn thành 1 lượt bói Tarot, lật xuôi/ngược chuẩn, G1, G2, G3, G5. | **Hoàn thành (2026-11-18)** |
 | **P2** | **Gieo quẻ Kinh Dịch MVP** | Tung 3 đồng xu 6 lần, dựng quẻ chủ và quẻ biến từ dưới lên, HexagramView, tra cứu `hexagrams.json`, unit tests thuật toán. | Test Vitest 100% test vectors, diễn hoạt xu chuẩn với kết quả, G1, G2, G3, G5. | **Hoàn thành (2026-11-18)** |
 | **P3** | **Polish, Lịch sử & Âm thanh** | `LocalRepository` hoàn thiện UI History (xem, xóa), hiệu ứng bàn nến chập chờn, khói hạt, AudioManager (BGM, SFX xu/bài), share ảnh canvas/HTML. | Giao diện hoàn chỉnh, âm thanh mượt, lưu trữ an toàn (G1, G2, G3, G6). | **Hoàn thành (2026-11-18)** |
-| **P4** | **Tối ưu Hiệu năng & Deploy** | Adaptive Quality (đo FPS, tự hạ cấu hình), nén WebP/Draco, cấu hình `public/_headers`, kiểm tra ngân sách hiệu năng (FPS ≥ 45 mobile), deploy Cloudflare Pages. | Đạt chuẩn hiệu năng R03, live URL Cloudflare Pages (G1, G3, G4, G7). | **Hoàn thành (2026-11-18)** |
+| **P4** | **Tối ưu Hiệu năng (Performance)** | Adaptive Quality (đo FPS, tự hạ cấu hình), nén WebP/Draco, cấu hình `public/_headers`, kiểm tra ngân sách hiệu năng (FPS ≥ 45 mobile). | Đạt chuẩn hiệu năng R03, bundle JS gzip ~135 kB, G1, G2, G4, G6. | **Hoàn thành (2026-11-18)** |
+| **Deploy** | **Triển khai Cloudflare Pages (v1.0.0)** | Cấu hình build tĩnh, CSP strict, cache immutable 1 năm, tài liệu hướng dẫn deploy và quy trình rollback. | `dist/_headers` chuẩn, 0 runtime vulnerability, live on Cloudflare Pages, Gate G7. | **Hoàn thành (2026-11-18)** |
 | **P5** | **Mở rộng & Nâng cao** | Mở rộng 78 lá Tarot, đủ 64 quẻ Kinh Dịch, tích hợp Supabase (RLS), AI Serverless Function giải quẻ chuyên sâu, đa ngôn ngữ (i18n Vi/En), PWA offline. | Đầy đủ dữ liệu sản phẩm thương mại, AI interpretation an toàn qua gateway. | Dự kiến |
 
 ---
@@ -89,6 +90,12 @@
 - [x] Task P4.4: Bổ sung tùy chọn chất lượng đồ họa "Tự động" trong `ui/Settings.ts` và kết nối context ứng dụng.
 - [x] Task P4.5: Cấu hình bảo mật Cloudflare Pages `public/_headers` (CSP strict, X-Frame-Options: DENY, Cache-Control immutable cho assets hash).
 - [x] Task P4.6: Đo đạc và kiểm tra toàn bộ cổng chất lượng G1, G2, G4, G6 (57 tests pass, 0 lỗi TypeScript, 0 vi phạm rule).
+
+### Deploy Cloudflare Pages (v1.0.0 - Hoàn thành: 2026-11-18)
+- [x] Task D.1: Rà soát bảo mật runtime (`npm audit` xác nhận 0 runtime vulnerability, không secret).
+- [x] Task D.2: Xác minh file `dist/_headers` chứa đầy đủ cấu hình bảo mật và cache tối ưu.
+- [x] Task D.3: Soạn thảo tài liệu hướng dẫn vận hành và rollback chi tiết tại `docs/DEPLOYMENT.md`.
+- [x] Task D.4: Phát hành tag chính thức `v1.0.0` và đồng bộ toàn bộ lên GitHub remote.
 
 ---
 

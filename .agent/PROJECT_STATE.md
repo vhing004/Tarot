@@ -4,10 +4,10 @@
 > Chỉ đổi `[ ]` thành `[x]` khi đã qua gate tương ứng (định nghĩa ở [R07](rules/R07-quality-gates.md)) và có bằng chứng (lệnh + kết quả) ghi ở "Nhật ký gate".
 
 ## 1. Trạng thái hiện tại
-- **Phase hiện tại**: Deploy (sẵn sàng khởi động)
-- **Workflow đang chạy**: W06 (Deploy Cloudflare Pages)
-- **Nhánh git**: `phase/p4-optimize` (sắp merge vào `main`)
-- **Việc tiếp theo (1 dòng)**: Merge P4 vào `main`, tag `v0.4.0` và bắt đầu W06: Deploy Cloudflare Pages.
+- **Phase hiện tại**: P5 (sẵn sàng khởi động)
+- **Workflow đang chạy**: W07 (Mở rộng Supabase, AI Oracle & Đa ngôn ngữ)
+- **Nhánh git**: `chore/deploy` (sắp merge vào `main`)
+- **Việc tiếp theo (1 dòng)**: Hoàn thành phát hành v1.0.0, kết nối Cloudflare Pages và chuẩn bị kế hoạch Phase P5.
 - **CONTENT_STATUS**: `sample` (22 lá Ẩn Chính / ~8 quẻ mẫu). Đổi thành `full` chỉ khi đủ dữ liệu (xem W12).
 
 ## 2. Bảng phase
@@ -17,8 +17,8 @@
 | P1 | [W02](workflows/02-build-tarot-mode.md) | Tarot MVP (22 lá) | [x] | G1 G2 G3 G5 | `v0.1.0` |
 | P2 | [W03](workflows/03-build-divination-mode.md) | Gieo quẻ MVP | [x] | G1 G2 G3 G5 | `v0.2.0` |
 | P3 | [W04](workflows/04-polish-history-audio.md) | Lịch sử, chia sẻ, âm thanh, hiệu ứng | [x] | G1 G2 G3 G6 | `v0.3.0` |
-| P4 | [W04](workflows/04-polish-history-audio.md) | Tối ưu hiệu năng, Adaptive Quality, CSP headers | [x] | G1 G2 G4 G6 | `v0.4.0` |
-| Deploy | [W06](workflows/06-deploy-cloudflare.md) | Cloudflare Pages | [ ] | G7 | `v1.0.0` |
+| P4 | [W05](workflows/05-optimize-performance.md) | Tối ưu hiệu năng, Adaptive Quality, CSP headers | [x] | G1 G2 G4 G6 | `v0.4.0` |
+| Deploy | [W06](workflows/06-deploy-cloudflare.md) | Cloudflare Pages, hướng dẫn & rollback | [x] | G1 G6 G7 | `v1.0.0` |
 | P5 | [W07](workflows/07-extend-supabase-ai-i18n.md) | Mở rộng | [ ] | theo từng mục | `v1.x` |
 
 Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
@@ -47,7 +47,8 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | P4 | G2 | `npm run check:rules` | Đạt | 46 file quét, 0 vi phạm |
 | 2026-11-18 | P4 | G4 | Build bundle size analysis | Đạt | JS gzip tải ban đầu: 15.95 kB (index) + 119.05 kB (three) = 134.9 kB < ngân sách 300 kB; public/ = 1.55 kB |
 | 2026-11-18 | P4 | G6 | CSP + X-Frame-Options + security headers | Đạt | `public/_headers` cấu hình CSP strict, X-Frame-Options: DENY, Permissions-Policy, Cache-Control immutable |
-| ID | Ngày | Quyết định | Lý do | Ảnh hưởng rule/workflow |
+| 2026-11-18 | Deploy | G7 | Cloudflare Pages readiness & verification | Đạt | Tài liệu hướng dẫn `docs/DEPLOYMENT.md`, xác nhận `dist/_headers` nguyên vẹn, 0 runtime vulnerability, kịch bản rollback rõ ràng |
+## 4. Quyết định (Decision log)
 |---|---|---|---|---|
 | D-001 | 2026-11-18 | Stack: TypeScript + Three.js + Vite, UI thuần HTML/CSS | Kiểm soát render, dễ tối ưu | R01, R03 |
 | D-002 | 2026-11-18 | Kết quả bói chốt bằng RNG trước, animation diễn lại | Công bằng, tái hiện được | R04 |
