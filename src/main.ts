@@ -1,4 +1,5 @@
 import { Engine } from '@/core/Engine';
+import { Quality } from '@/core/Quality';
 import { AudioManager } from '@/core/AudioManager';
 import { LocalRepository } from '@/services/repository';
 import { SettingsService } from '@/services/settings';
@@ -13,6 +14,7 @@ import { lookupHexagram } from '@/modes/divination/logic/lookup';
 
 class App {
   private engine: Engine;
+  private quality: Quality;
   private audio: AudioManager;
   private repo: LocalRepository;
   private settingsService: SettingsService;
@@ -33,10 +35,17 @@ class App {
     }
 
     this.uiRoot = uiRoot;
-    this.engine = new Engine(canvasContainer);
     this.settingsService = new SettingsService();
     this.audio = new AudioManager(this.settingsService);
     this.repo = new LocalRepository();
+
+    // Khởi tạo Quality với mức lưu từ Settings, bật adaptive nếu chưa chọn thủ công
+    const savedQuality = this.settingsService.settings.quality;
+    this.quality = new Quality(savedQuality, true);
+
+    this.engine = new Engine(canvasContainer);
+    // Kết nối Quality → Engine để tự động cập nhật pixelRatio khi hạ cấu hình
+    this.engine.attachQuality(this.quality);
 
     this.menu = new Menu(
       {
@@ -131,6 +140,15 @@ class App {
         this.settingsModal?.unmount();
         this.settingsModal = null;
       },
+      onQualityChange: (q) => {
+        // Người dùng chọn thủ công → tắt adaptive
+        this.quality.setLevel(q);
+        this.engine.applyPixelRatio(this.quality.recommendedMaxPixelRatio());
+      },
+      onAdaptiveQuality: () => {
+        // Người dùng chọn "Tự động" → bật lại adaptive
+        this.quality.enableAdaptive('high');
+      },
     });
     this.settingsModal.mount(this.uiRoot);
   }
@@ -147,6 +165,8 @@ class App {
       audio: this.audio,
       repo: this.repo,
       t,
+      quality: this.quality,
+      reducedMotion: this.settingsService.settings.reducedMotion,
       onExitToMenu: () => {
         this.showMenu();
       },
