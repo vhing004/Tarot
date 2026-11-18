@@ -53,6 +53,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Smooth Modals | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 50 files 0 vi phạm, animation modal 60fps mượt mà |
 | 2026-11-18 | GitHub Pages Deploy | G7 | `npm run check` + GH Actions | Đạt | Thiết lập workflow deploy GitHub Pages tự động và base './' tương thích mọi CDN |
 | 2026-11-18 | Tarot Reader & Fan Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
+| 2026-11-18 | Witch 3D & 3-Row Float Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
 
 ## 4. Quyết định (Decision log)
 | Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
@@ -73,6 +74,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-014 | 2026-11-18 | Tách riêng animation Backdrop và Dialog, giảm blur(8px) và dùng will-change | Khắc phục triệt để hiện tượng giật khựng khi mở modal trên WebGL canvas Three.js | R03, R07 |
 | D-015 | 2026-11-18 | Thiết lập base: './' và resolveAssetUrl cho toàn bộ textures | Đảm bảo game chạy mượt mà trên cả domain gốc lẫn mọi subpath như GitHub Pages | R01, R03, R07 |
 | D-016 | 2026-11-18 | Dựng Thầy Bói 3D procedural PBR và xòe bài Ribbon Fan tương tác xúc giác | Tăng tính đắm chìm huyền bí, cho phép rút từng lá bài xúc giác, 0 KB static asset | R01, R03, R04 |
+| D-017 | 2026-11-18 | Tạo hình Nữ Phù Thủy 3D (Witch) và chia bài 3 hàng x 26 lá cùng hover bay bổng | Chuẩn 78 lá, tăng tính huyền bí ma thuật, trải nghiệm trực quan sống động | R01, R03, R04 |
 
 ## 5. Lỗi tồn đọng (Bug tracker)
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
@@ -80,11 +82,9 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 6. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành task **Tarot Reader 3D & Interactive Fan Spread** (`PLAN-20261118-tarot-reader-and-fan-spread`).
+- Đã hoàn thành task **Tarot Witch 3D & 3-Row Float Spread** (`PLAN-20261118-three-rows-tarot-hover-float`).
 - **Thay đổi chính**:
-  - Dựng mới nhân vật **Thầy Bói Tarot 3D (`TarotReader3D.ts`)**: Áo choàng nhung tím thẫm viền chỉ vàng kim, nón trùm đầu bí ẩn với khuôn mặt chìm trong hư vô, hai cánh tay và bàn tay đeo nhẫn ngọc phát quang huyền thuật.
-  - Cử động đồng bộ nhịp nhàng: Thở nhẹ trang nghiêm ở trạng thái chờ; vươn tay nâng và đan xen bài khi xáo bài (`SHUFFLE`); lướt tay mở dải quạt sang hai bên khi xòe bài (`SPREAD`); thu tay về cử chỉ mời trân trọng khi người chơi rút bài (`PICK`).
-  - Nâng cấp **Xòe bài dải quạt (Ribbon Fan)** trong `DeckView.ts`: Cung tròn bài xòe đều đặn, mép bài xếp lớp mượt mà.
-  - Thêm **Tương tác Hover xúc giác**: Khi rê chuột / lướt ngón tay qua quạt bài, lá bài tại con trỏ nhẹ nhàng nhô lên cao (+0.1) tạo cảm giác sột soạt thực tế.
-  - Thêm **Hoạt cảnh rút từng lá bài bay lên slot**: Người chơi tự bấm chọn từng lá bài, lá bài bay bổng lơ lửng rồi lướt về ô chỉ định; thanh trạng thái cập nhật tiến độ theo từng vị trí (ví dụ: *Đã rút 1/3 lá bài...*). Sau khi rút đủ, các lá còn lại lặn êm ái xuống mặt bàn.
+  - Dựng mới nhân vật **Nữ Phù Thủy Tarot 3D (`TarotReader3D.ts`)**: Mũ phù thủy chóp nhọn uốn cong có khóa cài trăng lưỡi liềm vàng kim, mái tóc bạch kim buông dài qua vai, khuôn mặt thanh tú với đôi mắt ma thuật phát sáng tím, áo choàng nhung đen thẫm có corset tím sẫm, cổ áo dựng cao kiêu hãnh (high collar), dây chuyền pha lê phát quang xoay đều trước ngực, ống tay áo loe rộng (bell sleeves) và đôi bàn tay ma thuật thanh mảnh.
+  - Nâng cấp **Chia 3 hàng, mỗi hàng 26 lá ($3 \times 26 = 78$ lá)** trong `DeckView.ts`: Cả 3 hàng bài uốn lượn hình cánh cung mềm mại trải đều từ xa đến gần người chơi, không bị che khuất tầm nhìn.
+  - Thêm **Hiệu ứng Hover bay bổng mượt mà**: Rê chuột/chạm vào bất kỳ lá bài nào ở cả 3 hàng, lá bài sẽ nhẹ nhàng bay vút lên cao ($Y + 0.35$), nhích nhẹ về trước và nghiêng góc nhìn trực diện camera; khi rời chuột, lá bài lượn nhẹ hạ cánh êm ái về vị trí hàng ban đầu với GSAP tween `power2.inOut` (0.28s).
 - **Kết quả kiểm thử**: Vitest **65/65** pass, TypeScript 0 error, check:rules 51 files 0 vi phạm, build bundle thành công 100%.

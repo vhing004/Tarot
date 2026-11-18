@@ -232,12 +232,12 @@ export class TarotMode implements Mode {
 
           this.ctx?.audio.playShuffle();
 
-          this.showStatusBar(this.ctx?.t('tarot_status_shuffle') ?? 'Thầy bói đang xáo bài...');
+          this.showStatusBar(this.ctx?.t('tarot_status_shuffle') ?? 'Phù thủy đang xáo bài...');
           this.showSkipButton(() => {
             this.fsm.go('SPREAD');
           });
 
-          // Thầy bói cử động tay xáo bài đồng bộ với hiệu ứng tách đan bài 3D
+          // Phù thủy cử động tay xáo bài ma thuật đồng bộ với hiệu ứng tách đan bài 3D
           this.tarotReader?.playShuffleGesture(2.2);
 
           this.deckView?.playShuffleAnimation(() => {
@@ -247,13 +247,13 @@ export class TarotMode implements Mode {
       })
       .addState('SPREAD', {
         enter: () => {
-          this.showStatusBar(this.ctx?.t('tarot_status_spread') ?? 'Thầy bói đang xòe bài trên bàn bói...');
+          this.showStatusBar(this.ctx?.t('tarot_status_spread') ?? 'Phù thủy đang trải 3 hàng bài trên bàn bói...');
           this.showSkipButton(() => {
             this.fsm.go('PICK');
           });
 
-          // Thầy bói lướt vuốt tay xòe dải quạt sang hai bên mép bàn
-          this.tarotReader?.playSpreadGesture(1.2);
+          // Phù thủy lướt vuốt tay 3 nhịp trải rộng 3 hàng bài ra bàn
+          this.tarotReader?.playSpreadGesture(1.6);
 
           this.deckView?.playSpreadAnimation(() => {
             this.fsm.go('PICK');
@@ -265,7 +265,7 @@ export class TarotMode implements Mode {
           this.updatePickStatusBar();
           this.hideSkipButton();
 
-          // Thầy bói thu tay về cử chỉ mời rút bài trang nghiêm
+          // Phù thủy thu tay về cử chỉ mời rút bài trang nghiêm
           this.tarotReader?.playInviteGesture();
 
           this.deckView?.enableInteraction((card: Card3D) => {

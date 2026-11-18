@@ -27,8 +27,9 @@ export class DeckView extends Group {
   private onCardClickCallback: ((card: Card3D) => void) | null = null;
   private sharedBackMat: MeshStandardMaterial;
 
-  // Lưu lại vị trí & góc xoay gốc khi xòe quạt để phục vụ hover nhô bài
+  // Lưu lại vị trí & góc xoay gốc của từng lá trong 3 hàng để phục vụ hover
   private spreadTransforms = new Map<Card3D, CardSpreadTransform>();
+  private cardHoverTweens = new Map<Card3D, gsap.core.Tween>();
   private hoveredCard: Card3D | null = null;
   private pickedCardsSet = new Set<Card3D>();
 
@@ -56,29 +57,29 @@ export class DeckView extends Group {
    * Gom toàn bộ bài thành một chồng ngay lập tức
    */
   stackCardsInstant(): void {
+    this.clearAllHoverTweens();
     this.spreadTransforms.clear();
     this.pickedCardsSet.clear();
     this.hoveredCard = null;
 
     for (let i = 0; i < this.cards.length; i++) {
       const card = this.cards[i]!;
-      // Độ lệch vi mô giữa các lá tạo độ tương phản mép viền vàng chân thực
       const microJitterX = ((i % 5) - 2) * 0.004;
       const microJitterZ = ((i % 3) - 1) * 0.005;
       const microJitterRot = ((i % 4) - 1.5) * 0.015;
 
       card.position.set(microJitterX, 0.01 + i * 0.013, microJitterZ);
-      card.rotation.set(Math.PI / 2, 0, Math.PI + microJitterRot); // Úp mặt sau đỏ vàng (+Y) lên trên
+      card.rotation.set(Math.PI / 2, 0, Math.PI + microJitterRot);
       card.isRevealed = false;
     }
     this.engine.requestRender();
   }
 
   /**
-   * Animation xáo bài 3D (R04 §1):
-   * Tách bài làm 2 nửa trái phải, uốn cong và đan xen từng lá.
+   * Animation xáo bài 3D: Tách đôi, uốn cong và đan xen từng lá bài
    */
   playShuffleAnimation(onComplete?: () => void): void {
+    this.clearAllHoverTweens();
     const tl = gsap.timeline({
       onComplete: () => {
         if (onComplete) onComplete();
@@ -94,7 +95,7 @@ export class DeckView extends Group {
       const delay = (i % half) * 0.025;
       const arcTiltZ = isLeft ? -0.2 : 0.2;
 
-      // 1. Nhấc bài sang 2 bên và uốn cong góc nghiêng
+      // 1. Nhấc bài sang 2 bên
       tl.to(
         card.position,
         {
@@ -118,7 +119,7 @@ export class DeckView extends Group {
         delay,
       );
 
-      // 2. Đan xen bài trở lại tâm (xen kẽ từng lá rơi xuống)
+      // 2. Đan xen bài trở lại tâm
       const microJitterRot = ((i % 4) - 1.5) * 0.015;
       tl.to(
         card.position,
@@ -149,67 +150,93 @@ export class DeckView extends Group {
   }
 
   /**
-   * Xòe bài hình cánh cung dải quạt mượt mà trên bàn để người chơi rút bài.
-   * Góc trải bài được tính toán tương thích cho cả 22 lá lẫn 78 lá.
+   * Xòe bài chia làm 3 hàng, mỗi hàng 26 lá (tổng 78 lá bài)
+   * Từng hàng uốn cong hình cánh cung thoai thoải từ xa đến gần người chơi
    */
   playSpreadAnimation(onComplete?: () => void): void {
+    this.clearAllHoverTweens();
+    this.spreadTransforms.clear();
+
     const tl = gsap.timeline({
       onComplete: () => {
         if (onComplete) onComplete();
       },
     });
 
-    this.spreadTransforms.clear();
     const total = this.cards.length;
-    // Bán kính và góc xòe quạt tối ưu cho tầm nhìn camera
-    const isFullDeck = total > 30;
-    const radius = isFullDeck ? 2.65 : 2.45;
-    const arcAngle = isFullDeck ? Math.PI * 0.88 : Math.PI * 0.75;
-    const startAngle = -arcAngle / 2;
+    // Cấu hình 3 hàng
+    const rowConfigs = [
+      { rowZ: -0.55, radius: 3.1, arcAngle: Math.PI * 0.72, baseY: 0.015 }, // Hàng 0 (xa nhất / trên cùng)
+      { rowZ: 0.15, radius: 2.75, arcAngle: Math.PI * 0.78, baseY: 0.045 },  // Hàng 1 (ở giữa)
+      { rowZ: 0.85, radius: 2.4, arcAngle: Math.PI * 0.84, baseY: 0.075 },   // Hàng 2 (gần nhất / dưới cùng)
+    ];
 
-    for (let i = 0; i < total; i++) {
-      const card = this.cards[i]!;
-      const ratio = i / (total - 1);
-      const angle = startAngle + ratio * arcAngle;
+    // Tính số lá mỗi hàng (78 lá chia thành 26 - 26 - 26; 22 lá chia 7 - 7 - 8)
+    const baseCount = Math.floor(total / 3);
+    const remainder = total % 3;
+    const rowCounts = [
+      baseCount,
+      baseCount,
+      baseCount + remainder,
+    ];
 
-      const targetX = Math.sin(angle) * radius;
-      const targetZ = -Math.cos(angle) * (radius * 0.58) + 0.35;
-      const targetY = 0.015 + i * 0.004; // Tăng dần nhẹ tránh z-fighting
-      const rotZ = Math.PI - angle * 0.88;
+    let cardGlobalIndex = 0;
 
-      // Lưu lại tọa độ để phục vụ tương tác hover
-      this.spreadTransforms.set(card, {
-        x: targetX,
-        y: targetY,
-        z: targetZ,
-        rotX: Math.PI / 2,
-        rotY: 0,
-        rotZ,
-      });
+    for (let r = 0; r < 3; r++) {
+      const cfg = rowConfigs[r]!;
+      const count = rowCounts[r]!;
+      const startAngle = -cfg.arcAngle / 2;
+      const rowStartDelay = r * 0.35; // Trải từng hàng theo nhịp vuốt của phù thủy
 
-      tl.to(
-        card.position,
-        {
+      for (let c = 0; c < count; c++) {
+        if (cardGlobalIndex >= total) break;
+        const card = this.cards[cardGlobalIndex]!;
+        const ratio = count > 1 ? c / (count - 1) : 0.5;
+        const angle = startAngle + ratio * cfg.arcAngle;
+
+        const targetX = Math.sin(angle) * cfg.radius;
+        const targetZ = cfg.rowZ - Math.cos(angle) * (cfg.radius * 0.22);
+        const targetY = cfg.baseY + c * 0.001; // Chênh cao nhẹ tránh z-fighting
+        const rotZ = Math.PI - angle * 0.85;
+        const rotX = Math.PI / 2;
+
+        this.spreadTransforms.set(card, {
           x: targetX,
           y: targetY,
           z: targetZ,
-          duration: 0.75,
-          ease: 'power3.out',
-        },
-        i * (isFullDeck ? 0.008 : 0.02),
-      );
+          rotX,
+          rotY: 0,
+          rotZ,
+        });
 
-      tl.to(
-        card.rotation,
-        {
-          x: Math.PI / 2,
-          y: 0,
-          z: rotZ,
-          duration: 0.75,
-          ease: 'power3.out',
-        },
-        i * (isFullDeck ? 0.008 : 0.02),
-      );
+        const cardDelay = rowStartDelay + c * 0.012;
+
+        tl.to(
+          card.position,
+          {
+            x: targetX,
+            y: targetY,
+            z: targetZ,
+            duration: 0.65,
+            ease: 'power3.out',
+          },
+          cardDelay,
+        );
+
+        tl.to(
+          card.rotation,
+          {
+            x: rotX,
+            y: 0,
+            z: rotZ,
+            duration: 0.65,
+            ease: 'power3.out',
+          },
+          cardDelay,
+        );
+
+        cardGlobalIndex++;
+      }
     }
 
     this.engine.trackTween(tl);
@@ -225,6 +252,7 @@ export class DeckView extends Group {
     onComplete?: () => void,
   ): void {
     this.pickedCardsSet.add(card);
+    this.killCardHoverTween(card);
     if (this.hoveredCard === card) {
       this.hoveredCard = null;
     }
@@ -232,7 +260,7 @@ export class DeckView extends Group {
     const spacing = 1.35;
     const startX = -((totalSlots - 1) * spacing) / 2;
     const targetX = startX + slotIndex * spacing;
-    const targetY = 0.05 + slotIndex * 0.005;
+    const targetY = 0.06 + slotIndex * 0.005;
     const targetZ = 0.45;
 
     const tl = gsap.timeline({
@@ -241,14 +269,14 @@ export class DeckView extends Group {
       },
     });
 
-    // 1. Nhấc bổng lá bài lên cao lơ lửng trên không trung
+    // 1. Nhấc bổng vút lên không trung
     tl.to(card.position, {
-      y: 0.75,
+      y: 0.85,
       duration: 0.35,
       ease: 'power2.out',
     });
 
-    // 2. Trôi lượn uyển chuyển về phía trước mặt người chơi vào ô chỉ định
+    // 2. Lượn êm ái về vị trí slot chỉ định
     tl.to(
       card.position,
       {
@@ -280,6 +308,7 @@ export class DeckView extends Group {
    * Ẩn các lá bài không được chọn (lặn êm ái xuống dưới mặt bàn)
    */
   dismissUnpickedCards(onComplete?: () => void): void {
+    this.clearAllHoverTweens();
     const tl = gsap.timeline({
       onComplete: () => {
         if (onComplete) onComplete();
@@ -293,10 +322,10 @@ export class DeckView extends Group {
           card.position,
           {
             y: -0.6,
-            duration: 0.5,
+            duration: 0.45,
             ease: 'power2.in',
           },
-          count * 0.005,
+          count * 0.004,
         );
         count++;
       }
@@ -309,6 +338,7 @@ export class DeckView extends Group {
    * Đưa danh sách các lá bài đã chọn vào vị trí kết quả (dùng cho trường hợp bỏ qua animation)
    */
   positionPickedCards(pickedCards: Card3D[], onComplete?: () => void): void {
+    this.clearAllHoverTweens();
     const tl = gsap.timeline({
       onComplete: () => {
         if (onComplete) onComplete();
@@ -341,7 +371,7 @@ export class DeckView extends Group {
         card.position,
         {
           x: targetX,
-          y: 0.05,
+          y: 0.06,
           z: 0.45,
           duration: 0.6,
           ease: 'power2.out',
@@ -379,7 +409,7 @@ export class DeckView extends Group {
     window.removeEventListener('pointerup', this.onPointerUp);
 
     if (this.hoveredCard) {
-      this.resetCardHover(this.hoveredCard);
+      this.animateCardLower(this.hoveredCard);
       this.hoveredCard = null;
     }
   }
@@ -401,47 +431,95 @@ export class DeckView extends Group {
       const topCard = intersects[0]!.object as Card3D;
       if (this.hoveredCard !== topCard) {
         if (this.hoveredCard) {
-          this.resetCardHover(this.hoveredCard);
+          this.animateCardLower(this.hoveredCard);
         }
         this.hoveredCard = topCard;
-        this.highlightCardHover(topCard);
+        this.animateCardLift(topCard);
       }
     } else if (this.hoveredCard) {
-      this.resetCardHover(this.hoveredCard);
+      this.animateCardLower(this.hoveredCard);
       this.hoveredCard = null;
     }
   };
 
-  private highlightCardHover(card: Card3D): void {
+  /**
+   * Diễn hoạt lá bài bay bổng lên cao (+0.35) mượt mà khi hover
+   */
+  private animateCardLift(card: Card3D): void {
     const t = this.spreadTransforms.get(card);
     if (!t) return;
 
-    gsap.to(card.position, {
-      y: t.y + 0.1,
-      z: t.z + 0.08,
-      duration: 0.2,
+    this.killCardHoverTween(card);
+
+    const tween = gsap.to(card.position, {
+      y: t.y + 0.35, // Bay bổng lên cao vượt hẳn các hàng xung quanh
+      z: t.z + 0.12, // Nhích nhẹ về phía người chơi
+      duration: 0.28,
       ease: 'power2.out',
-      overwrite: 'auto',
       onUpdate: () => {
         this.engine.requestRender();
       },
     });
+
+    gsap.to(card.rotation, {
+      x: Math.PI / 2 - 0.18, // Nghiêng góc nhìn trực diện camera
+      duration: 0.28,
+      ease: 'power2.out',
+      onUpdate: () => {
+        this.engine.requestRender();
+      },
+    });
+
+    this.cardHoverTweens.set(card, tween);
   }
 
-  private resetCardHover(card: Card3D): void {
+  /**
+   * Diễn hoạt lá bài hạ cánh êm ái về lại vị trí hàng ban đầu
+   */
+  private animateCardLower(card: Card3D): void {
     const t = this.spreadTransforms.get(card);
     if (!t) return;
 
-    gsap.to(card.position, {
+    this.killCardHoverTween(card);
+
+    const tween = gsap.to(card.position, {
+      x: t.x,
       y: t.y,
       z: t.z,
-      duration: 0.25,
+      duration: 0.28,
       ease: 'power2.inOut',
-      overwrite: 'auto',
       onUpdate: () => {
         this.engine.requestRender();
       },
     });
+
+    gsap.to(card.rotation, {
+      x: t.rotX,
+      y: t.rotY,
+      z: t.rotZ,
+      duration: 0.28,
+      ease: 'power2.inOut',
+      onUpdate: () => {
+        this.engine.requestRender();
+      },
+    });
+
+    this.cardHoverTweens.set(card, tween);
+  }
+
+  private killCardHoverTween(card: Card3D): void {
+    const existing = this.cardHoverTweens.get(card);
+    if (existing) {
+      existing.kill();
+      this.cardHoverTweens.delete(card);
+    }
+  }
+
+  private clearAllHoverTweens(): void {
+    for (const t of this.cardHoverTweens.values()) {
+      t.kill();
+    }
+    this.cardHoverTweens.clear();
   }
 
   private onPointerUp = (event: PointerEvent): void => {
@@ -463,6 +541,7 @@ export class DeckView extends Group {
 
   disposeDeck(): void {
     this.disableInteraction();
+    this.clearAllHoverTweens();
     for (const card of this.cards) {
       card.disposeCard();
     }
