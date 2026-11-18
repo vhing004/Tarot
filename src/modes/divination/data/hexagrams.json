@@ -1,0 +1,114 @@
+{
+  "111111": {
+    "id": 1,
+    "name": "Qian",
+    "nameVi": "Thuần Càn (Trời)",
+    "judgement": "Càn đại diện cho sức sáng tạo nguyên sơ, sự bền bỉ, ý chí kiên định và hành động tích cực. Thời cơ thuận lợi để người quân tử tự cường không ngừng nghỉ, nắm bắt cơ hội và vươn tới tầm cao mới.",
+    "lines": [
+      "Sơ Cửu (Hào 1): Rồng còn ẩn mình dưới nước sâu, chưa nên vội vàng hành động. Hãy tích lũy nội lực và chờ thời.",
+      "Cửu Nhị (Hào 2): Rồng hiện nơi đồng nội, xuất hiện quý nhân phù trợ. Hãy chủ động kết nối và chia sẻ giá trị.",
+      "Cửu Tam (Hào 3): Cả ngày hăng say nỗ lực, đêm về thận trọng xét mình. Thận trọng giữ gìn thì dù có gian nguy cũng không mắc lỗi.",
+      "Cửu Tứ (Hào 4): Rồng như đang bay nhảy trên vực sâu, có thể tiến hoặc lùi tùy thời thế. Linh hoạt thích ứng là chìa khóa.",
+      "Cửu Ngũ (Hào 5): Rồng bay trên trời xanh, đạt tới thời kỳ rực rỡ và hanh thông nhất. Hãy dùng đức độ để cảm hóa muôn người.",
+      "Thượng Cửu (Hào 6): Rồng bay quá cao ắt sinh hối tiếc. Thành công đỉnh điểm cần biết khiêm nhường và gìn giữ phúc lành."
+    ]
+  },
+  "000000": {
+    "id": 2,
+    "name": "Kun",
+    "nameVi": "Thuần Khôn (Đất)",
+    "judgement": "Khôn tượng trưng cho đức dày của Đất mẹ: dung dưỡng, tiếp nhận, bao dung và nâng đỡ vạn vật. Hãy thuận theo tự nhiên, khiêm nhường lắng nghe và kiên trì từng bước một thay vì tranh giành dẫn đầu.",
+    "lines": [
+      "Sơ Lục (Hào 1): Đạp trên lớp sương giá, biết mùa đông băng giá sắp tới. Cần thận trọng dự phòng những dấu hiệu nhỏ từ đầu.",
+      "Lục Nhị (Hào 2): Ngay thẳng, quang minh và rộng lượng, không cần toan tính phức tạp mà mọi việc đều tự nhiên thuận lợi.",
+      "Lục Tam (Hào 3): Ngậm chứa đức tài, không phô trương công trạng. Kiên trì theo đuổi mục tiêu lâu dài ắt có kết cục viên mãn.",
+      "Lục Tứ (Hào 4): Thắt túi cẩn mật, giữ gìn lời ăn tiếng nói và hành vi. Sự kín đáo giúp bạn an toàn trước mọi thị phi.",
+      "Lục Ngũ (Hào 5): Áo vàng tốt lành, đại diện cho đức trung dung và sự thấu suốt. Bạn nhận được sự tôn kính chân thành từ tập thể.",
+      "Thượng Lục (Hào 6): Hai rồng tranh đấu nơi đồng hoang, kiệt cùng sức lực. Tránh đối đầu gay gắt kẻo đôi bên cùng tổn thương."
+    ]
+  },
+  "100010": {
+    "id": 3,
+    "name": "Zhun",
+    "nameVi": "Thủy Lôi Truân",
+    "judgement": "Truân là giai đoạn mầm non mới đâm chồi giữa giông gió, đầy khó khăn thử thách thuở ban đầu. Đừng nản lòng bỏ cuộc, hãy tìm kiếm sự trợ giúp từ những người giàu kinh nghiệm và từng bước tháo gỡ rối ren.",
+    "lines": [
+      "Sơ Cửu (Hào 1): Do dự tiến thoái, cần kiên định giữ vững chí hướng và gây dựng uy tín ban đầu.",
+      "Lục Nhị (Hào 2): Khó khăn chồng chất, ngựa xe ngập ngừng. Hãy giữ tấm lòng trong sạch, thời gian sẽ minh định chân lý.",
+      "Lục Tam (Hào 3): Đi săn trong rừng sâu mà không có người dẫn đường, dễ bị lạc lối. Cần biết dừng lại đúng lúc khi chưa đủ thông tin.",
+      "Lục Tứ (Hào 4): Ngựa xe tìm kiếm bạn đồng hành, tiến bước sẽ đem lại kết quả tốt lành.",
+      "Cửu Ngũ (Hào 5): Ơn huệ nhỏ được đền đáp, nhưng đại sự cần kiên trì bền bỉ, không nên đốt cháy giai đoạn.",
+      "Thượng Lục (Hào 6): Bế tắc chảy nước mắt, cùng cực sinh biến. Cần can đảm thay đổi phương thức tư duy để mở lối thoát."
+    ]
+  },
+  "010001": {
+    "id": 4,
+    "name": "Meng",
+    "nameVi": "Sơn Thủy Mông",
+    "judgement": "Mông là sự ngây thơ, mông muội cần được khai sáng và học hỏi. Sự thành tâm học hỏi, lắng nghe người chỉ dẫn có tâm sẽ giúp bạn mở rộng tầm mắt và xua tan những hiểu lầm u tối.",
+    "lines": [
+      "Sơ Lục (Hào 1): Khai phá sự hiểu biết ban đầu bằng kỷ luật nghiêm túc, tạo nền tảng vững vàng cho tương lai.",
+      "Cửu Nhị (Hào 2): Bao dung nâng đỡ những người còn non trẻ, tấm lòng hòa ái sẽ mang lại hòa thuận trong gia đạo và công việc.",
+      "Lục Tam (Hào 3): Chạy theo những hào nhoáng nhất thời mà đánh mất phẩm hạnh. Cần tỉnh táo trước những cám dỗ phù phiếm.",
+      "Lục Tứ (Hào 4): Bị cô lập trong sự mơ hồ thiếu hiểu biết, sinh ra hối tiếc. Hãy mạnh dạn bước ra ngoài để học hỏi thêm.",
+      "Lục Ngũ (Hào 5): Khiêm tốn như đứa trẻ thuần khiết cầu học, điều này đem lại phước lành to lớn.",
+      "Thượng Cửu (Hào 6): Nghiêm khắc ngăn chặn sai lầm, nhưng phải xuất phát từ lòng muốn giúp đỡ chứ không vì hà khắc hằn học."
+    ]
+  },
+  "011111": {
+    "id": 44,
+    "name": "Gou",
+    "nameVi": "Thiên Phong Cấu",
+    "judgement": "Cấu là sự hội ngộ, gặp gỡ bất ngờ giữa các nguồn năng lượng. Cần cẩn trọng phân định rõ ràng giữa cơ hội chân chính và những cám dỗ ngầm, giữ vững nguyên tắc để không bị cuốn vào những ràng buộc bất lợi.",
+    "lines": [
+      "Sơ Lục (Hào 1): Bị kiềm chế như thắng xe bằng thanh hãm, dừng lại đúng lúc thì cát tường.",
+      "Cửu Nhị (Hào 2): Trong nhà có cá, giữ gìn tài nguyên của mình, không để kẻ xấu trục lợi.",
+      "Cửu Tam (Hào 3): Đi đứng khó khăn nhưng biết lo xa nên không phạm lỗi lớn.",
+      "Cửu Tứ (Hào 4): Mất cá trong bao, đánh mất lòng tin của những người xung quanh vì sự lơ là.",
+      "Cửu Ngũ (Hào 5): Lấy lá dưa bọc quả, tài năng ẩn chứa bên trong sẽ tự nhiên tỏa sáng mà không cần phô trương.",
+      "Thượng Cửu (Hào 6): Đứng trên cao cô độc, người khác khó gần nhưng giữ được sự thanh cao không nhiễm tạp chất."
+    ]
+  },
+  "111000": {
+    "id": 11,
+    "name": "Tai",
+    "nameVi": "Địa Thiên Thái",
+    "judgement": "Thái là sự thông suốt, hòa hợp hoàn hảo giữa Trời và Đất, âm dương giao hòa. Thời vận hưng thịnh, vạn vật phát triển thuận lợi. Người tốt gặp nhau, đồng lòng kiến tạo những giá trị bền vững.",
+    "lines": [
+      "Sơ Cửu (Hào 1): Như nhổ cụm cỏ tranh liền rễ, cùng chí hướng thì cùng nhau tiến bước đạt thành tựu.",
+      "Cửu Nhị (Hào 2): Bao dung tính cả sông sâu, quả cảm vượt khó, giữ tấm lòng trung chính không thiên vị bè phái.",
+      "Cửu Tam (Hào 3): Không có bình nguyên nào không dốc, không có đi nào không về. Nhớ giữ gìn khi đang thịnh thì không hối tiếc.",
+      "Lục Tứ (Hào 4): Bay lượn giao lưu chan hòa với xóm giềng, sự chân thành cảm hóa mọi người.",
+      "Lục Ngũ (Hào 5): Vua gả con gái, hạnh phúc và thịnh vượng đến từ sự gắn kết bình dị và tôn trọng lẫn nhau.",
+      "Thượng Lục (Hào 6): Thành trì sụp xuống hào sâu, thời thịnh chuyển suy. Cần tĩnh lặng củng cố nội bộ, chớ manh động."
+    ]
+  },
+  "000111": {
+    "id": 12,
+    "name": "Pi",
+    "nameVi": "Thiên Địa Bĩ",
+    "judgement": "Bĩ là giai đoạn bế tắc, Trời ở trên cao mà Đất ở dưới thấp, không có sự giao tiếp thông suốt. Kẻ tiểu nhân lấn lướt, người quân tử nên kiên nhẫn ẩn nhẫn gìn giữ phẩm hạnh, chờ đợi chu kỳ chuyển giao mới.",
+    "lines": [
+      "Sơ Lục (Hào 1): Rút lui giữ gìn khí tiết như cụm cỏ liền rễ, giữ vững đạo lý thì cát lành.",
+      "Lục Nhị (Hào 2): Bao dung nhẫn nhịn trước sự chèn ép, người quân tử tự có sự bình an trong tâm hồn.",
+      "Lục Tam (Hào 3): Trong lòng cảm thấy xấu hổ vì những việc bất chính, đã đến lúc thức tỉnh và dừng lại.",
+      "Cửu Tứ (Hào 4): Có mệnh lệnh hành động, không mắc sai lầm, những người đồng chí hướng cùng hưởng phước lành.",
+      "Cửu Ngũ (Hào 5): Vận bĩ sắp qua, thời thái sắp đến. Hãy nhắc nhở bản thân: 'Liệu có nguy khốn không?' để luôn tỉnh táo.",
+      "Thượng Cửu (Hào 6): Vận bế tắc đã đi đến hồi kết. Sau cơn mưa trời lại sáng, niềm vui và sự hanh thông bắt đầu trở lại."
+    ]
+  },
+  "101010": {
+    "id": 63,
+    "name": "JiJi",
+    "nameVi": "Thủy Hỏa Ký Tế",
+    "judgement": "Ký Tế là sự hoàn thành, trật tự đã được thiết lập ổn định (Nước ở trên Lửa, hòa hợp). Mọi việc đã vào guồng quay thuận lợi, nhưng cần cảnh giác với sự lơ là chủ quan để giữ gìn thành quả lâu dài.",
+    "lines": [
+      "Sơ Cửu (Hào 1): Thắng bánh xe lại, đuôi cáo bị ướt, thận trọng ngay từ đầu thì không xảy ra biến cố.",
+      "Lục Nhị (Hào 2): Mất tấm màn che mặt, chớ nên sốt ruột tìm kiếm, bảy ngày sau sẽ tự nhiên tìm lại được.",
+      "Cửu Tam (Hào 3): Chinh phạt gian nan suốt ba năm mới bình định được, cần trọng dụng người tài đức chứ chớ dùng kẻ hẹp hòi.",
+      "Lục Tứ (Hào 4): Thuyền có chỗ rò rỉ, cần dùng giẻ rách nút lại ngay. Cảnh giác thường trực thì tránh được tai họa.",
+      "Cửu Ngũ (Hào 5): Lễ vật mộc mạc chân thành nơi xóm Đông còn quý hơn mâm cỗ xa hoa xóm Tây. Lòng thành là cốt lõi.",
+      "Thượng Lục (Hào 6): Qua sông ướt cả đầu, nguy nan cận kề vì sự đắc chí chủ quan. Cần biết điểm dừng thích hợp."
+    ]
+  }
+}
