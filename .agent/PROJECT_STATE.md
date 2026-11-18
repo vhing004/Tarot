@@ -54,6 +54,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | GitHub Pages Deploy | G7 | `npm run check` + GH Actions | Đạt | Thiết lập workflow deploy GitHub Pages tự động và base './' tương thích mọi CDN |
 | 2026-11-18 | Tarot Reader & Fan Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
 | 2026-11-18 | Witch 3D & 3-Row Float Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
+| 2026-11-18 | Realistic Witch, Sparkles & Corner Gather | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 
 ## 4. Quyết định (Decision log)
 | Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
@@ -75,6 +76,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-015 | 2026-11-18 | Thiết lập base: './' và resolveAssetUrl cho toàn bộ textures | Đảm bảo game chạy mượt mà trên cả domain gốc lẫn mọi subpath như GitHub Pages | R01, R03, R07 |
 | D-016 | 2026-11-18 | Dựng Thầy Bói 3D procedural PBR và xòe bài Ribbon Fan tương tác xúc giác | Tăng tính đắm chìm huyền bí, cho phép rút từng lá bài xúc giác, 0 KB static asset | R01, R03, R04 |
 | D-017 | 2026-11-18 | Tạo hình Nữ Phù Thủy 3D (Witch) và chia bài 3 hàng x 26 lá cùng hover bay bổng | Chuẩn 78 lá, tăng tính huyền bí ma thuật, trải nghiệm trực quan sống động | R01, R03, R04 |
+| D-018 | 2026-11-18 | Nâng cấp Phù Thủy 3D chân thực, hiệu ứng hạt tóe sáng và gom bài về 1 góc | Thao tác xáo bài uốn đan cọc sống động, ma thuật lấp lánh và bố cục bàn bói gọn gàng | R01, R03, R04 |
 
 ## 5. Lỗi tồn đọng (Bug tracker)
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
@@ -82,9 +84,9 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 6. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành task **Tarot Witch 3D & 3-Row Float Spread** (`PLAN-20261118-three-rows-tarot-hover-float`).
+- Đã hoàn thành task **Realistic 3D Witch, Sparkles & Corner Gather** (`PLAN-20261118-realistic-3d-witch-sparkles-corner-gather`).
 - **Thay đổi chính**:
-  - Dựng mới nhân vật **Nữ Phù Thủy Tarot 3D (`TarotReader3D.ts`)**: Mũ phù thủy chóp nhọn uốn cong có khóa cài trăng lưỡi liềm vàng kim, mái tóc bạch kim buông dài qua vai, khuôn mặt thanh tú với đôi mắt ma thuật phát sáng tím, áo choàng nhung đen thẫm có corset tím sẫm, cổ áo dựng cao kiêu hãnh (high collar), dây chuyền pha lê phát quang xoay đều trước ngực, ống tay áo loe rộng (bell sleeves) và đôi bàn tay ma thuật thanh mảnh.
-  - Nâng cấp **Chia 3 hàng, mỗi hàng 26 lá ($3 \times 26 = 78$ lá)** trong `DeckView.ts`: Cả 3 hàng bài uốn lượn hình cánh cung mềm mại trải đều từ xa đến gần người chơi, không bị che khuất tầm nhìn.
-  - Thêm **Hiệu ứng Hover bay bổng mượt mà**: Rê chuột/chạm vào bất kỳ lá bài nào ở cả 3 hàng, lá bài sẽ nhẹ nhàng bay vút lên cao ($Y + 0.35$), nhích nhẹ về trước và nghiêng góc nhìn trực diện camera; khi rời chuột, lá bài lượn nhẹ hạ cánh êm ái về vị trí hàng ban đầu với GSAP tween `power2.inOut` (0.28s).
-- **Kết quả kiểm thử**: Vitest **65/65** pass, TypeScript 0 error, check:rules 51 files 0 vi phạm, build bundle thành công 100%.
+  - Nâng cấp **Nữ Phù Thủy 3D Chân Thực (`TarotReader3D.ts`)**: Khuôn mặt V-line thanh tú, sống mũi thanh, môi son, đôi mắt ma thuật phát sáng tím sâu thẳm, mái tóc bạch kim bồng bềnh nhiều tầng; động tác xáo bài chân thực: cúi người, nghiêng đầu chăm chú, tay áp sát nâng và uốn đan xen 4 nhịp cọc bài kèm bụi ma thuật.
+  - Tích hợp **Hiệu ứng hạt ánh sáng tóe sáng (`CardSparkles.ts`)**: Khi hover vào lá bài, một chùm hạt ánh sáng vàng kim và tím ngọc bùng nổ lấp lánh từ tâm lá bài tỏa ra xung quanh và tan dần.
+  - Hoạt cảnh **Thu gom toàn bộ bài còn lại về 1 góc bàn (`DeckView.ts`)**: Khi chọn bài, tất cả các lá bài chưa rút sẽ đồng loạt lướt trượt, xếp chồng ngay ngắn thành một cọc bài gọn gàng ở góc trên bên phải bàn bói ($X \approx 1.85, Z \approx -0.75$), để lại không gian trung tâm tĩnh lặng cho các lá bài được rút.
+- **Kết quả kiểm thử**: Vitest **65/65** pass, TypeScript 0 error, check:rules 52 files 0 vi phạm, build bundle thành công 100%.

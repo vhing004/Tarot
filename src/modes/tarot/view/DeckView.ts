@@ -8,6 +8,7 @@ import gsap from 'gsap';
 import type { Engine } from '@/core/Engine';
 import type { TarotCard } from '@/shared/types';
 import { Card3D } from '@/modes/tarot/view/Card';
+import { CardSparkles } from '@/modes/tarot/view/CardSparkles';
 
 interface CardSpreadTransform {
   x: number;
@@ -27,6 +28,9 @@ export class DeckView extends Group {
   private onCardClickCallback: ((card: Card3D) => void) | null = null;
   private sharedBackMat: MeshStandardMaterial;
 
+  // Hiệu ứng hạt ánh sáng ma thuật tóe sáng khi hover
+  private sparkles: CardSparkles;
+
   // Lưu lại vị trí & góc xoay gốc của từng lá trong 3 hàng để phục vụ hover
   private spreadTransforms = new Map<Card3D, CardSpreadTransform>();
   private cardHoverTweens = new Map<Card3D, gsap.core.Tween>();
@@ -45,6 +49,10 @@ export class DeckView extends Group {
       this.cards.push(card);
       this.add(card);
     }
+
+    // Khởi tạo hệ thống hạt tóe sáng ma thuật
+    this.sparkles = new CardSparkles(engine);
+    this.add(this.sparkles);
 
     this.stackCardsInstant();
   }
@@ -305,7 +313,8 @@ export class DeckView extends Group {
   }
 
   /**
-   * Ẩn các lá bài không được chọn (lặn êm ái xuống dưới mặt bàn)
+   * Khi chọn bài: Toàn bộ các lá bài còn lại tự động trượt lướt và thu gom gọn gàng về 1 góc bàn
+   * (Góc trên bên phải bàn bói: X ~ 1.85, Z ~ -0.75, xếp chồng cao dần thành cọc bài ngay ngắn)
    */
   dismissUnpickedCards(onComplete?: () => void): void {
     this.clearAllHoverTweens();
@@ -315,19 +324,42 @@ export class DeckView extends Group {
       },
     });
 
-    let count = 0;
+    // Tọa độ góc cọc bài thu gọn
+    const cornerX = 1.85;
+    const cornerZ = -0.75;
+    const baseCornerY = 0.02;
+
+    let stackIndex = 0;
     for (const card of this.cards) {
       if (!this.pickedCardsSet.has(card)) {
+        const targetY = baseCornerY + stackIndex * 0.003; // Xếp chồng tạo độ dày cọc bài
+        const microRot = ((stackIndex % 5) - 2) * 0.01;
+
         tl.to(
           card.position,
           {
-            y: -0.6,
-            duration: 0.45,
-            ease: 'power2.in',
+            x: cornerX,
+            y: targetY,
+            z: cornerZ,
+            duration: 0.65,
+            ease: 'power3.inOut',
           },
-          count * 0.004,
+          stackIndex * 0.005,
         );
-        count++;
+
+        tl.to(
+          card.rotation,
+          {
+            x: Math.PI / 2,
+            y: 0,
+            z: Math.PI + microRot,
+            duration: 0.65,
+            ease: 'power3.inOut',
+          },
+          stackIndex * 0.005,
+        );
+
+        stackIndex++;
       }
     }
 
@@ -349,17 +381,24 @@ export class DeckView extends Group {
     const spacing = 1.35;
     const startX = -((count - 1) * spacing) / 2;
 
+    // Thu các lá còn lại về góc bàn ngay lập tức
+    const cornerX = 1.85;
+    const cornerZ = -0.75;
+    let stackIdx = 0;
     for (const card of this.cards) {
       if (!pickedCards.includes(card)) {
         tl.to(
           card.position,
           {
-            y: -0.6,
-            duration: 0.4,
-            ease: 'power2.in',
+            x: cornerX,
+            y: 0.02 + stackIdx * 0.003,
+            z: cornerZ,
+            duration: 0.45,
+            ease: 'power2.inOut',
           },
           0,
         );
+        stackIdx++;
       }
     }
 
@@ -443,13 +482,16 @@ export class DeckView extends Group {
   };
 
   /**
-   * Diễn hoạt lá bài bay bổng lên cao (+0.35) mượt mà khi hover
+   * Diễn hoạt lá bài bay bổng lên cao (+0.35) mượt mà và kích hoạt hiệu ứng tóe sáng
    */
   private animateCardLift(card: Card3D): void {
     const t = this.spreadTransforms.get(card);
     if (!t) return;
 
     this.killCardHoverTween(card);
+
+    // Kích hoạt chùm hạt ánh sáng ma thuật tóe sáng lấp lánh tại vị trí lá bài
+    this.sparkles.triggerBurst(card.position.x, card.position.y + 0.25, card.position.z);
 
     const tween = gsap.to(card.position, {
       y: t.y + 0.35, // Bay bổng lên cao vượt hẳn các hàng xung quanh
@@ -542,6 +584,7 @@ export class DeckView extends Group {
   disposeDeck(): void {
     this.disableInteraction();
     this.clearAllHoverTweens();
+    this.sparkles.disposeSparkles();
     for (const card of this.cards) {
       card.disposeCard();
     }
