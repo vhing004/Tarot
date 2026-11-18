@@ -2,6 +2,11 @@ import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  server: {
+    watch: {
+      ignored: ['**/docs/**', '**/.git/**', '**/.agent/**'],
+    },
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
