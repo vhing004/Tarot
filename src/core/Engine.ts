@@ -128,18 +128,33 @@ export class Engine {
 
   /**
    * Theo dõi một animation GSAP để duy trì render-on-demand loop khi animation đang chạy (R03 §3)
+   * Bảo toàn callback onComplete / onInterrupt ban đầu của timeline / tween
    */
   trackTween(anim: Animatable): void {
     this.activeTweens++;
     this.requestRender();
 
+    const existingComplete = anim.eventCallback('onComplete');
+    const existingInterrupt = anim.eventCallback('onInterrupt');
+
     const onEnd = () => {
       this.activeTweens = Math.max(0, this.activeTweens - 1);
       this.requestRender();
+      if (typeof existingComplete === 'function') {
+        (existingComplete as () => void)();
+      }
+    };
+
+    const onInterrupt = () => {
+      this.activeTweens = Math.max(0, this.activeTweens - 1);
+      this.requestRender();
+      if (typeof existingInterrupt === 'function') {
+        (existingInterrupt as () => void)();
+      }
     };
 
     anim.eventCallback('onComplete', onEnd);
-    anim.eventCallback('onInterrupt', onEnd);
+    anim.eventCallback('onInterrupt', onInterrupt);
   }
 
   /**
@@ -176,14 +191,17 @@ export class Engine {
       this.quality.recordFrame(dtMs);
     }
 
+    // Reset cờ render trước khi chạy updaters để updater có thể gọi requestRender() cho frame sau
+    const willRender = this.needsRender || this.activeTweens > 0;
+    this.needsRender = false;
+
     // Cập nhật các updaters
     for (const updater of this.updaters) {
       updater(dt);
     }
 
-    if (this.needsRender || this.activeTweens > 0) {
+    if (willRender || this.needsRender || this.activeTweens > 0) {
       this.renderer.render(this.scene, this.camera);
-      this.needsRender = false;
     }
 
     if (this.activeTweens > 0 || this.needsRender) {
