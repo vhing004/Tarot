@@ -35,7 +35,15 @@ export class DeckView extends Group {
   private spreadTransforms = new Map<Card3D, CardSpreadTransform>();
   private cardHoverTweens = new Map<Card3D, gsap.core.Tween>();
   private hoveredCard: Card3D | null = null;
-  private pickedCardsList: Card3D[] = [];
+
+  // === Quản lý danh sách bài (R04 §1, Spec §6) ===
+  // availableCards: lá bài chưa được chọn — cập nhật tức thì khi người dùng click
+  private availableCards: Card3D[] = [];
+  // selectedCards: lá bài đã được chọn theo đúng thứ tự [slot0, slot1, slot2]
+  private selectedCards: Card3D[] = [];
+
+  // Cờ khóa click khi lá bài đang di chuyển Bézier (Spec §6 chống spam)
+  private isMoving = false;
 
   constructor(engine: Engine, deckData: readonly TarotCard[], backMaterial: MeshStandardMaterial) {
     super();
@@ -62,12 +70,22 @@ export class DeckView extends Group {
   }
 
   /**
+   * Danh sách lá bài đã được chọn theo thứ tự [slot0, slot1, slot2].
+   * Dùng bởi TarotMode để gom bài thừa và lật bài.
+   */
+  get pickedCardsList(): Card3D[] {
+    return this.selectedCards;
+  }
+
+  /**
    * Gom toàn bộ bài thành một chồng ngay lập tức
    */
   stackCardsInstant(): void {
     this.clearAllHoverTweens();
     this.spreadTransforms.clear();
-    this.pickedCardsList = [];
+    this.availableCards = [];
+    this.selectedCards = [];
+    this.isMoving = false;
     this.hoveredCard = null;
 
     for (let i = 0; i < this.cards.length; i++) {
@@ -162,12 +180,14 @@ export class DeckView extends Group {
   }
 
   /**
-   * Xòe bài chia làm 3 hàng, mỗi hàng 26 lá (tổng 78 lá bài)
+   * Xòe bài chia làm 3 hàng đan xen, mỗi hàng ~26 lá (tổng 78 lá bài)
    */
   playSpreadAnimation(onComplete?: () => void): void {
     this.clearAllHoverTweens();
     this.spreadTransforms.clear();
-    this.pickedCardsList = [];
+    this.availableCards = [];
+    this.selectedCards = [];
+    this.isMoving = false;
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -222,6 +242,9 @@ export class DeckView extends Group {
           rotZ,
         });
 
+        // Mọi lá bài sau khi trải ra đều là available
+        this.availableCards.push(card);
+
         const cardDelay = rowStartDelay + c * 0.012;
 
         tl.to(
@@ -257,33 +280,50 @@ export class DeckView extends Group {
 
   /**
    * Khi người chơi chọn bài:
-   * Lá bài được chọn sẽ BAY BỔNG VÀ TIẾN GẦN VỀ PHÍA NGƯỜI CHỌN (cận cảnh trước mắt Z ~ 3.2, Y ~ 2.1),
-   * xoay góc nghiêng trực diện vuông góc với camera (0, 4, 7), tách biệt hoàn toàn khỏi mặt bàn xòe bài.
+   * 1. Loại tức thì khỏi availableCards, thêm vào selectedCards (R04 §1, Spec §6).
+   * 2. Cờ isMoving = true để khóa click trong lúc di chuyển.
+   * 3. Lá bài vút lên cao (Y=2.1, Z=3.2) vuông góc tầm mắt camera — không đè bàn xòe.
+   * 4. Gọi onSlotTargeted ngay sau khi click để bật hiệu ứng slot.
+   * 5. Gọi onComplete sau khi hạ cánh thành công vào vị trí slot — mở lại isMoving.
    */
   animateCardDraw(
     card: Card3D,
     slotIndex: number,
     totalSlots: number,
+    onSlotTargeted?: () => void,
     onComplete?: () => void,
   ): void {
-    if (!this.pickedCardsList.includes(card)) {
-      this.pickedCardsList.push(card);
+    // Loại khỏi available ngay lập tức (đảm bảo không trùng lặp)
+    const idx = this.availableCards.indexOf(card);
+    if (idx >= 0) this.availableCards.splice(idx, 1);
+
+    if (!this.selectedCards.includes(card)) {
+      this.selectedCards.push(card);
     }
+
+    // Khóa click khi di chuyển
+    this.isMoving = true;
+
     this.killCardHoverTween(card);
     card.setHoverGlow(false, this.engine);
     if (this.hoveredCard === card) {
       this.hoveredCard = null;
     }
 
-    // Tọa độ cận cảnh người chọn (ngay trước mắt)
+    // Tọa độ cận cảnh người chọn (vượt hoàn toàn trên mặt bàn xòe bài)
     const spacing = 1.15;
     const startX = -((totalSlots - 1) * spacing) / 2;
     const playerSlotX = startX + slotIndex * spacing;
-    const playerSlotY = 2.1; // Cận cảnh tầm mắt người chơi, vượt cao hẳn bàn bói
-    const playerSlotZ = 3.2; // Bay gần hẳn về phía người chọn
+    const playerSlotY = 2.1;  // Tầm mắt người chơi — vượt cao hẳn 3 hàng bài (Y ≤ 0.08)
+    const playerSlotZ = 3.2;  // Bay gần về phía người chọn
+
+    // Thông báo slot ngay khi bắt đầu di chuyển
+    if (onSlotTargeted) onSlotTargeted();
 
     const tl = gsap.timeline({
       onComplete: () => {
+        // Mở lại khóa khi lá bài đã đến vị trí cận cảnh
+        this.isMoving = false;
         if (onComplete) onComplete();
       },
     });
@@ -293,17 +333,19 @@ export class DeckView extends Group {
       y: 2.2,
       duration: 0.28,
       ease: 'power2.out',
+      onUpdate: () => { this.engine.requestRender(); },
     });
 
-    // 2. Trôi lướt nhanh về ngay trước mắt người chọn và xoay trực diện camera
+    // 2. Trôi lướt về ngay trước mắt người chọn, xoay trực diện camera (0, 4, 7)
     tl.to(
       card.position,
       {
         x: playerSlotX,
         y: playerSlotY,
         z: playerSlotZ,
-        duration: 0.62,
+        duration: 0.65,
         ease: 'power2.inOut',
+        onUpdate: () => { this.engine.requestRender(); },
       },
       '-=0.08',
     );
@@ -311,23 +353,22 @@ export class DeckView extends Group {
     tl.to(
       card.rotation,
       {
-        x: Math.PI / 2 - 0.52, // Xoay nghiêng trực diện vào góc nhìn camera (0, 4, 7)
+        x: Math.PI / 2 - 0.52,  // Xoay nghiêng trực diện vào góc nhìn camera (0, 4, 7)
         y: 0,
         z: Math.PI,
-        duration: 0.62,
+        duration: 0.65,
         ease: 'power2.inOut',
       },
-      '-=0.62',
+      '-=0.65',
     );
 
     this.engine.trackTween(tl);
   }
 
   /**
-   * Sau khi đã chọn xong đủ các lá bài:
-   * 1. Toàn bộ các lá bài thừa thu nhỏ (scale 0.5) và trượt về cạnh tay phù thủy (X ~ 1.6, Z ~ -1.3), dọn sạch mặt bàn
-   * 2. Các lá bài đang ở gần người chọn đồng loạt BAY RA GIỮA BÀN (Z ~ 0.25, Y ~ 0.05),
-   * sẵn sàng cho hoạt cảnh lật bài (Inspect)
+   * Sau khi người dùng nhấn nút "Xác nhận lựa chọn":
+   * 1. Thu nhỏ toàn bộ bài thừa (availableCards, scale 0.5) về cạnh tay phù thủy.
+   * 2. Lướt 3 lá đã chọn từ cận cảnh (Z~3.2) ra tâm bàn bói (Z~0.25) sẵn sàng lật.
    */
   dismissUnpickedCards(onComplete?: () => void): void {
     this.clearAllHoverTweens();
@@ -342,12 +383,12 @@ export class DeckView extends Group {
     const witchHandZ = -1.3;
     const baseWitchY = 0.02;
 
-    const pickedSet = new Set(this.pickedCardsList);
+    const selectedSet = new Set(this.selectedCards);
     let stackIndex = 0;
 
     // 1. Thu nhỏ và gom toàn bộ bài thừa về cạnh tay phù thủy
     for (const card of this.cards) {
-      if (!pickedSet.has(card)) {
+      if (!selectedSet.has(card)) {
         const targetY = baseWitchY + stackIndex * 0.002;
         const microRot = ((stackIndex % 5) - 2) * 0.015;
 
@@ -357,10 +398,10 @@ export class DeckView extends Group {
             x: witchHandX,
             y: targetY,
             z: witchHandZ,
-            duration: 0.65,
+            duration: 0.55,
             ease: 'power3.inOut',
           },
-          stackIndex * 0.004,
+          stackIndex * 0.003,
         );
 
         tl.to(
@@ -369,10 +410,10 @@ export class DeckView extends Group {
             x: 0.5,
             y: 0.5,
             z: 0.5,
-            duration: 0.65,
+            duration: 0.55,
             ease: 'power3.inOut',
           },
-          stackIndex * 0.004,
+          stackIndex * 0.003,
         );
 
         tl.to(
@@ -381,27 +422,27 @@ export class DeckView extends Group {
             x: Math.PI / 2,
             y: 0,
             z: Math.PI + microRot,
-            duration: 0.65,
+            duration: 0.55,
             ease: 'power3.inOut',
           },
-          stackIndex * 0.004,
+          stackIndex * 0.003,
         );
 
         stackIndex++;
       }
     }
 
-    // 2. Sau khi bài thừa dọn sạch, các lá bài đã chọn từ trước mắt người chơi BAY RA GIỮA BÀN BÓI
-    const count = this.pickedCardsList.length;
+    // 2. Sau khi bài thừa dọn sạch, 3 lá bài đã chọn bay ra giữa bàn bói
+    const count = this.selectedCards.length;
     const spacing = 1.3;
     const startX = -((count - 1) * spacing) / 2;
-    const landTimeStart = Math.min(0.5, stackIndex * 0.004 + 0.15);
+    const landTimeStart = Math.min(0.5, stackIndex * 0.003 + 0.15);
 
     for (let i = 0; i < count; i++) {
-      const card = this.pickedCardsList[i]!;
+      const card = this.selectedCards[i]!;
       const targetX = startX + i * spacing;
       const targetY = 0.05;
-      const targetZ = 0.25; // Chính giữa mặt bàn bói
+      const targetZ = 0.25;  // Chính giữa mặt bàn bói
 
       tl.to(
         card.position,
@@ -411,6 +452,7 @@ export class DeckView extends Group {
           z: targetZ,
           duration: 0.7,
           ease: 'power2.inOut',
+          onUpdate: () => { this.engine.requestRender(); },
         },
         landTimeStart + i * 0.08,
       );
@@ -436,7 +478,11 @@ export class DeckView extends Group {
    */
   positionPickedCards(pickedCards: Card3D[], onComplete?: () => void): void {
     this.clearAllHoverTweens();
-    this.pickedCardsList = [...pickedCards];
+    this.selectedCards = [...pickedCards];
+    // Cập nhật available = tất cả card trừ selectedCards
+    const selectedSet = new Set(this.selectedCards);
+    this.availableCards = this.cards.filter((c) => !selectedSet.has(c));
+
     const tl = gsap.timeline({
       onComplete: () => {
         if (onComplete) onComplete();
@@ -448,7 +494,7 @@ export class DeckView extends Group {
     let stackIdx = 0;
 
     for (const card of this.cards) {
-      if (!pickedCards.includes(card)) {
+      if (!selectedSet.has(card)) {
         card.scale.set(0.5, 0.5, 0.5);
         tl.to(
           card.position,
@@ -530,9 +576,8 @@ export class DeckView extends Group {
 
     this.raycaster.setFromCamera(this.pointer, this.engine.camera);
 
-    const pickedSet = new Set(this.pickedCardsList);
-    const unpickedCards = this.cards.filter((c) => !pickedSet.has(c));
-    const intersects = this.raycaster.intersectObjects(unpickedCards, false);
+    // Chỉ hover bài nằm trong availableCards (chưa được chọn)
+    const intersects = this.raycaster.intersectObjects(this.availableCards, false);
 
     if (intersects.length > 0) {
       const topCard = intersects[0]!.object as Card3D;
@@ -550,7 +595,7 @@ export class DeckView extends Group {
   };
 
   /**
-   * Diễn hoạt lá bài bay bổng lên cao (+0.35) mượt mà, sáng viền và tóe sáng ma thuật
+   * Diễn hoạt lá bài bay bổng lên cao mượt mà, sáng viền và tóe sáng ma thuật
    */
   private animateCardLift(card: Card3D): void {
     const t = this.spreadTransforms.get(card);
@@ -624,6 +669,28 @@ export class DeckView extends Group {
     this.cardHoverTweens.set(card, tween);
   }
 
+  private onPointerUp = (event: PointerEvent): void => {
+    // Khóa click khi đang di chuyển bài hoặc không còn tương tác
+    if (!this.isInteractive || !this.onCardClickCallback || this.isMoving) return;
+
+    const rect = this.engine.renderer.domElement.getBoundingClientRect();
+    this.pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    this.raycaster.setFromCamera(this.pointer, this.engine.camera);
+
+    // Chỉ cho phép click vào bài nằm trong availableCards
+    const intersects = this.raycaster.intersectObjects(this.availableCards, false);
+
+    if (intersects.length > 0) {
+      const topHit = intersects[0]!.object as Card3D;
+      // Kiểm tra lần nữa chắc chắn không trùng (defence in depth)
+      if (!this.selectedCards.includes(topHit)) {
+        this.onCardClickCallback(topHit);
+      }
+    }
+  };
+
   private killCardHoverTween(card: Card3D): void {
     const existing = this.cardHoverTweens.get(card);
     if (existing) {
@@ -639,24 +706,6 @@ export class DeckView extends Group {
     this.cardHoverTweens.clear();
   }
 
-  private onPointerUp = (event: PointerEvent): void => {
-    if (!this.isInteractive || !this.onCardClickCallback) return;
-
-    const rect = this.engine.renderer.domElement.getBoundingClientRect();
-    this.pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-    this.raycaster.setFromCamera(this.pointer, this.engine.camera);
-    const pickedSet = new Set(this.pickedCardsList);
-    const unpickedCards = this.cards.filter((c) => !pickedSet.has(c));
-    const intersects = this.raycaster.intersectObjects(unpickedCards, false);
-
-    if (intersects.length > 0) {
-      const topHit = intersects[0]!.object as Card3D;
-      this.onCardClickCallback(topHit);
-    }
-  };
-
   disposeDeck(): void {
     this.disableInteraction();
     this.clearAllHoverTweens();
@@ -666,7 +715,8 @@ export class DeckView extends Group {
     }
     this.cards = [];
     this.spreadTransforms.clear();
-    this.pickedCardsList = [];
+    this.availableCards = [];
+    this.selectedCards = [];
     this.clear();
   }
 }

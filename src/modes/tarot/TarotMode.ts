@@ -25,6 +25,7 @@ import { SmokeParticles } from '@/core/SmokeParticles';
 import { QuestionForm, type QuestionFormData } from '@/ui/QuestionForm';
 import { ReadingPanel } from '@/ui/ReadingPanel';
 import { CardInspectOverlay } from '@/modes/tarot/ui/CardInspectOverlay';
+import { TarotSlotsOverlay } from '@/modes/tarot/ui/TarotSlotsOverlay';
 import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
 import { resolveAssetUrl } from '@/shared/constants';
 
@@ -33,8 +34,9 @@ type TarotFsmState =
   | 'QUESTION'
   | 'SHUFFLE'
   | 'SPREAD'
-  | 'PICK'
-  | 'INSPECT'
+  | 'SELECTING'   // Người dùng đang chọn từng lá bài
+  | 'READY'       // Đã chọn đủ — hiển thị nút "Xác nhận lựa chọn"
+  | 'INSPECT'     // Lần lượt lật và xem chi tiết từng lá
   | 'SAVE'
   | 'READING';
 
@@ -65,9 +67,9 @@ export class TarotMode implements Mode {
   // Dữ liệu lượt bói hiện tại
   private currentQuestion = '';
   private currentTopic: Topic = 'general';
-  private currentSpread: TarotSpreadType = 'single';
-  private currentDeckType: 'major' | 'full' = 'major';
-  private targetPositions: readonly string[] = ['present'];
+  private currentSpread: TarotSpreadType = 'three';
+  private currentDeckType: 'major' | 'full' = 'full';
+  private targetPositions: readonly string[] = ['past', 'present', 'future'];
   private drawnCardsResult: DrawnCard[] = [];
   private pickedCards3D: Card3D[] = [];
   private currentInterpretation = '';
@@ -77,6 +79,7 @@ export class TarotMode implements Mode {
   private questionForm: QuestionForm | null = null;
   private readingPanel: ReadingPanel | null = null;
   private inspectOverlay: CardInspectOverlay | null = null;
+  private slotsOverlay: TarotSlotsOverlay | null = null;
   private currentInspectIndex = 0;
   private statusBarEl: HTMLElement | null = null;
   private skipBtnEl: HTMLElement | null = null;
@@ -147,8 +150,8 @@ export class TarotMode implements Mode {
       metalness: 0.0,
     });
 
-    // 5. Khởi tạo DeckView (mặc định 22 lá Ẩn Chính)
-    this.activeDeckData = this.deckData.filter((c) => c.suit === 'major');
+    // 5. Khởi tạo DeckView với toàn bộ 78 lá bài
+    this.activeDeckData = this.deckData; // Mặc định 78 lá
     this.deckView = new DeckView(ctx.engine, this.activeDeckData, this.sharedBackMaterial);
     this.group.add(this.deckView);
 
@@ -179,6 +182,8 @@ export class TarotMode implements Mode {
         enter: () => {
           this.hideStatusBar();
           this.hideSkipButton();
+          this.slotsOverlay?.unmount();
+          this.slotsOverlay = null;
           this.deckView?.stackCardsInstant();
           this.tarotReader?.resetPoseInstant();
 
@@ -208,7 +213,7 @@ export class TarotMode implements Mode {
                 }
 
                 const def = TAROT_SPREADS[data.spread];
-                this.targetPositions = def ? def.positions : ['present'];
+                this.targetPositions = def ? def.positions : ['past', 'present', 'future'];
                 this.questionForm?.unmount();
                 this.fsm.go('SHUFFLE');
               },
@@ -249,21 +254,33 @@ export class TarotMode implements Mode {
         enter: () => {
           this.showStatusBar(this.ctx?.t('tarot_status_spread') ?? 'Phù thủy đang trải 3 hàng bài trên bàn bói...');
           this.showSkipButton(() => {
-            this.fsm.go('PICK');
+            this.fsm.go('SELECTING');
           });
 
           // Phù thủy lướt vuốt tay 3 nhịp trải rộng 3 hàng bài ra bàn
           this.tarotReader?.playSpreadGesture(1.6);
 
           this.deckView?.playSpreadAnimation(() => {
-            this.fsm.go('PICK');
+            this.fsm.go('SELECTING');
           });
         },
       })
-      .addState('PICK', {
+      .addState('SELECTING', {
         enter: () => {
-          this.updatePickStatusBar();
           this.hideSkipButton();
+          this.updatePickStatusBar();
+
+          // Khởi tạo và hiển thị khu vực 3 Slot nhận bài
+          const uiRoot = document.getElementById('app-ui');
+          if (uiRoot) {
+            this.slotsOverlay = new TarotSlotsOverlay({
+              onConfirm: () => {
+                // Người dùng bấm "Xác nhận lựa chọn" -> chuyển sang READY để gom bài và lật
+                this.fsm.go('READY');
+              },
+            });
+            this.slotsOverlay.mount(uiRoot, this.currentSpread);
+          }
 
           // Phù thủy thu tay về cử chỉ mời rút bài trang nghiêm
           this.tarotReader?.playInviteGesture();
@@ -274,6 +291,30 @@ export class TarotMode implements Mode {
         },
         exit: () => {
           this.deckView?.disableInteraction();
+        },
+      })
+      .addState('READY', {
+        // Đã chọn đủ 3 lá — người dùng bấm nút Xác nhận -> gom bài thừa và lật bài
+        enter: () => {
+          this.hideStatusBar();
+          this.slotsOverlay?.hideConfirmButton();
+
+          // Nút bỏ qua: snap tất cả về trạng thái cuối ngay lập tức
+          this.showSkipButton(() => {
+            this.slotsOverlay?.hide();
+            void this.snapAllCardsToRevealed().then(() => {
+              this.fsm.go('SAVE');
+            });
+          });
+
+          // Gom toàn bộ bài thừa về góc tay phù thủy, lướt 3 lá ra tâm bàn
+          this.deckView?.dismissUnpickedCards(() => {
+            this.slotsOverlay?.hide();
+            this.fsm.go('INSPECT');
+          });
+        },
+        exit: () => {
+          this.hideSkipButton();
         },
       })
       .addState('INSPECT', {
@@ -367,12 +408,15 @@ export class TarotMode implements Mode {
       });
   }
 
+  /**
+   * Cập nhật thanh trạng thái gợi ý chọn bài tiếp theo
+   */
   private updatePickStatusBar(): void {
     const total = this.targetPositions.length;
     const current = this.pickedCards3D.length;
 
     if (current >= total) {
-      this.showStatusBar(this.ctx?.t('tarot_status_pick_done') ?? 'Đã rút đủ các lá bài. Đang chuẩn bị lật mở...');
+      this.showStatusBar(this.ctx?.t('tarot_status_pick_done') ?? 'Đã rút đủ các lá bài. Xác nhận lựa chọn để lật bài...');
       return;
     }
 
@@ -397,31 +441,50 @@ export class TarotMode implements Mode {
     }
   }
 
+  /**
+   * Xử lý khi người dùng click chọn một lá bài.
+   * Khóa click khi isMoving (DeckView quản lý). Chống spam và trùng lặp lá.
+   */
   private handleCardPicked(card: Card3D): void {
     if (this.pickedCards3D.includes(card)) return;
 
     const slotIndex = this.pickedCards3D.length;
     const needCount = this.targetPositions.length;
+
+    // Không cho phép chọn thêm khi đã đủ
+    if (slotIndex >= needCount) return;
+
     this.pickedCards3D.push(card);
 
     // Âm thanh rút bài
     this.ctx?.audio.playChime();
 
-    // Diễn hoạt lá bài bay lên và lượn vào ô chỉ định
-    this.deckView?.animateCardDraw(card, slotIndex, needCount, () => {
-      this.ctx?.engine.requestRender();
-    });
+    // Báo slot đang được nhắm đến ngay khi click
+    const slots = this.slotsOverlay;
+    const capturedSlotIndex = slotIndex;
 
-    this.updatePickStatusBar();
+    // Diễn hoạt lá bài bay lên và vào vị trí cận cảnh người chọn
+    this.deckView?.animateCardDraw(
+      card,
+      slotIndex,
+      needCount,
+      () => {
+        // Callback ngay khi bắt đầu di chuyển: bật hiệu ứng slot đang nhắm đến
+        slots?.targetSlot(capturedSlotIndex);
+      },
+      () => {
+        // Callback khi lá bài đến vị trí cận cảnh: xác nhận slot đã nhận bài
+        slots?.fillSlot(capturedSlotIndex);
+        this.ctx?.engine.requestRender();
+        this.updatePickStatusBar();
+      },
+    );
 
-    // Khi người chơi đã rút đủ số lá bài theo trải bài
+    // Khi người chơi đã rút đủ số lá bài -> chuyển sang trạng thái READY
     if (this.pickedCards3D.length >= needCount) {
       this.deckView?.disableInteraction();
-
-      // Cho các lá bài còn lại lặn xuống mặt bàn êm ái
-      this.deckView?.dismissUnpickedCards(() => {
-        this.fsm.go('INSPECT');
-      });
+      this.updatePickStatusBar();
+      // Chờ slotsOverlay hiển thị nút Xác nhận (nút xuất hiện khi fillSlot đủ 3 lần)
     }
   }
 
@@ -560,6 +623,8 @@ export class TarotMode implements Mode {
     this.readingPanel = null;
     this.inspectOverlay?.unmount();
     this.inspectOverlay = null;
+    this.slotsOverlay?.unmount();
+    this.slotsOverlay = null;
     this.hideStatusBar();
     this.hideSkipButton();
 

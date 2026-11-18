@@ -116,6 +116,7 @@
 - [x] Task T.15: Khung viền sáng hào quang (`Card3D.glowRimMesh`), rút bài lơ lửng tách biệt không đè bàn xòe, thu nhỏ cọc bài thừa (`scale: 0.65`) về bên cạnh tay phù thủy và hạ cánh trang trọng các lá đã chọn xuống tâm bàn (`PLAN-20261118-card-hover-glowing-border`).
 - [x] Task T.16: Rút bài bay gần về phía người chọn (cận cảnh $Z: 2.6, Y: 1.45$), sau đó bay lướt ra giữa bàn ($Z: 0.22$) và kích hoạt lật bài (`PLAN-20261118-card-draw-to-player-and-center-reveal`).
 - [x] Task T.17: Tối ưu triệt để độ cao ($Y: 2.1, Z: 3.2$) và góc nghiêng vuông góc camera ($rotX: \pi/2 - 0.52$) khi rút bài, loại bỏ hoàn toàn hiện tượng lá bài đè lên 3 hàng bài và mép mỏng dẹt; thu nhỏ bài thừa ($scale: 0.5$) về góc tay phù thủy ($X: 1.6, Z: -1.3$) và lướt bài đã chọn ra tâm bàn bói trước khi lật bài (`PLAN-20261118-fix-card-draw-overlap-and-orientation`).
+- [x] Task T.18: Quy trình Rút bài Tarot 78 lá hoàn chỉnh chuẩn quốc tế: Khu vực 3 Slot nhận bài `[QUÁ KHỨ] [HIỆN TẠI] [TƯƠNG LAI]` phong cách Mystic Fantasy viền vàng kim, tiến trình 0/3→3/3 với chấm ngọc phát sáng, nút "Xác nhận lựa chọn" trang trọng, cờ `isMoving` chống spam click, `availableCards`/`selectedCards` đảm bảo 100% không trùng lặp lá bài, trạng thái FSM `SELECTING→READY→INSPECT`, responsive Desktop/Tablet/Mobile (`PLAN-20261118-tarot-78-fan-slots-flow`).
 
 ---
 

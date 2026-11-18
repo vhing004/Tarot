@@ -58,6 +58,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Glow Rim & Witch Corner Shrink | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 | 2026-11-18 | Player Close Draw & Center Reveal | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 | 2026-11-18 | Fix Card Draw Overlap & Orientation | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
+| 2026-11-18 | Tarot 78-lá Fan Slots Flow | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 53 files 0 vi phạm, build thành công (TarotMode 192.91 kB / 63.38 kB gzip) |
 
 ## 4. Quyết định (Decision log)
 | Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
