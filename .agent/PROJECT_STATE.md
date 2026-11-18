@@ -42,7 +42,6 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | P3 | G2 | `npm run check:rules` | Đạt | 45 file quét, 0 vi phạm rule |
 | 2026-11-18 | P3 | G3 | Vào/ra Tarot/Divination 3 lần có Smoke & Audio | Đạt | `SmokeParticles.dispose()` giải phóng BufferGeometry và PointsMaterial, audio dừng sạch |
 | 2026-11-18 | P3 | G6 | Rà soát bảo mật & XSS & LocalStorage | Đạt | Dùng textContent/createElement, schemaVersion 1 + migration/try-catch, chia sẻ không lộ câu hỏi cá nhân |
-
 | 2026-11-18 | P4 | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 57/57 tests (11 suites, +13 tests Quality), check:rules 46 files, build thành công |
 | 2026-11-18 | P4 | G2 | `npm run check:rules` | Đạt | 46 file quét, 0 vi phạm |
 | 2026-11-18 | P4 | G4 | Build bundle size analysis | Đạt | JS gzip tải ban đầu: 15.95 kB (index) + 119.05 kB (three) = 134.9 kB < ngân sách 300 kB; public/ = 1.55 kB |
@@ -53,7 +52,10 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Tarot AI Oracle | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 50 files 0 vi phạm, tích hợp AiOracleModal & Gemini Free |
 | 2026-11-18 | Smooth Modals | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 50 files 0 vi phạm, animation modal 60fps mượt mà |
 | 2026-11-18 | GitHub Pages Deploy | G7 | `npm run check` + GH Actions | Đạt | Thiết lập workflow deploy GitHub Pages tự động và base './' tương thích mọi CDN |
+| 2026-11-18 | Tarot Reader & Fan Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
+
 ## 4. Quyết định (Decision log)
+| Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
 |---|---|---|---|---|
 | D-001 | 2026-11-18 | Stack: TypeScript + Three.js + Vite, UI thuần HTML/CSS | Kiểm soát render, dễ tối ưu | R01, R03 |
 | D-002 | 2026-11-18 | Kết quả bói chốt bằng RNG trước, animation diễn lại | Công bằng, tái hiện được | R04 |
@@ -63,7 +65,6 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-006 | 2026-11-18 | Chốt toàn bộ 6 hào bằng castHexagram ở CONCENTRATE | Đúng nguyên tắc R04 §1, animation xu khớp kết quả 100% | R04, W03 |
 | D-007 | 2026-11-18 | Synthesizer âm thanh thuần Web Audio API thay vì file tĩnh | Tiết kiệm 100% băng thông audio asset (0 KB), chạy offline 100%, không lo bản quyền | R01, R05, W04 |
 | D-008 | 2026-11-18 | Vẽ ảnh chia sẻ trên 2D Canvas độc lập (800x1200 px) | Không cần preserveDrawingBuffer trên WebGL (tốn GPU), bảo vệ riêng tư câu hỏi | R03, R05, R06, W04 |
-
 | D-009 | 2026-11-18 | Adaptive Quality dùng rolling window 60 frame, warmup 90 frame, debounce 120 frame giữa hai lần hạ | Tránh hạ cấu hình quá nhạy khi load, chỉ hạ khi FPS thấp kéo dài | R03 §5, W05 |
 | D-010 | 2026-11-18 | CSP `'unsafe-inline'` cho style-src (do three.js và GSAP inject style động) | Không thể dùng nonce/hash cho style 3rd-party injected; img-src/worker-src blob: cần cho Canvas share và Audio worklet | R06 §5, W05 |
 | D-011 | 2026-11-18 | Hiển thị thumbnail tranh ảnh các lá bài đã rút trong ReadingPanel và HistoryView | Giúp người dùng dễ dàng đối chiếu, hồi tưởng và chiêm nghiệm trực quan toàn bộ trải bài | R01, R06 |
@@ -71,16 +72,19 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-013 | 2026-11-18 | Tích hợp AI Oracle đa góc nhìn (Gemini Free + Offline Fallback) | Cung cấp lời khuyên chiêm nghiệm chuyên sâu với 4 lựa chọn, đảm bảo 100% không bị gián đoạn khi offline | R01, R05, R06 |
 | D-014 | 2026-11-18 | Tách riêng animation Backdrop và Dialog, giảm blur(8px) và dùng will-change | Khắc phục triệt để hiện tượng giật khựng khi mở modal trên WebGL canvas Three.js | R03, R07 |
 | D-015 | 2026-11-18 | Thiết lập base: './' và resolveAssetUrl cho toàn bộ textures | Đảm bảo game chạy mượt mà trên cả domain gốc lẫn mọi subpath như GitHub Pages | R01, R03, R07 |
+| D-016 | 2026-11-18 | Dựng Thầy Bói 3D procedural PBR và xòe bài Ribbon Fan tương tác xúc giác | Tăng tính đắm chìm huyền bí, cho phép rút từng lá bài xúc giác, 0 KB static asset | R01, R03, R04 |
+
+## 5. Lỗi tồn đọng (Bug tracker)
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
 |---|---|---|---|---|
 | | Không có | | | |
 
-## 7. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành task **Full 78 Tarot Deck & Real Artwork System** (`PLAN-20261118-full-78-tarot-deck-and-artwork`).
+## 6. Ghi chú bàn giao phiên gần nhất
+- Đã hoàn thành task **Tarot Reader 3D & Interactive Fan Spread** (`PLAN-20261118-tarot-reader-and-fan-spread`).
 - **Thay đổi chính**:
-  - Trang bị trọn vẹn **78 ảnh tranh vẽ Rider-Waite-Smith 1909** (Public Domain) thực tế, xóa bỏ các file dummy 34 bytes.
-  - Mở rộng `cards.json` thành **đủ 78 lá bài** (22 Ẩn Chính + 56 Ẩn Phụ: Wands, Cups, Swords, Pentacles) với đầy đủ ý nghĩa, biểu tượng visual, từ khóa và câu hỏi phản tư.
-  - Sửa lỗi hình học góc xoay 3D (`rotation.x` từ PI/2 sang -PI/2) giúp mặt trước có tranh lá bài hiển thị rực rỡ, chính diện và sắc nét.
-  - Bổ sung tùy chọn chọn bộ bài (22 lá Ẩn Chính hoặc 78 lá Toàn diện) trong `QuestionForm.ts`.
-  - Bổ sung cơ chế fallback trực quan trong `CardInspectOverlay` đảm bảo không bao giờ bị rỗng ảnh.
-- **Kết quả kiểm thử**: Vitest **57/57** pass, TypeScript 0 error, check:rules 47 files 0 vi phạm, build thành công 100%.
+  - Dựng mới nhân vật **Thầy Bói Tarot 3D (`TarotReader3D.ts`)**: Áo choàng nhung tím thẫm viền chỉ vàng kim, nón trùm đầu bí ẩn với khuôn mặt chìm trong hư vô, hai cánh tay và bàn tay đeo nhẫn ngọc phát quang huyền thuật.
+  - Cử động đồng bộ nhịp nhàng: Thở nhẹ trang nghiêm ở trạng thái chờ; vươn tay nâng và đan xen bài khi xáo bài (`SHUFFLE`); lướt tay mở dải quạt sang hai bên khi xòe bài (`SPREAD`); thu tay về cử chỉ mời trân trọng khi người chơi rút bài (`PICK`).
+  - Nâng cấp **Xòe bài dải quạt (Ribbon Fan)** trong `DeckView.ts`: Cung tròn bài xòe đều đặn, mép bài xếp lớp mượt mà.
+  - Thêm **Tương tác Hover xúc giác**: Khi rê chuột / lướt ngón tay qua quạt bài, lá bài tại con trỏ nhẹ nhàng nhô lên cao (+0.1) tạo cảm giác sột soạt thực tế.
+  - Thêm **Hoạt cảnh rút từng lá bài bay lên slot**: Người chơi tự bấm chọn từng lá bài, lá bài bay bổng lơ lửng rồi lướt về ô chỉ định; thanh trạng thái cập nhật tiến độ theo từng vị trí (ví dụ: *Đã rút 1/3 lá bài...*). Sau khi rút đủ, các lá còn lại lặn êm ái xuống mặt bàn.
+- **Kết quả kiểm thử**: Vitest **65/65** pass, TypeScript 0 error, check:rules 51 files 0 vi phạm, build bundle thành công 100%.

@@ -20,6 +20,7 @@ import { TAROT_SPREADS, type TarotSpreadType } from '@/modes/tarot/logic/spreads
 import { buildTarotInterpretation } from '@/modes/tarot/logic/interpret';
 import { Card3D } from '@/modes/tarot/view/Card';
 import { DeckView } from '@/modes/tarot/view/DeckView';
+import { TarotReader3D } from '@/modes/tarot/view/TarotReader3D';
 import { SmokeParticles } from '@/core/SmokeParticles';
 import { QuestionForm, type QuestionFormData } from '@/ui/QuestionForm';
 import { ReadingPanel } from '@/ui/ReadingPanel';
@@ -52,6 +53,9 @@ export class TarotMode implements Mode {
   private flickerTime = 0;
   private unregisterUpdater: (() => void) | null = null;
 
+  // Nhân vật Thầy Bói 3D
+  private tarotReader: TarotReader3D | null = null;
+
   // Deck và thẻ bài 3D
   private deckView: DeckView | null = null;
   private deckData: TarotCard[] = cardsJson as TarotCard[];
@@ -81,7 +85,7 @@ export class TarotMode implements Mode {
     this.ctx = ctx;
 
     // 0. Ánh sáng môi trường — đủ sáng để thấy lá bài, vẫn giữ không khí huyền bí
-    const ambientLight = new AmbientLight(0x3a2060, 1.8); // tím xanh huyền bí, cường độ vừa đủ
+    const ambientLight = new AmbientLight(0x3a2060, 1.8); // tím xanh huyền bí
     this.group.add(ambientLight);
 
     // 1. Dựng bàn bói tròn
@@ -122,31 +126,33 @@ export class TarotMode implements Mode {
     this.candleLight.position.set(0, 0.55, -1.3);
     this.group.add(this.candleLight);
 
-    // Khói trầm hương bốc lên từ ngọn nến, số hạt theo cấu hình Quality (R03 §5)
+    // Khói trầm hương bốc lên từ ngọn nến (R03 §5)
     const qualityLevel = ctx.quality.getLevel();
     this.smokeParticles = new SmokeParticles(0, 0.5, -1.3, qualityLevel);
-    // Tạm dừng ngay nếu người dùng bật reducedMotion
     if (ctx.reducedMotion) this.smokeParticles.pause();
     this.group.add(this.smokeParticles);
 
-    // 3. Tạo texture mặt sau bài bằng Canvas API (procedural — không cần file tĩnh)
-    // Nền đỏ tươi/crimson sáng + viền vàng sáng để tương phản rõ ràng với bàn tím đen
+    // 3. Nhân vật Thầy Bói Tarot 3D (ngồi đối diện người chơi)
+    this.tarotReader = new TarotReader3D(ctx.engine);
+    this.group.add(this.tarotReader);
+
+    // 4. Tạo texture mặt sau bài bằng Canvas API (procedural — không cần file tĩnh)
     const backTex = this.createCardBackTexture();
     this.sharedBackMaterial = new MeshStandardMaterial({
       map: backTex,
-      color: 0xffffff,       // TRẮNG: không nhân tối texture — màu canvas hiển thị đúng 100%
-      emissive: 0xcc1122,    // đỏ sáng phát ra từ lá bài
+      color: 0xffffff,
+      emissive: 0xcc1122,
       emissiveIntensity: 0.5,
       roughness: 0.6,
       metalness: 0.0,
     });
 
-    // 4. Khởi tạo DeckView (mặc định 22 lá Ẩn Chính)
+    // 5. Khởi tạo DeckView (mặc định 22 lá Ẩn Chính)
     this.activeDeckData = this.deckData.filter((c) => c.suit === 'major');
     this.deckView = new DeckView(ctx.engine, this.activeDeckData, this.sharedBackMaterial);
     this.group.add(this.deckView);
 
-    // 5. Thiết lập máy trạng thái (FSM)
+    // 6. Thiết lập máy trạng thái (FSM)
     this.setupStateMachine();
   }
 
@@ -165,6 +171,7 @@ export class TarotMode implements Mode {
       .addState('INTRO', {
         enter: () => {
           this.deckView?.stackCardsInstant();
+          this.tarotReader?.resetPoseInstant();
           this.fsm.go('QUESTION');
         },
       })
@@ -173,6 +180,7 @@ export class TarotMode implements Mode {
           this.hideStatusBar();
           this.hideSkipButton();
           this.deckView?.stackCardsInstant();
+          this.tarotReader?.resetPoseInstant();
 
           const uiRoot = document.getElementById('app-ui');
           if (uiRoot && this.ctx) {
@@ -224,10 +232,13 @@ export class TarotMode implements Mode {
 
           this.ctx?.audio.playShuffle();
 
-          this.showStatusBar(this.ctx?.t('tarot_status_shuffle') ?? 'Đang xáo bài...');
+          this.showStatusBar(this.ctx?.t('tarot_status_shuffle') ?? 'Thầy bói đang xáo bài...');
           this.showSkipButton(() => {
             this.fsm.go('SPREAD');
           });
+
+          // Thầy bói cử động tay xáo bài đồng bộ với hiệu ứng tách đan bài 3D
+          this.tarotReader?.playShuffleGesture(2.2);
 
           this.deckView?.playShuffleAnimation(() => {
             this.fsm.go('SPREAD');
@@ -236,7 +247,14 @@ export class TarotMode implements Mode {
       })
       .addState('SPREAD', {
         enter: () => {
-          this.showStatusBar(this.ctx?.t('tarot_status_spread') ?? 'Đang trải bài...');
+          this.showStatusBar(this.ctx?.t('tarot_status_spread') ?? 'Thầy bói đang xòe bài trên bàn bói...');
+          this.showSkipButton(() => {
+            this.fsm.go('PICK');
+          });
+
+          // Thầy bói lướt vuốt tay xòe dải quạt sang hai bên mép bàn
+          this.tarotReader?.playSpreadGesture(1.2);
+
           this.deckView?.playSpreadAnimation(() => {
             this.fsm.go('PICK');
           });
@@ -244,13 +262,11 @@ export class TarotMode implements Mode {
       })
       .addState('PICK', {
         enter: () => {
-          const count = this.targetPositions.length;
-          const statusText = (this.ctx?.t('tarot_status_pick') ?? 'Chạm chọn {count} lá bài...').replace(
-            '{count}',
-            count.toString(),
-          );
-          this.showStatusBar(statusText);
+          this.updatePickStatusBar();
           this.hideSkipButton();
+
+          // Thầy bói thu tay về cử chỉ mời rút bài trang nghiêm
+          this.tarotReader?.playInviteGesture();
 
           this.deckView?.enableInteraction((card: Card3D) => {
             this.handleCardPicked(card);
@@ -351,19 +367,59 @@ export class TarotMode implements Mode {
       });
   }
 
+  private updatePickStatusBar(): void {
+    const total = this.targetPositions.length;
+    const current = this.pickedCards3D.length;
+
+    if (current >= total) {
+      this.showStatusBar(this.ctx?.t('tarot_status_pick_done') ?? 'Đã rút đủ các lá bài. Đang chuẩn bị lật mở...');
+      return;
+    }
+
+    const nextPosKey = this.targetPositions[current] ?? 'present';
+    const nextPosLabel = POSITION_LABELS_VI[nextPosKey] ?? nextPosKey;
+
+    if (total === 1) {
+      const txt = (this.ctx?.t('tarot_status_pick') ?? 'Hãy lắng nghe trực giác và chạm chọn {count} lá bài trên bàn.').replace(
+        '{count}',
+        '1',
+      );
+      this.showStatusBar(txt);
+    } else {
+      const template =
+        this.ctx?.t('tarot_status_pick_prompt') ??
+        'Đã rút {current}/{total} lá. Hãy chọn lá bài cho vị trí: {position}.';
+      const formatted = template
+        .replace('{current}', current.toString())
+        .replace('{total}', total.toString())
+        .replace('{position}', nextPosLabel);
+      this.showStatusBar(formatted);
+    }
+  }
+
   private handleCardPicked(card: Card3D): void {
     if (this.pickedCards3D.includes(card)) return;
 
-    this.pickedCards3D.push(card);
+    const slotIndex = this.pickedCards3D.length;
     const needCount = this.targetPositions.length;
+    this.pickedCards3D.push(card);
 
-    // Nhấc nhẹ lá bài vừa chọn lên báo hiệu
-    card.position.y += 0.15;
-    this.ctx?.engine.requestRender();
+    // Âm thanh rút bài
+    this.ctx?.audio.playChime();
 
+    // Diễn hoạt lá bài bay lên và lượn vào ô chỉ định
+    this.deckView?.animateCardDraw(card, slotIndex, needCount, () => {
+      this.ctx?.engine.requestRender();
+    });
+
+    this.updatePickStatusBar();
+
+    // Khi người chơi đã rút đủ số lá bài theo trải bài
     if (this.pickedCards3D.length >= needCount) {
       this.deckView?.disableInteraction();
-      this.deckView?.positionPickedCards(this.pickedCards3D, () => {
+
+      // Cho các lá bài còn lại lặn xuống mặt bàn êm ái
+      this.deckView?.dismissUnpickedCards(() => {
         this.fsm.go('INSPECT');
       });
     }
@@ -426,7 +482,6 @@ export class TarotMode implements Mode {
   }
 
   private async snapAllCardsToRevealed(): Promise<void> {
-    // Snap nhanh tất cả lá về trạng thái lật (nạp đủ texture để hiện tranh Rider-Waite)
     for (let i = 0; i < this.pickedCards3D.length; i++) {
       const card3D = this.pickedCards3D[i]!;
       const drawnData = this.drawnCardsResult[i];
@@ -522,6 +577,11 @@ export class TarotMode implements Mode {
 
   dispose(): void {
     this.exit();
+    if (this.tarotReader) {
+      this.tarotReader.disposeReader();
+      this.tarotReader.removeFromParent();
+      this.tarotReader = null;
+    }
     if (this.deckView) {
       this.deckView.disposeDeck();
       this.deckView = null;
@@ -543,8 +603,8 @@ export class TarotMode implements Mode {
 
   /**
    * Tạo texture mặt sau lá bài bằng Canvas API (procedural, không cần file tĩnh).
-   * Màu nền xanh tím sâu + viền vàng + hoa văn hình học để tương phản mạnh với bàn tối (R03 §6).
-   * Vùng view — được phép dùng Math.random cho hiệu ứng hạt trang trí (R04 §2).
+   * Màu nền đỏ tươi/crimson + viền vàng + hoa văn hình học tương phản mạnh với bàn tối (R03 §6).
+   * Vùng view — được phép dùng Math.random cho hiệu ứng hạt sao trang trí (R04 §2).
    */
   private createCardBackTexture(): CanvasTexture {
     const W = 256;
@@ -554,11 +614,11 @@ export class TarotMode implements Mode {
     canvas.height = H;
     const ctx = canvas.getContext('2d')!;
 
-    // 1. Nền đỏ crimson/scarlet sáng — rõ ràng khác bàn tím đen 0x0a0618
+    // 1. Nền đỏ crimson/scarlet sáng
     const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0,   '#c81b30');  // đỏ tươi sáng
-    bg.addColorStop(0.5, '#910022');  // đỏ sâu giữa
-    bg.addColorStop(1,   '#c81b30');  // đỏ tươi sáng
+    bg.addColorStop(0, '#c81b30');
+    bg.addColorStop(0.5, '#910022');
+    bg.addColorStop(1, '#c81b30');
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
 
@@ -581,7 +641,6 @@ export class TarotMode implements Mode {
     const cx = W / 2;
     const cy = H / 2;
     ctx.save();
-    // Fill thoi lớn màu đỏ tươi hơn nền
     ctx.beginPath();
     ctx.moveTo(cx, cy - 80);
     ctx.lineTo(cx + 55, cy);
@@ -650,7 +709,7 @@ export class TarotMode implements Mode {
       ctx.restore();
     }
 
-    // 7. Chấm sáng ngẫu nhiên (tinh tú) — hiệu ứng thẩm mỹ, dùng Math.random được (R04 §2 view/)
+    // 7. Chấm sáng ngẫu nhiên (tinh tú) — hiệu ứng thẩm mỹ view/ (R04 §2)
     ctx.fillStyle = 'rgba(255, 248, 200, 0.85)';
     for (let i = 0; i < 40; i++) {
       const sx = 20 + Math.random() * (W - 40);

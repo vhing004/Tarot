@@ -2,7 +2,7 @@
 
 > **Mã kế hoạch**: `PLAN-20261118-deploy-public-access`  
 > **Ngày lập**: 18/11/2026  
-> **Trạng thái**: Đã hoàn thành  
+> **Trạng thái**: Chờ người dùng duyệt  
 > **Mục tiêu**: Thiết lập cấu hình triển khai (deployment) cho ứng dụng Tarot 3D lên dịch vụ web tĩnh miễn phí tốc độ cao (GitHub Pages kết hợp Cloudflare Pages / Vercel), cấp phát đường link công khai để bạn bè có thể mở trên điện thoại hoặc máy tính và trải nghiệm ngay lập tức.
 
 ---

@@ -110,6 +110,7 @@
 - [x] Task T.9: Chuyển đổi toàn diện trải nghiệm thành ứng dụng thuần Tarot 3D (Tarot Sanctum), lược bỏ Kinh Dịch khỏi giao diện và runtime bundle, tối ưu nút bấm chính menu và chuỗi hiển thị (`PLAN-20261118-tarot-only`).
 - [x] Task T.10: Tích hợp Modal AI Chiêm nghiệm Tarot (`AiOracleModal`) với 4 góc nhìn đa dạng (Khích lệ, Thẳng thắn cảnh báo rủi ro, Triết học tâm thức, Hành động cụ thể), tích hợp toàn diện tri thức Tarot 78 lá, kết nối Gemini Flash Free API và bộ AI Offline Heuristic thông minh (`PLAN-20261118-ai-oracle-modal`).
 - [x] Task T.11: Tối ưu toàn diện chuyển động các Modal & Overlay (`AiOracleModal`, `CardInspectOverlay`, `HistoryView`, `SettingsModal`, `ReadingPanel`, `QuestionForm`) với GPU Hardware Acceleration, tách riêng lớp nền và hộp thoại, loại bỏ hoàn toàn hiện tượng khựng lag (`PLAN-20261118-smooth-modal-animations`).
+- [x] Task T.12: Thêm nhân vật Thầy Bói 3D (`TarotReader3D`) ngồi xáo bài, xòe bài, mời rút bài và nâng cấp hiệu ứng xòe dải quạt (Ribbon Fan), tương tác hover nhô bài xúc giác và rút từng lá bài bay lên slot (`PLAN-20261118-tarot-reader-and-fan-spread`).
 
 ---
 
