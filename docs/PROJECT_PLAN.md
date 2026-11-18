@@ -1,0 +1,68 @@
+# Kế hoạch Tổng thể Dự án: Fortune-Hunter
+
+## 1. Phân tích Dự án & Mục tiêu
+- **Tên dự án**: Fortune-Hunter
+- **Loại hình**: Game bói 3D nền tảng web (Desktop & Mobile Browser).
+- **Mục tiêu**: Xây dựng trải nghiệm bói huyền bí với 2 chế độ (Tarot và Gieo quẻ Kinh Dịch), đảm bảo hiệu năng cao trên WebGL mobile (≥45fps mobile, ≥60fps desktop), kết quả công bằng minh bạch (RNG thuần trước animation), giao diện HTML overlay mượt mà và khả năng mở rộng AI + Cloud Database.
+- **Mục đích**: Mang tính chất giải trí, tham khảo, không thay thế tư vấn y tế/pháp lý/tài chính.
+
+---
+
+## 2. Đánh giá Kiến trúc & Công nghệ (Tech Stack)
+
+### Stack cốt lõi
+- **Core 3D**: Three.js thuần (tree-shaking imports) + WebGL Renderer.
+- **Ngôn ngữ**: TypeScript (`strict: true`, no `any`, `noUncheckedIndexedAccess`).
+- **Build tool**: Vite + ES2020 target + dynamic `import()` code-splitting.
+- **Animation**: GSAP (được đồng bộ và theo dõi trong Render-on-demand loop).
+- **UI**: HTML/CSS/TS thuần (Overlay dạng responsive, mobile bottom sheet, textContent chống XSS).
+- **Kiểm thử**: Vitest (chạy trên Node cho toàn bộ logic thuần).
+- **Lưu trữ**: Interface `ReadingRepository` -> `LocalRepository` (localStorage có type-guard + quota control) -> `SupabaseRepository` (Cloud RLS).
+- **Deploy**: Cloudflare Pages (Static Hosting + Cache-Control immutable qua `_headers`).
+
+### Điểm mạnh
+- Tách biệt hoàn toàn tầng logic thuần (`pure zones`) và tầng đồ họa (`view / core`). Đảm bảo kết quả xác định độc lập với FPS hoặc tương tác vật lý.
+- Cơ chế Render-on-demand giúp tiết kiệm pin tối đa trên thiết bị di động (đứng yên không render).
+- Không phụ thuộc framework cồng kềnh (React/R3F), tối ưu kích thước bundle và thời gian khởi động ban đầu.
+- Hệ thống quy tắc kiểm soát chất lượng (`.agent/rules` và `scripts/check-rules.mjs`) kiểm tra chặt chẽ rò rỉ bộ nhớ, any type, và import sai vùng.
+
+### Điểm yếu & Rủi ro
+- **Rủi ro rò rỉ bộ nhớ WebGL (G3 Lifecycle)**: Việc ra/vào mode nhiều lần nếu không giải phóng kỹ `geometry`, `material`, `texture` và kill GSAP tween sẽ gây crash WebGL context trên mobile.
+- **Rủi ro tải tài nguyên ban đầu**: Tải texture không nén hoặc mô hình 3D quá nặng sẽ làm tăng LCP và hao băng thông. Cần nén KTX2/WebP và nén Draco/meshopt cho GLTF.
+- **Chính sách Autoplay Audio**: Trình duyệt di động chặn âm thanh tự động nếu người dùng chưa tương tác đầu tiên.
+- **Tính chính xác của thuật toán Kinh Dịch**: Cần đảm bảo thứ tự hào từ dưới lên (hào 1 ở index 0, hào 6 ở index 5) và chỉ hào 6 (lão âm) và 9 (lão dương) mới là hào động.
+
+---
+
+## 3. Các Giai đoạn Phát triển (Phases Roadmap)
+
+| Phase | Tên giai đoạn | Trọng tâm | Deliverable / Gate | Trạng thái |
+|---|---|---|---|---|
+| **P0** | **Khởi tạo & Khung nền tảng (Foundation)** | Scaffold Vite+TS, Engine 3D render-on-demand, AssetLoader, StateMachine, RandomSource, LocalRepository, Menu UI, scripts kiểm tra rules. | `npm run check` pass, Menu vào/ra mode rỗng, baseline memory sạch (G0, G1, G2). | **Hoàn thành (2026-11-18)** |
+| **P1** | **Tarot Mode MVP** | 22 lá Ẩn Chính, xáo bài Fisher-Yates, trải bài quạt 3D, rút 1/3 lá, lật bài, hiển thị kết quả ReadingPanel, dispose sạch khi thoát. | Hoàn thành 1 lượt bói Tarot, lật xuôi/ngược chuẩn, G1, G2, G3, G5. | **Hoàn thành (2026-11-18)** |
+| **P2** | **Gieo quẻ Kinh Dịch MVP** | Tung 3 đồng xu 6 lần, dựng quẻ chủ và quẻ biến từ dưới lên, HexagramView, tra cứu `hexagrams.json`, unit tests thuật toán. | Test Vitest 100% test vectors, diễn hoạt xu chuẩn với kết quả, G1, G2, G3, G5. | **Hoàn thành (2026-11-18)** |
+| **P3** | **Polish, Lịch sử & Âm thanh** | `LocalRepository` hoàn thiện UI History (xem, xóa), hiệu ứng bàn nến chập chờn, khói hạt, AudioManager (BGM, SFX xu/bài), share ảnh canvas/HTML. | Giao diện hoàn chỉnh, âm thanh mượt, lưu trữ an toàn (G1, G2, G3, G6). | **Sẵn sàng khởi động** |
+| **P4** | **Tối ưu Hiệu năng & Deploy** | Adaptive Quality (đo FPS, tự hạ cấu hình), nén WebP/Draco, cấu hình `public/_headers`, kiểm tra ngân sách hiệu năng (FPS ≥ 45 mobile), deploy Cloudflare Pages. | Đạt chuẩn hiệu năng R03, live URL Cloudflare Pages (G1, G3, G4, G7). | Chờ P3 |
+| **P5** | **Mở rộng & Nâng cao** | Mở rộng 78 lá Tarot, đủ 64 quẻ Kinh Dịch, tích hợp Supabase (RLS), AI Serverless Function giải quẻ chuyên sâu, đa ngôn ngữ (i18n Vi/En), PWA offline. | Đầy đủ dữ liệu sản phẩm thương mại, AI interpretation an toàn qua gateway. | Dự kiến |
+
+---
+
+## 4. Danh sách Công việc Chi tiết (Task Breakdown)
+
+### Phase P0 (Hoàn thành: 2026-11-18)
+- [x] Task P0.1: Khởi tạo git, scaffold dự án Vite + Vanilla TS, cài đặt runtime dependencies (`three`, `gsap`) và dev dependencies (`vitest`, `@types/three`).
+- [x] Task P0.2: Cấu hình `tsconfig.json` (strict, path alias `@/*`), `vite.config.ts` (chunk splitting cho `three`), Vitest.
+- [x] Task P0.3: Thiết lập `scripts/check-rules.mjs`, scripts trong `package.json`, `.gitignore`, `.env.example`, `public/_headers`.
+- [x] Task P0.4: Xây dựng cấu trúc thư mục chuẩn và các module shared (`types.ts`, `constants.ts`, `i18n.ts`, `strings.vi.ts`).
+- [x] Task P0.5: Triển khai logic nền tảng: `core/Random.ts` (cryptoRandom, Fisher-Yates shuffle), `services/repository.ts` (`LocalRepository`), kèm bộ unit tests.
+- [x] Task P0.6: Triển khai tầng 3D Engine: `Engine.ts` (render-on-demand, tween tracking, visibility pause), `StateMachine.ts`, `AssetLoader.ts`, `dispose.ts`, `AudioManager.ts` (stub), `Quality.ts` (stub).
+- [x] Task P0.7: Triển khai Mode interface, 2 mock modes (`TarotMode.ts`, `DivinationMode.ts` dựng bàn + nến cơ bản để kiểm tra lifecycle), `ui/Menu.ts` và `main.ts`.
+- [x] Task P0.8: Chạy kiểm tra cổng chất lượng G0, G1, G2, G3 baseline và ghi nhật ký vào `PROJECT_STATE.md`.
+
+---
+
+## 5. Hướng phát triển Dài hạn
+1. **Chia sẻ tương tác (Interactive Share)**: Sinh card kết quả dạng WebGL snapshot hoặc OpenGraph dynamic image để người dùng chia sẻ mạng xã hội.
+2. **AI Oracle Interpretation**: Tích hợp mô hình Gemini qua Serverless Worker (Cloudflare Functions / Supabase Edge Functions) để phân tích sâu câu hỏi của người dùng dựa trên tổ hợp lá bài/quẻ gieo được với prompt guard an toàn.
+3. **Hiệu ứng đồ họa cao cấp**: Thêm Shader bàn cờ dạ quang, nến đổ bóng mềm (PCF soft shadows), khói trầm hương sử dụng particle system tối ưu bằng `InstancedMesh`.
+4. **Hỗ trợ Đa nền tảng (PWA & Offline)**: Cài đặt Service Worker để game có thể chơi ngoại tuyến toàn bộ 22 lá Tarot và 64 quẻ.
