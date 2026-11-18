@@ -307,8 +307,8 @@ export class TarotMode implements Mode {
             });
           });
 
-          // Gom toàn bộ bài thừa về góc tay phù thủy, lướt 3 lá ra tâm bàn
-          this.deckView?.dismissUnpickedCards(() => {
+          // Truyền pickedCards3D tường minh để DeckView đảm bảo đúng danh sách
+          this.deckView?.dismissUnpickedCards(this.pickedCards3D, () => {
             this.slotsOverlay?.hide();
             this.fsm.go('INSPECT');
           });

@@ -367,13 +367,30 @@ export class DeckView extends Group {
 
   /**
    * Sau khi người dùng nhấn nút "Xác nhận lựa chọn":
-   * 1. Thu nhỏ toàn bộ bài thừa (availableCards, scale 0.5) về cạnh tay phù thủy.
-   * 2. Lướt 3 lá đã chọn từ cận cảnh (Z~3.2) ra tâm bàn bói (Z~0.25) sẵn sàng lật.
+   * @param pickedCards - Danh sách 3 lá đã chọn (truyền từ TarotMode để đảm bảo đồng bộ).
+   *                      Nếu không truyền thì dùng this.selectedCards nội bộ.
+   * 1. Thu nhỏ toàn bộ bài thừa (scale 0.5) về cạnh tay phù thủy.
+   * 2. Lướt 3 lá đã chọn từ cận cảnh (Y~2.1, Z~3.2) ra tâm bàn bói (Y~0.05, Z~0.25).
+   * onUpdate đặt trên ticker tổng để render liên tục trong toàn bộ animation.
    */
-  dismissUnpickedCards(onComplete?: () => void): void {
+  dismissUnpickedCards(pickedCards?: Card3D[], onComplete?: () => void): void {
     this.clearAllHoverTweens();
+
+    // Đồng bộ selectedCards nếu caller truyền vào tường minh
+    if (pickedCards && pickedCards.length > 0) {
+      this.selectedCards = [...pickedCards];
+    }
+
+    const selectedSet = new Set(this.selectedCards);
+
+    // Kích hoạt render liên tục trong suốt animation (render-on-demand — R03 §2)
+    const renderTicker = gsap.ticker.add(() => {
+      this.engine.requestRender();
+    });
+
     const tl = gsap.timeline({
       onComplete: () => {
+        gsap.ticker.remove(renderTicker);
         if (onComplete) onComplete();
       },
     });
@@ -382,8 +399,6 @@ export class DeckView extends Group {
     const witchHandX = 1.6;
     const witchHandZ = -1.3;
     const baseWitchY = 0.02;
-
-    const selectedSet = new Set(this.selectedCards);
     let stackIndex = 0;
 
     // 1. Thu nhỏ và gom toàn bộ bài thừa về cạnh tay phù thủy
@@ -391,82 +406,43 @@ export class DeckView extends Group {
       if (!selectedSet.has(card)) {
         const targetY = baseWitchY + stackIndex * 0.002;
         const microRot = ((stackIndex % 5) - 2) * 0.015;
+        const t = stackIndex * 0.003;
 
-        tl.to(
-          card.position,
-          {
-            x: witchHandX,
-            y: targetY,
-            z: witchHandZ,
-            duration: 0.55,
-            ease: 'power3.inOut',
-          },
-          stackIndex * 0.003,
-        );
-
-        tl.to(
-          card.scale,
-          {
-            x: 0.5,
-            y: 0.5,
-            z: 0.5,
-            duration: 0.55,
-            ease: 'power3.inOut',
-          },
-          stackIndex * 0.003,
-        );
-
-        tl.to(
-          card.rotation,
-          {
-            x: Math.PI / 2,
-            y: 0,
-            z: Math.PI + microRot,
-            duration: 0.55,
-            ease: 'power3.inOut',
-          },
-          stackIndex * 0.003,
-        );
+        tl.to(card.position, { x: witchHandX, y: targetY, z: witchHandZ, duration: 0.55, ease: 'power3.inOut' }, t);
+        tl.to(card.scale, { x: 0.5, y: 0.5, z: 0.5, duration: 0.55, ease: 'power3.inOut' }, t);
+        tl.to(card.rotation, { x: Math.PI / 2, y: 0, z: Math.PI + microRot, duration: 0.55, ease: 'power3.inOut' }, t);
 
         stackIndex++;
       }
     }
 
-    // 2. Sau khi bài thừa dọn sạch, 3 lá bài đã chọn bay ra giữa bàn bói
+    // 2. Sau khi bài thừa dọn sạch, 3 lá bài đã chọn bay từ cận cảnh ra giữa bàn bói
     const count = this.selectedCards.length;
     const spacing = 1.3;
     const startX = -((count - 1) * spacing) / 2;
-    const landTimeStart = Math.min(0.5, stackIndex * 0.003 + 0.15);
+    // Bắt đầu di chuyển sớm hơn — không cần đợi 75 lá gom xong mới bắt đầu
+    const landTimeStart = 0.3;
 
     for (let i = 0; i < count; i++) {
       const card = this.selectedCards[i]!;
       const targetX = startX + i * spacing;
-      const targetY = 0.05;
-      const targetZ = 0.25;  // Chính giữa mặt bàn bói
 
       tl.to(
         card.position,
-        {
-          x: targetX,
-          y: targetY,
-          z: targetZ,
-          duration: 0.7,
-          ease: 'power2.inOut',
-          onUpdate: () => { this.engine.requestRender(); },
-        },
-        landTimeStart + i * 0.08,
+        { x: targetX, y: 0.05, z: 0.25, duration: 0.75, ease: 'power2.inOut' },
+        landTimeStart + i * 0.1,
       );
 
       tl.to(
         card.rotation,
-        {
-          x: Math.PI / 2,
-          y: 0,
-          z: Math.PI,
-          duration: 0.7,
-          ease: 'power2.inOut',
-        },
-        landTimeStart + i * 0.08,
+        { x: Math.PI / 2, y: 0, z: Math.PI, duration: 0.75, ease: 'power2.inOut' },
+        landTimeStart + i * 0.1,
+      );
+
+      tl.to(
+        card.scale,
+        { x: 1, y: 1, z: 1, duration: 0.75, ease: 'power2.inOut' },
+        landTimeStart + i * 0.1,
       );
     }
 
