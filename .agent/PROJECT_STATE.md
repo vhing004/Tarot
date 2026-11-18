@@ -66,7 +66,15 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 7. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành Phase P4 (W05): Adaptive Quality FPS monitor, Engine metrics hook, SmokeParticles pause/resume, cấu hình CSP + security headers Cloudflare Pages.
-- **Kết quả kiểm thử**: Vitest 57/57 pass (11 suites), TypeScript 0 error, check:rules 46 files 0 vi phạm, build thành công.
-- **Số đo bundle (Baseline P4)**: JS gzip ~134.9 kB (không tính three.js lazy) — đạt ngân sách R03.
-- **Bước kế tiếp**: Merge `phase/p4-optimize` vào `main`, gắn tag `v0.4.0`, sau đó chuyển sang W06 Deploy Cloudflare Pages.
+- Đã hoàn thành task **Professional Tarot Journey** (phát triển Tarot chuyên nghiệp có nhịp điệu chiêm nghiệm).
+- **Thay đổi chính**:
+  - `TarotMode.ts`: Thay state `REVEAL` → `INSPECT` (chiêm nghiệm từng lá theo thứ tự, có nút Bỏ qua)
+  - `CardInspectOverlay.ts`: Component mới hiển thị tên lá, biểu tượng, từ khóa, lời thông điệp
+  - `ReadingPanel.ts`: Thêm Reflection Prompt Box (câu hỏi phản tư) và Journal Notes (ô ghi chú cá nhân + lưu vào repo)
+  - `main.css`: Thêm 238 dòng CSS cho inspect overlay, reflection box, journal notes
+  - `cards.json`: 22 lá Ẩn Chính đủ `symbolism[]` và `reflectionPrompts[]`
+  - `spreads.ts`: 4 kiểu trải bài chuyên nghiệp
+  - `interpret.ts`: Template lời giải 5 phần chuẩn
+- **Kết quả kiểm thử**: Vitest **57/57** pass (11 suites), TypeScript 0 error, check:rules 47 files 0 vi phạm, build thành công.
+- **Commit**: `3c858d9` — đã push lên `origin/main`.
+- **Bước kế tiếp**: Test thủ công trải nghiệm INSPECT trên browser (localhost:5173), kiểm tra gate G3 lifecycle.
