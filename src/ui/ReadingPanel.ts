@@ -3,6 +3,7 @@ import type { DrawnCard, Hexagram, Reading } from '@/shared/types';
 import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
 import { generateShareCard, shareOrDownloadImage } from '@/services/share';
 import { AiOracleModal } from '@/ui/AiOracleModal';
+import { resolveAssetUrl } from '@/shared/constants';
 
 export interface ReadingPanelCallbacks {
   onRetry: () => void;
@@ -59,7 +60,7 @@ export class ReadingPanel {
 
       const img = document.createElement('img');
       img.className = drawn.reversed ? 'reading-card-img reversed' : 'reading-card-img';
-      img.src = drawn.card.image;
+      img.src = resolveAssetUrl(drawn.card.image);
       img.alt = `${drawn.card.nameVi} (${drawn.card.name})`;
       img.loading = 'lazy';
       img.onerror = () => {

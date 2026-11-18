@@ -1,5 +1,6 @@
 import type { DrawnCard } from '@/shared/types';
 import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
+import { resolveAssetUrl } from '@/shared/constants';
 
 export interface CardInspectCallbacks {
   onNext: () => void;
@@ -40,7 +41,7 @@ export class CardInspectOverlay {
     cardImg.className = isReversed ? 'inspect-card-img reversed' : 'inspect-card-img';
     cardImg.alt = `${card.nameVi} (${card.name})`;
     // Dùng src để tải ảnh — tránh innerHTML (R06 §2)
-    cardImg.src = card.image;
+    cardImg.src = resolveAssetUrl(card.image);
     cardImg.onerror = () => {
       // Cơ chế dự phòng an toàn nếu không tải được ảnh (R02 §3)
       cardImg.style.display = 'none';

@@ -25,6 +25,7 @@ import { QuestionForm, type QuestionFormData } from '@/ui/QuestionForm';
 import { ReadingPanel } from '@/ui/ReadingPanel';
 import { CardInspectOverlay } from '@/modes/tarot/ui/CardInspectOverlay';
 import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
+import { resolveAssetUrl } from '@/shared/constants';
 
 type TarotFsmState =
   | 'INTRO'
@@ -384,7 +385,7 @@ export class TarotMode implements Mode {
     }
 
     // 1. Tải texture mặt trước (lazy load - R03 §6)
-    const texture = await this.assetLoader.loadTexture(drawnData.card.image);
+    const texture = await this.assetLoader.loadTexture(resolveAssetUrl(drawnData.card.image));
     card3D.setFrontTexture(texture);
 
     // 2. Lật lá bài này
@@ -430,7 +431,7 @@ export class TarotMode implements Mode {
       const card3D = this.pickedCards3D[i]!;
       const drawnData = this.drawnCardsResult[i];
       if (drawnData) {
-        const texture = await this.assetLoader.loadTexture(drawnData.card.image);
+        const texture = await this.assetLoader.loadTexture(resolveAssetUrl(drawnData.card.image));
         card3D.setFrontTexture(texture);
         card3D.snapToRevealed(drawnData.reversed);
       }

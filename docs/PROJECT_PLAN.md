@@ -96,6 +96,7 @@
 - [x] Task D.2: Xác minh file `dist/_headers` chứa đầy đủ cấu hình bảo mật và cache tối ưu.
 - [x] Task D.3: Soạn thảo tài liệu hướng dẫn vận hành và rollback chi tiết tại `docs/DEPLOYMENT.md`.
 - [x] Task D.4: Phát hành tag chính thức `v1.0.0` và đồng bộ toàn bộ lên GitHub remote.
+- [x] Task D.5: Cấu hình đa nền tảng deploy (`base: './'`, `resolveAssetUrl`) và thiết lập GitHub Actions workflow tự động xuất bản GitHub Pages (`PLAN-20261118-deploy-public-access`).
 
 ### Nâng cấp Trải nghiệm Tarot Chuyên nghiệp & Chuẩn 78 Lá (Hoàn thành: 2026-11-18)
 - [x] Task T.1: Tái cấu trúc luồng trải bài có nhịp điệu (Ritual Pacing) theo `docs/tarot_game_development_guide.md`, chuyển `REVEAL` thành `INSPECT` State với nút bỏ qua linh hoạt.

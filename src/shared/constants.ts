@@ -34,3 +34,16 @@ export function isSensitiveQuestion(question: string): boolean {
   const normalized = question.toLowerCase();
   return SENSITIVE_KEYWORDS.some((kw) => normalized.includes(kw));
 }
+
+/**
+ * Xử lý đường dẫn asset tương thích với mọi môi trường deploy (Cloudflare, Vercel, GitHub Pages subpath).
+ */
+export function resolveAssetUrl(url: string): string {
+  if (!url) return '';
+  if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('blob:')) {
+    return url;
+  }
+  const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || './';
+  const cleanPath = url.startsWith('/') ? url.slice(1) : url;
+  return base.endsWith('/') ? `${base}${cleanPath}` : `${base}/${cleanPath}`;
+}

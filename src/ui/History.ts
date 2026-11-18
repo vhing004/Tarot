@@ -1,6 +1,7 @@
 import type { Reading, ReadingRepository } from '@/shared/types';
 import { summarizeReading } from '@/services/reading';
 import { t } from '@/shared/i18n';
+import { resolveAssetUrl } from '@/shared/constants';
 
 export interface HistoryCallbacks {
   onSelectReading: (reading: Reading) => void;
@@ -139,7 +140,7 @@ export class HistoryView {
         for (const drawn of reading.result.cards) {
           const thumb = document.createElement('img');
           thumb.className = drawn.reversed ? 'history-card-thumb reversed' : 'history-card-thumb';
-          thumb.src = drawn.card.image;
+          thumb.src = resolveAssetUrl(drawn.card.image);
           thumb.alt = drawn.card.nameVi;
           thumb.title = `${drawn.card.nameVi} (${drawn.reversed ? 'Ngược' : 'Xuôi'})`;
           thumb.loading = 'lazy';
