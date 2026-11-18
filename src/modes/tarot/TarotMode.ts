@@ -54,12 +54,14 @@ export class TarotMode implements Mode {
   // Deck và thẻ bài 3D
   private deckView: DeckView | null = null;
   private deckData: TarotCard[] = cardsJson as TarotCard[];
+  private activeDeckData: TarotCard[] = [];
   private sharedBackMaterial: MeshStandardMaterial | null = null;
 
   // Dữ liệu lượt bói hiện tại
   private currentQuestion = '';
   private currentTopic: Topic = 'general';
   private currentSpread: TarotSpreadType = 'single';
+  private currentDeckType: 'major' | 'full' = 'major';
   private targetPositions: readonly string[] = ['present'];
   private drawnCardsResult: DrawnCard[] = [];
   private pickedCards3D: Card3D[] = [];
@@ -138,8 +140,9 @@ export class TarotMode implements Mode {
       metalness: 0.0,
     });
 
-    // 4. Khởi tạo DeckView 22 lá bài 3D
-    this.deckView = new DeckView(ctx.engine, this.deckData, this.sharedBackMaterial);
+    // 4. Khởi tạo DeckView (mặc định 22 lá Ẩn Chính)
+    this.activeDeckData = this.deckData.filter((c) => c.suit === 'major');
+    this.deckView = new DeckView(ctx.engine, this.activeDeckData, this.sharedBackMaterial);
     this.group.add(this.deckView);
 
     // 5. Thiết lập máy trạng thái (FSM)
@@ -177,6 +180,24 @@ export class TarotMode implements Mode {
                 this.currentQuestion = data.question;
                 this.currentTopic = data.topic;
                 this.currentSpread = data.spread;
+                this.currentDeckType = data.deckType;
+
+                if (data.deckType === 'full') {
+                  this.activeDeckData = this.deckData;
+                } else {
+                  this.activeDeckData = this.deckData.filter((c) => c.suit === 'major');
+                }
+
+                // Cập nhật lại DeckView nếu số lá thay đổi
+                if (this.deckView && this.ctx && this.sharedBackMaterial) {
+                  if (this.deckView.allCards.length !== this.activeDeckData.length) {
+                    this.deckView.disposeDeck();
+                    this.deckView.removeFromParent();
+                    this.deckView = new DeckView(this.ctx.engine, this.activeDeckData, this.sharedBackMaterial);
+                    this.group.add(this.deckView);
+                  }
+                }
+
                 const def = TAROT_SPREADS[data.spread];
                 this.targetPositions = def ? def.positions : ['present'];
                 this.questionForm?.unmount();
@@ -196,8 +217,8 @@ export class TarotMode implements Mode {
       })
       .addState('SHUFFLE', {
         enter: () => {
-          // CHỐT KẾT QUẢ BÓI TRƯỚC BẰNG CSPRNG (R04 §1)
-          this.drawnCardsResult = drawCards(this.deckData, this.targetPositions, cryptoRandom);
+          // CHỐT KẾT QUẢ BÓI TRƯỚC BẰNG CSPRNG TỪ ACTIVE DECK (R04 §1)
+          this.drawnCardsResult = drawCards(this.activeDeckData, this.targetPositions, cryptoRandom);
           this.pickedCards3D = [];
 
           this.ctx?.audio.playShuffle();
@@ -277,6 +298,7 @@ export class TarotMode implements Mode {
             createdAt: Date.now(),
             result: {
               spread: this.currentSpread,
+              deckType: this.currentDeckType,
               cards: this.drawnCardsResult,
             },
             interpretation: this.currentInterpretation,

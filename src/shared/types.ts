@@ -1,9 +1,12 @@
 export type Topic = 'love' | 'career' | 'money' | 'health' | 'general';
 
+export type TarotSuit = 'major' | 'wands' | 'cups' | 'swords' | 'pentacles';
+
 export interface TarotCard {
   id: number;
   name: string;
   nameVi: string;
+  suit?: TarotSuit;
   image: string;
   keywords: string[];
   symbolism: string[];
@@ -35,6 +38,7 @@ export interface CoinLine {
 
 export interface TarotResult {
   spread: string;
+  deckType?: 'major' | 'full';
   cards: DrawnCard[];
 }
 

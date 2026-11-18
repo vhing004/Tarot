@@ -41,6 +41,19 @@ export class CardInspectOverlay {
     cardImg.alt = `${card.nameVi} (${card.name})`;
     // Dùng src để tải ảnh — tránh innerHTML (R06 §2)
     cardImg.src = card.image;
+    cardImg.onerror = () => {
+      // Cơ chế dự phòng an toàn nếu không tải được ảnh (R02 §3)
+      cardImg.style.display = 'none';
+      const fallbackBox = document.createElement('div');
+      fallbackBox.className = 'inspect-card-fallback';
+      const fallbackIcon = document.createElement('span');
+      fallbackIcon.textContent = '🃏';
+      const fallbackText = document.createElement('span');
+      fallbackText.textContent = card.nameVi;
+      fallbackBox.appendChild(fallbackIcon);
+      fallbackBox.appendChild(fallbackText);
+      imgCol.appendChild(fallbackBox);
+    };
     imgCol.appendChild(cardImg);
 
     layout.appendChild(imgCol);

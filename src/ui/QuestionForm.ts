@@ -7,6 +7,7 @@ export interface QuestionFormData {
   question: string;
   topic: Topic;
   spread: TarotSpreadType;
+  deckType: 'major' | 'full';
 }
 
 export interface QuestionFormCallbacks {
@@ -45,7 +46,13 @@ export class QuestionForm {
     form.className = 'tarot-form-body';
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      this.handleSubmit(textarea.value, selectTopic.value as Topic, selectSpread.value as TarotSpreadType, alertBox);
+      this.handleSubmit(
+        textarea.value,
+        selectTopic.value as Topic,
+        selectSpread.value as TarotSpreadType,
+        selectDeck.value as 'major' | 'full',
+        alertBox,
+      );
     });
 
     // Nhập câu hỏi
@@ -95,6 +102,28 @@ export class QuestionForm {
     spreadGroup.appendChild(selectSpread);
     form.appendChild(spreadGroup);
 
+    // Chọn bộ bài (22 lá Ẩn Chính hoặc Đầy đủ 78 lá)
+    const deckGroup = document.createElement('div');
+    deckGroup.className = 'form-group';
+    const deckLabel = document.createElement('label');
+    deckLabel.textContent = 'Quy mô bộ bài:';
+    const selectDeck = document.createElement('select');
+    selectDeck.className = 'form-select';
+
+    const optMajor = document.createElement('option');
+    optMajor.value = 'major';
+    optMajor.textContent = '🔮 22 Lá Ẩn Chính (Tâm điểm & Bài học lớn)';
+    selectDeck.appendChild(optMajor);
+
+    const optFull = document.createElement('option');
+    optFull.value = 'full';
+    optFull.textContent = '✨ Đầy đủ 78 Lá (Toàn cảnh sâu sắc: Gậy, Chén, Kiếm, Tiền)';
+    selectDeck.appendChild(optFull);
+
+    deckGroup.appendChild(deckLabel);
+    deckGroup.appendChild(selectDeck);
+    form.appendChild(deckGroup);
+
     // Nút bấm
     const btnGroup = document.createElement('div');
     btnGroup.className = 'form-btn-group';
@@ -126,6 +155,7 @@ export class QuestionForm {
     question: string,
     topic: Topic,
     spread: TarotSpreadType,
+    deckType: 'major' | 'full',
     alertBox: HTMLElement,
   ): void {
     // Kiểm tra câu hỏi nhạy cảm (R05 §4)
@@ -140,6 +170,7 @@ export class QuestionForm {
       question: question.trim(),
       topic,
       spread,
+      deckType,
     });
   }
 

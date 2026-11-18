@@ -4,10 +4,10 @@ Tài liệu này ghi nhận nguồn gốc, tác giả và giấy phép cho toàn
 
 | Hạng mục / Tập tin | Nguồn gốc / Tham chiếu | Tác giả | Giấy phép | Yêu cầu ghi công |
 |---|---|---|---|---|
-| **Bộ 22 lá Ẩn Chính** (`cards.json`) | Dựa trên chuẩn bài Rider-Waite-Smith Tarot (1909) | Arthur Edward Waite & Pamela Colman Smith | **Public Domain** (Bản quyền đã hết hạn trên toàn cầu) | Ghi nhận tên gốc Rider-Waite-Smith Tarot (1909) |
+| **Bộ 78 lá bài Tarot** (`cards.json`) | Dựa trên chuẩn bài Rider-Waite-Smith Tarot (1909) đầy đủ 22 Ẩn Chính + 56 Ẩn Phụ | Arthur Edward Waite & Pamela Colman Smith | **Public Domain** (Bản quyền đã hết hạn trên toàn cầu) | Ghi nhận tên gốc Rider-Waite-Smith Tarot (1909) |
 | **Lời giải & Diễn giải Tiếng Việt** | Biên soạn mới độc quyền cho dự án Fortune-Hunter, đảm bảo không sao chép các bản dịch có bản quyền (R05 §1) | Nhóm phát triển Fortune-Hunter | **MIT / Project Owned** | Không bắt buộc |
-| **Hình ảnh mặt bài** (`public/textures/tarot/*.webp`) | Phục chế kỹ thuật số từ bản in gốc Pamela Colman Smith (1909) chuẩn tỉ lệ 512x880 | Pamela Colman Smith / Wikimedia Commons | **Public Domain** | Rider-Waite-Smith 1909 Public Domain |
-| **Mặt sau lá bài** (`public/textures/tarot/back.webp`) | Họa tiết hình học huyền bí dạ quang nền tím đêm + vàng đồng | Nhóm thiết kế Fortune-Hunter | **CC0 (Public Domain Dedication)** | Không bắt buộc |
+| **Hình ảnh mặt bài** (`public/textures/tarot/*.jpg`) | Ảnh số hóa chất lượng cao từ bản in gốc Rider-Waite-Smith (1909) | Pamela Colman Smith (1909) / Public Domain | **Public Domain** | Rider-Waite-Smith 1909 Public Domain |
+| **Mặt sau lá bài** (`createCardBackTexture`) | Họa tiết hình học celtic dạ quang đỏ scarlet + viền kép vàng kim | Nhóm thiết kế Fortune-Hunter | **CC0 (Public Domain Dedication)** | Không bắt buộc |
 
 ---
 

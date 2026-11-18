@@ -3,308 +3,1817 @@
     "id": 0,
     "name": "The Fool",
     "nameVi": "Chàng Khờ",
-    "image": "/textures/tarot/00-fool.webp",
-    "keywords": ["khởi đầu mới", "ngây thơ", "tự do", "tiềm năng vô hạn"],
-    "symbolism": ["Mép vực đá (bước ngoặt chưa biết)", "Hoa hồng trắng (tâm hồn thuần khiết)", "Chú chó nhỏ (bản năng đồng hành)", "Mặt trời rạng rỡ (sinh lực mới)"],
+    "image": "/textures/tarot/ar00.jpg",
+    "keywords": [
+      "khởi đầu mới",
+      "ngây thơ",
+      "tự do",
+      "tiềm năng vô hạn"
+    ],
+    "symbolism": [
+      "Mép vực đá (bước ngoặt chưa biết)",
+      "Hoa hồng trắng (tâm hồn thuần khiết)",
+      "Chú chó nhỏ (bản năng đồng hành)",
+      "Mặt trời rạng rỡ (sinh lực mới)"
+    ],
     "upright": "Một hành trình mới mở ra trước mắt. Hãy can đảm bước tới với trái tim thuần khiết và niềm tin tích cực.",
     "reversed": "Sự liều lĩnh hoặc ngập ngừng trước khởi đầu mới. Hãy suy xét kỹ trước khi dấn thân vào những rủi ro không cần thiết.",
     "reflectionPrompts": [
       "Bạn đang ngần ngại điều gì trước một cơ hội bắt đầu lại từ đầu?",
       "Làm thế nào để bạn vừa giữ được lòng tò mò vừa có sự chuẩn bị thấu đáo?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 1,
     "name": "The Magician",
     "nameVi": "Nhà Ảo Thuật",
-    "image": "/textures/tarot/01-magician.webp",
-    "keywords": ["sáng tạo", "ý chí", "nguồn lực sẵn có", "hành động quyết đoán"],
-    "symbolism": ["Bốn bảo vật: Gậy, Cốc, Kiếm, Tiền (đầy đủ nguồn lực)", "Biểu tượng vô cực ∞ (tiềm năng vô hạn)", "Một tay chỉ trời, một tay chỉ đất (kết nối ý tưởng và thực tại)"],
+    "image": "/textures/tarot/ar01.jpg",
+    "keywords": [
+      "sáng tạo",
+      "ý chí",
+      "nguồn lực sẵn có",
+      "hành động quyết đoán"
+    ],
+    "symbolism": [
+      "Bốn bảo vật: Gậy, Cốc, Kiếm, Tiền (đầy đủ nguồn lực)",
+      "Biểu tượng vô cực ∞ (tiềm năng vô hạn)",
+      "Một tay chỉ trời, một tay chỉ đất (kết nối ý tưởng và thực tại)"
+    ],
     "upright": "Bạn đã có đủ mọi công cụ và năng lực để biến ý tưởng thành hiện thực. Hãy tập trung ý chí và hành động.",
     "reversed": "Tiềm năng chưa được khai phá hết hoặc thiếu tập trung. Tránh sự thao túng hoặc kỳ vọng thiếu thực tế.",
     "reflectionPrompts": [
       "Nguồn lực quý giá nhất mà bạn đang sở hữu lúc này là gì?",
       "Bạn có thể bắt đầu hành động cụ thể nào ngay hôm nay để biến ý tưởng thành hiện thực?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 2,
     "name": "The High Priestess",
     "nameVi": "Nữ Tư Tế",
-    "image": "/textures/tarot/02-high-priestess.webp",
-    "keywords": ["trực giác", "bí ẩn", "thấu suốt", "tĩnh lặng"],
-    "symbolism": ["Hai cột trụ Đen - Trắng B & J (nhị nguyên âm dương)", "Bức màn lựu (tri thức tiềm ẩn)", "Mặt trăng khuyết dưới chân (vô thức và trực giác)"],
+    "image": "/textures/tarot/ar02.jpg",
+    "keywords": [
+      "trực giác",
+      "bí ẩn",
+      "thấu suốt",
+      "tĩnh lặng"
+    ],
+    "symbolism": [
+      "Hai cột trụ Đen - Trắng B & J (nhị nguyên âm dương)",
+      "Bức màn lựu (tri thức tiềm ẩn)",
+      "Mặt trăng khuyết dưới chân (vô thức và trực giác)"
+    ],
     "upright": "Lắng nghe tiếng nói tĩnh lặng bên trong bạn. Trực giác sẽ là ngọn hải đăng soi sáng những điều mắt thường chưa thấy.",
     "reversed": "Bỏ qua trực giác hoặc bị chi phối bởi những nghi ngờ thầm kín. Hãy dành thời gian tĩnh tâm để thấu hiểu bản thân.",
     "reflectionPrompts": [
       "Tiếng nói trực giác đang cố gắng nhắn nhủ điều gì mà lý trí bạn đang phớt lờ?",
       "Bạn cần khoảng lặng như thế nào để nhìn rõ sự thật?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 3,
     "name": "The Empress",
     "nameVi": "Hoàng Hậu",
-    "image": "/textures/tarot/03-empress.webp",
-    "keywords": ["trù phú", "nuôi dưỡng", "sáng tạo", "tình yêu thương"],
-    "symbolism": ["Cánh đồng lúa mì vàng (mùa màng trù phú)", "Vương miện 12 ngôi sao (chu kỳ vũ trụ)", "Biểu tượng sao Kim (tình yêu và cái đẹp)"],
+    "image": "/textures/tarot/ar03.jpg",
+    "keywords": [
+      "trù phú",
+      "nuôi dưỡng",
+      "sáng tạo",
+      "tình yêu thương"
+    ],
+    "symbolism": [
+      "Cánh đồng lúa mì vàng (mùa màng trù phú)",
+      "Vương miện 12 ngôi sao (chu kỳ vũ trụ)",
+      "Biểu tượng sao Kim (tình yêu và cái đẹp)"
+    ],
     "upright": "Thời kỳ của sự sinh sôi và phát triển rực rỡ. Hãy đón nhận và nuôi dưỡng những điều tốt đẹp với lòng rộng mở.",
     "reversed": "Cảm giác cạn kiệt năng lượng chăm sóc hoặc phụ thuộc cảm xúc. Hãy học cách chăm sóc và yêu thương chính mình trước.",
     "reflectionPrompts": [
       "Khía cạnh nào trong cuộc sống của bạn đang cần được nuôi dưỡng và kiên nhẫn chăm sóc?",
       "Bạn đã đối xử dịu dàng với chính bản thân mình chưa?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 4,
     "name": "The Emperor",
     "nameVi": "Hoàng Đế",
-    "image": "/textures/tarot/04-emperor.webp",
-    "keywords": ["kỷ luật", "cấu trúc", "quyền lực", "bảo vệ"],
-    "symbolism": ["Ngai đá chạm đầu cừu (sức mạnh và quyết đoán)", "Vương trượng Ankh (biểu tượng quyền uy)", "Áo giáp sắt dưới hoàng bào (luôn sẵn sàng bảo vệ)"],
+    "image": "/textures/tarot/ar04.jpg",
+    "keywords": [
+      "kỷ luật",
+      "cấu trúc",
+      "quyền lực",
+      "bảo vệ"
+    ],
+    "symbolism": [
+      "Ngai đá chạm đầu cừu (sức mạnh và quyết đoán)",
+      "Vương trượng Ankh (biểu tượng quyền uy)",
+      "Áo giáp sắt dưới hoàng bào (luôn sẵn sàng bảo vệ)"
+    ],
     "upright": "Sự vững chãi, tổ chức mạch lạc và kỷ luật sẽ đem lại thành công. Hãy giữ vững nguyên tắc và định hướng của mình.",
     "reversed": "Sự cứng nhắc, độc đoán hoặc thiếu kiểm soát bản thân. Cần linh hoạt và lắng nghe những góc nhìn khác.",
     "reflectionPrompts": [
       "Bạn cần thiết lập ranh giới hoặc kỷ luật cá nhân nào để bảo vệ mục tiêu của mình?",
       "Có điểm nào bạn đang kiểm soát quá mức thay vì để mọi thứ vận hành tự nhiên?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 5,
     "name": "The Hierophant",
     "nameVi": "Đại Giáo Hoàng",
-    "image": "/textures/tarot/05-hierophant.webp",
-    "keywords": ["truyền thống", "tri thức", "sự dẫn đường", "học hỏi"],
-    "symbolism": ["Hai chiếc chìa khóa bắt chéo (mở khóa tri thức)", "Vương miện ba tầng (ba cõi tâm thức)", "Hai tín đồ lắng nghe (tinh thần học hỏi)"],
+    "image": "/textures/tarot/ar05.jpg",
+    "keywords": [
+      "truyền thống",
+      "tri thức",
+      "sự dẫn đường",
+      "học hỏi"
+    ],
+    "symbolism": [
+      "Hai chiếc chìa khóa bắt chéo (mở khóa tri thức)",
+      "Vương miện ba tầng (ba cõi tâm thức)",
+      "Hai tín đồ lắng nghe (tinh thần học hỏi)"
+    ],
     "upright": "Tìm kiếm lời khuyên từ những người đi trước hoặc học hỏi theo những khuôn mẫu giá trị bền vững.",
     "reversed": "Sự bảo thủ lạc hậu hoặc khao khát phá vỡ những lề thói cũ để tìm ra lối đi riêng cho bản thân.",
     "reflectionPrompts": [
       "Hệ giá trị cốt lõi nào đang định hình các quyết định quan trọng của bạn?",
       "Bạn có thể học hỏi thêm được điều gì từ những người đi trước giàu kinh nghiệm?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 6,
     "name": "The Lovers",
     "nameVi": "Cặp Đôi",
-    "image": "/textures/tarot/06-lovers.webp",
-    "keywords": ["tình cảm", "hòa hợp", "lựa chọn giá trị", "gắn kết"],
-    "symbolism": ["Thiên thần Raphael ban phước (sự dẫn dắt tâm linh)", "Cây sự sống và cây tri thức (lựa chọn bản lề)", "Hình bóng nam nữ (sự hòa hợp của hai nửa đối lập)"],
+    "image": "/textures/tarot/ar06.jpg",
+    "keywords": [
+      "tình cảm",
+      "hòa hợp",
+      "lựa chọn giá trị",
+      "gắn kết"
+    ],
+    "symbolism": [
+      "Thiên thần Raphael ban phước (sự dẫn dắt tâm linh)",
+      "Cây sự sống và cây tri thức (lựa chọn bản lề)",
+      "Hình bóng nam nữ (sự hòa hợp của hai nửa đối lập)"
+    ],
     "upright": "Sự hòa hợp sâu sắc trong mối quan hệ hoặc một lựa chọn mang tính bản lề dựa trên tiếng gọi của con tim.",
     "reversed": "Mâu thuẫn giá trị hoặc xung đột nội tâm trong việc đưa ra quyết định. Cần thẳng thắn đối diện với sự thật.",
     "reflectionPrompts": [
       "Quyết định sắp tới có thực sự đồng điệu với giá trị sâu kín nhất của bạn?",
       "Làm sao để cân bằng giữa mong muốn cá nhân và sự hòa hợp với người đồng hành?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 7,
     "name": "The Chariot",
     "nameVi": "Cỗ Xe Chiến Thắng",
-    "image": "/textures/tarot/07-chariot.webp",
-    "keywords": ["ý chí", "quyết tâm", "vượt qua thử thách", "chiến thắng"],
-    "symbolism": ["Hai nhân sư Đen - Trắng (lực kéo trái ngược)", "Mái che ngàn sao (sự che chở của lý tưởng)", "Bộ giáp chiến binh kiên cố (ý chí sắt đá)"],
+    "image": "/textures/tarot/ar07.jpg",
+    "keywords": [
+      "ý chí",
+      "quyết tâm",
+      "vượt qua thử thách",
+      "chiến thắng"
+    ],
+    "symbolism": [
+      "Hai nhân sư Đen - Trắng (lực kéo trái ngược)",
+      "Mái che ngàn sao (sự che chở của lý tưởng)",
+      "Bộ giáp chiến binh kiên cố (ý chí sắt đá)"
+    ],
     "upright": "Kiểm soát những năng lượng trái chiều và tiến thẳng về phía trước. Ý chí kiên định sẽ đưa bạn đến đích.",
     "reversed": "Mất kiểm soát phương hướng hoặc nôn nóng đốt cháy giai đoạn. Hãy bình tĩnh điều chỉnh lại tay lái.",
     "reflectionPrompts": [
       "Mục tiêu lớn nhất đòi hỏi bạn phải dồn toàn bộ sự tập trung hiện tại là gì?",
       "Bạn đang điều phối những động lực trái ngược trong mình như thế nào?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 8,
     "name": "Strength",
     "nameVi": "Sức Mạnh",
-    "image": "/textures/tarot/08-strength.webp",
-    "keywords": ["can đảm", "dịu dàng", "kiên nhẫn", "làm chủ nội tâm"],
-    "symbolism": ["Thiếu nữ dịu dàng vuốt ve sư tử (chế ngự bản năng bằng tình thương)", "Biểu tượng vô cực ∞ trên đầu (nội lực bất tận)", "Dây hoa quấn quanh (sự mềm mại thắng cương liệt)"],
+    "image": "/textures/tarot/ar08.jpg",
+    "keywords": [
+      "can đảm",
+      "dịu dàng",
+      "kiên nhẫn",
+      "làm chủ nội tâm"
+    ],
+    "symbolism": [
+      "Thiếu nữ dịu dàng vuốt ve sư tử (chế ngự bản năng bằng tình thương)",
+      "Biểu tượng vô cực ∞ trên đầu (nội lực bất tận)",
+      "Dây hoa quấn quanh (sự mềm mại thắng cương liệt)"
+    ],
     "upright": "Sức mạnh thực sự đến từ lòng trắc ẩn và sự kiên nhẫn dịu dàng, chế ngự những xúc cảm mãnh liệt bằng sự điềm đạm.",
     "reversed": "Tự ti, nghi ngờ sức mạnh của mình hoặc nóng nảy bộc phát. Hãy tìm lại sự bình yên và lòng tin nơi chính mình.",
     "reflectionPrompts": [
       "Làm thế nào để dùng sự kiên nhẫn và mềm mỏng hóa giải một thử thách đang căng thẳng?",
       "Bạn có đang đánh giá thấp nghị lực bền bỉ bên trong mình?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 9,
     "name": "The Hermit",
     "nameVi": "Ẩn Sĩ",
-    "image": "/textures/tarot/09-hermit.webp",
-    "keywords": ["tự soi chiếu", "chiêm nghiệm", "tìm kiếm chân lý", "cô tịch"],
-    "symbolism": ["Ngọn đèn lồng chứa ngôi sao 6 cánh (ánh sáng chân lý)", "Gậy chống dài (sự vững chãi qua trải nghiệm)", "Đỉnh núi tuyết (sự thanh cao và tĩnh lặng)"],
+    "image": "/textures/tarot/ar09.jpg",
+    "keywords": [
+      "tự soi chiếu",
+      "chiêm nghiệm",
+      "tìm kiếm chân lý",
+      "cô tịch"
+    ],
+    "symbolism": [
+      "Ngọn đèn lồng chứa ngôi sao 6 cánh (ánh sáng chân lý)",
+      "Gậy chống dài (sự vững chãi qua trải nghiệm)",
+      "Đỉnh núi tuyết (sự thanh cao và tĩnh lặng)"
+    ],
     "upright": "Lùi lại một bước để tĩnh tâm soi rọi nội tâm. Ngọn đèn tri thức của riêng bạn sẽ dẫn dắt từng bước đi.",
     "reversed": "Sự cô lập quá mức dẫn đến cô độc hoặc trốn tránh thực tại. Hãy sẵn sàng kết nối lại với thế giới khi đã thấu hiểu.",
     "reflectionPrompts": [
       "Nếu dành một khoảng không gian hoàn toàn yên lặng cho riêng mình, bạn muốn thấu suốt điều gì?",
       "Chân lý nội tại đang soi sáng điều gì cho bước đường tiếp theo của bạn?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 10,
     "name": "Wheel of Fortune",
     "nameVi": "Bánh Xe Số Phận",
-    "image": "/textures/tarot/10-wheel-of-fortune.webp",
-    "keywords": ["chu kỳ", "thay đổi", "cơ hội", "vận may"],
-    "symbolism": ["Bánh xe định mệnh xoay chuyển (vạn vật vô thường)", "Bốn sinh vật có cánh ở 4 góc (tri thức bốn phương)", "Nhân sư tĩnh lặng trên đỉnh (tâm bất biến giữa dòng đời biến chuyển)"],
+    "image": "/textures/tarot/ar10.jpg",
+    "keywords": [
+      "chu kỳ",
+      "thay đổi",
+      "cơ hội",
+      "vận may"
+    ],
+    "symbolism": [
+      "Bánh xe định mệnh xoay chuyển (vạn vật vô thường)",
+      "Bốn sinh vật có cánh ở 4 góc (tri thức bốn phương)",
+      "Nhân sư tĩnh lặng trên đỉnh (tâm bất biến giữa dòng đời biến chuyển)"
+    ],
     "upright": "Bánh xe cuộc sống đang chuyển dịch theo chiều hướng tích cực. Hãy linh hoạt đón nhận những cơ hội bất ngờ.",
     "reversed": "Giai đoạn chuyển giao có đôi chút trắc trở. Hãy nhớ rằng mọi chu kỳ đều tuần hoàn, điều quan trọng là thái độ của bạn.",
     "reflectionPrompts": [
       "Bạn đang học cách thích nghi với sự thay đổi của hoàn cảnh như thế nào?",
       "Cơ hội bất ngờ nào đang ẩn giấu đằng sau những biến chuyển hiện tại?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 11,
     "name": "Justice",
     "nameVi": "Công Lý",
-    "image": "/textures/tarot/11-justice.webp",
-    "keywords": ["công bằng", "chân lý", "trách nhiệm", "nhân quả"],
-    "symbolism": ["Chiếc cân công lý cân bằng (sự vô tư, khách quan)", "Thanh kiếm hướng lên trời (sự thật dứt khoát)", "Bức màn tím (lương tri soi sáng)"],
+    "image": "/textures/tarot/ar11.jpg",
+    "keywords": [
+      "công bằng",
+      "chân lý",
+      "trách nhiệm",
+      "nhân quả"
+    ],
+    "symbolism": [
+      "Chiếc cân công lý cân bằng (sự vô tư, khách quan)",
+      "Thanh kiếm hướng lên trời (sự thật dứt khoát)",
+      "Bức màn tím (lương tri soi sáng)"
+    ],
     "upright": "Sự thật và lẽ công bằng sẽ được tôn vinh. Mọi quyết định cần sự khách quan, minh bạch và chịu trách nhiệm với hành động.",
     "reversed": "Cảm giác bất công hoặc né tránh trách nhiệm. Hãy trung thực nhìn nhận lại bản thân trước khi phán xét người khác.",
     "reflectionPrompts": [
       "Bạn có đang nhìn nhận vấn đề này với cái nhìn công bằng và trung thực nhất?",
       "Trách nhiệm nào thuộc về phần của bạn trong câu chuyện này?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 12,
     "name": "The Hanged Man",
     "nameVi": "Người Treo Ngược",
-    "image": "/textures/tarot/12-hanged-man.webp",
-    "keywords": ["góc nhìn mới", "buông bỏ", "tạm dừng", "thức tỉnh"],
-    "symbolism": ["Treo ngược một chân bình thản (tự nguyện tạm dừng)", "Vầng hào quang quanh đầu (sự khai sáng tinh thần)", "Cây hình chữ T còn sống (sự sống vẫn đâm chồi)"],
+    "image": "/textures/tarot/ar12.jpg",
+    "keywords": [
+      "góc nhìn mới",
+      "buông bỏ",
+      "tạm dừng",
+      "thức tỉnh"
+    ],
+    "symbolism": [
+      "Treo ngược một chân bình thản (tự nguyện tạm dừng)",
+      "Vầng hào quang quanh đầu (sự khai sáng tinh thần)",
+      "Cây hình chữ T còn sống (sự sống vẫn đâm chồi)"
+    ],
     "upright": "Tạm dừng lại để nhìn cuộc sống từ một góc độ hoàn toàn khác. Sự buông bỏ kỳ vọng sẽ mở ra giác ngộ mới.",
     "reversed": "Sự hy sinh vô ích hoặc chần chừ không muốn thay đổi. Đã đến lúc đưa ra quyết định dứt khoát để bước tiếp.",
     "reflectionPrompts": [
       "Điều gì sẽ xảy ra nếu bạn tạm buông bỏ việc kiểm soát và nhìn sự việc ngược lại?",
       "Sự tạm dừng lúc này mang lại cho bạn bài học gì quý giá?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 13,
     "name": "Death",
     "nameVi": "Chuyển Hóa",
-    "image": "/textures/tarot/13-death.webp",
-    "keywords": ["kết thúc", "chuyển hóa", "tái sinh", "khởi sắc mới"],
-    "symbolism": ["Kỵ sĩ giáp đen cưỡi ngựa trắng (quy luật tất yếu)", "Lá cờ hoa hồng thần bí (sự thanh tẩy tái sinh)", "Mặt trời mọc giữa hai tòa tháp (bình minh sau đêm dài)"],
+    "image": "/textures/tarot/ar13.jpg",
+    "keywords": [
+      "kết thúc",
+      "chuyển hóa",
+      "tái sinh",
+      "khởi sắc mới"
+    ],
+    "symbolism": [
+      "Kỵ sĩ giáp đen cưỡi ngựa trắng (quy luật tất yếu)",
+      "Lá cờ hoa hồng thần bí (sự thanh tẩy tái sinh)",
+      "Mặt trời mọc giữa hai tòa tháp (bình minh sau đêm dài)"
+    ],
     "upright": "Khép lại một chương cũ để nhường chỗ cho những điều mới mẻ đâm chồi. Sự chuyển hóa tất yếu mang lại tái sinh.",
     "reversed": "Kháng cự sự thay đổi hoặc níu kéo những điều đã qua. Hãy can đảm buông tay để đón nhận luồng sinh khí mới.",
     "reflectionPrompts": [
       "Thói quen hoặc suy nghĩ cũ kỹ nào đã đến lúc cần được khép lại để bạn tái sinh?",
       "Bạn sẵn sàng đón nhận điều mới mẻ nào bước vào cuộc đời mình?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 14,
     "name": "Temperance",
     "nameVi": "Cân Bằng",
-    "image": "/textures/tarot/14-temperance.webp",
-    "keywords": ["hài hòa", "điều độ", "hòa hợp", "bình an"],
-    "symbolism": ["Thiên thần rót nước qua lại hai chén (hòa hợp hai dòng chảy)", "Một chân trên cạn, một chân dưới nước (cân bằng ý thức và tiềm thức)", "Con đường dẫn lên ngọn núi rực sáng (mục tiêu cao cả)"],
+    "image": "/textures/tarot/ar14.jpg",
+    "keywords": [
+      "hài hòa",
+      "điều độ",
+      "hòa hợp",
+      "bình an"
+    ],
+    "symbolism": [
+      "Thiên thần rót nước qua lại hai chén (hòa hợp hai dòng chảy)",
+      "Một chân trên cạn, một chân dưới nước (cân bằng ý thức và tiềm thức)",
+      "Con đường dẫn lên ngọn núi rực sáng (mục tiêu cao cả)"
+    ],
     "upright": "Tìm thấy điểm cân bằng giữa những thái cực. Sự điềm tĩnh và kiên nhẫn giúp hòa tan mọi sự bất đồng.",
     "reversed": "Mất cân bằng trong cuộc sống hoặc thái quá trong hành vi. Hãy điều chỉnh nhịp sống để tìm lại sự bình yên.",
     "reflectionPrompts": [
       "Điểm cân bằng giữa các ưu tiên trong cuộc sống của bạn đang nằm ở đâu?",
       "Làm sao để bạn giữ được sự điềm tĩnh khi đối diện với những ý kiến trái chiều?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 15,
     "name": "The Devil",
     "nameVi": "Ràng Buộc",
-    "image": "/textures/tarot/15-devil.webp",
-    "keywords": ["cám dỗ", "ràng buộc", "ảo tưởng", "nhận thức"],
-    "symbolism": ["Sợi xích đeo lỏng quanh cổ người (sự tự trói buộc)", "Ác quỷ giơ tay ngọn đuốc chúc xuống (sự u mê vật chất)", "Đôi tai dơi và sừng dê (bản năng chưa được dẫn dắt)"],
+    "image": "/textures/tarot/ar15.jpg",
+    "keywords": [
+      "cám dỗ",
+      "ràng buộc",
+      "ảo tưởng",
+      "nhận thức"
+    ],
+    "symbolism": [
+      "Sợi xích đeo lỏng quanh cổ người (sự tự trói buộc)",
+      "Ác quỷ giơ tay ngọn đuốc chúc xuống (sự u mê vật chất)",
+      "Đôi tai dơi và sừng dê (bản năng chưa được dẫn dắt)"
+    ],
     "upright": "Nhận diện những thói quen, suy nghĩ tiêu cực hoặc sự ràng buộc vô hình đang kìm hãm bạn. Nhận thức là bước đầu để tự do.",
     "reversed": "Bắt đầu cởi bỏ được xiềng xích của những thói quen cũ và giải thoát bản thân hướng tới cuộc sống lành mạnh hơn.",
     "reflectionPrompts": [
       "Ràng buộc vô hình nào đang cản trở bước chân tự do của bạn?",
       "Nhận diện điều đó giúp bạn tìm thấy chìa khóa giải thoát cho chính mình ra sao?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 16,
     "name": "The Tower",
     "nameVi": "Tòa Tháp",
-    "image": "/textures/tarot/16-tower.webp",
-    "keywords": ["đột phá", "sụp đổ ảo tưởng", "thức tỉnh", "tái thiết"],
-    "symbolism": ["Tia sét đánh trúng đỉnh tháp (sự thật chớp nhoáng)", "Vương miện rơi khỏi tháp (cái tôi ảo tưởng bị phá vỡ)", "Ngọn lửa bùng cháy từ các cửa sổ (thanh lọc triệt để)"],
+    "image": "/textures/tarot/ar16.jpg",
+    "keywords": [
+      "đột phá",
+      "sụp đổ ảo tưởng",
+      "thức tỉnh",
+      "tái thiết"
+    ],
+    "symbolism": [
+      "Tia sét đánh trúng đỉnh tháp (sự thật chớp nhoáng)",
+      "Vương miện rơi khỏi tháp (cái tôi ảo tưởng bị phá vỡ)",
+      "Ngọn lửa bùng cháy từ các cửa sổ (thanh lọc triệt để)"
+    ],
     "upright": "Sự thật bất ngờ làm sụp đổ những nền tảng lung lay. Đây là cơ hội để xây dựng lại một điều chân thật và vững chắc hơn.",
     "reversed": "Tránh né một cuộc khủng hoảng cần thiết hoặc cố bám víu vào những điều không còn phù hợp. Hãy dũng cảm tái thiết.",
     "reflectionPrompts": [
       "Nền tảng ảo tưởng nào bị phá vỡ đang mở đường cho bạn xây dựng lại thực tại chân thật hơn?",
       "Bạn học được gì về sự kiên cường của mình sau những biến động bất ngờ?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 17,
     "name": "The Star",
     "nameVi": "Ngôi Sao",
-    "image": "/textures/tarot/17-star.webp",
-    "keywords": ["hy vọng", "chữa lành", "niềm tin", "cảm hứng"],
-    "symbolism": ["Ngôi sao lớn 8 cánh cùng 7 sao nhỏ (nguồn cảm hứng vũ trụ)", "Thiếu nữ trút nước xuống hồ và đất (dâng hiến và nuôi dưỡng)", "Chú chim Ibis trên cành cây (trực giác và trí tuệ)"],
+    "image": "/textures/tarot/ar17.jpg",
+    "keywords": [
+      "hy vọng",
+      "chữa lành",
+      "niềm tin",
+      "cảm hứng"
+    ],
+    "symbolism": [
+      "Ngôi sao lớn 8 cánh cùng 7 sao nhỏ (nguồn cảm hứng vũ trụ)",
+      "Thiếu nữ trút nước xuống hồ và đất (dâng hiến và nuôi dưỡng)",
+      "Chú chim Ibis trên cành cây (trực giác và trí tuệ)"
+    ],
     "upright": "Ngôi sao hy vọng soi sáng con đường bạn đi. Sự bình yên, niềm tin và cảm hứng sáng tạo đang tràn ngập tâm hồn.",
     "reversed": "Cảm giác tuyệt vọng nhất thời hoặc đánh mất niềm tin. Hãy nhớ rằng bầu trời đêm càng tối thì ánh sao càng rực rỡ.",
     "reflectionPrompts": [
       "Niềm hy vọng và ước mơ trong trẻo nhất nào đang thắp sáng tâm hồn bạn?",
       "Bạn có thể mang ánh sáng và sự lạc quan đó lan tỏa đến những ai quanh mình?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 18,
     "name": "The Moon",
     "nameVi": "Mặt Trăng",
-    "image": "/textures/tarot/18-moon.webp",
-    "keywords": ["ảo ảnh", "nỗi sợ vô hình", "trực giác", "mơ hồ"],
-    "symbolism": ["Mặt trăng chiếu rọi đêm tối (vùng vô thức bí ẩn)", "Chó sói và chó nhà sủa trăng (bản năng hoang dã và thuần hóa)", "Con tôm bò lên từ đầm lầy (sự trỗi dậy của nỗi sợ nguyên thủy)"],
+    "image": "/textures/tarot/ar18.jpg",
+    "keywords": [
+      "ảo ảnh",
+      "nỗi sợ vô hình",
+      "trực giác",
+      "mơ hồ"
+    ],
+    "symbolism": [
+      "Mặt trăng chiếu rọi đêm tối (vùng vô thức bí ẩn)",
+      "Chó sói và chó nhà sủa trăng (bản năng hoang dã và thuần hóa)",
+      "Con tôm bò lên từ đầm lầy (sự trỗi dậy của nỗi sợ nguyên thủy)"
+    ],
     "upright": "Điều hướng qua những cảm xúc mơ hồ hoặc nỗi sợ vô hình. Đừng vội vàng đưa ra quyết định khi chưa sáng tỏ mọi sự.",
     "reversed": "Những hiểu lầm bắt đầu được giải tỏa, bức màn sương tan dần để lộ sự thật rõ ràng trước mắt.",
     "reflectionPrompts": [
       "Nỗi sợ hãi nào bên trong bạn thực chất chỉ là ảo ảnh do tâm trí tự thêu dệt?",
       "Làm thế nào để bạn bước đi tự tin ngay cả khi con đường phía trước còn phủ sương mù?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 19,
     "name": "The Sun",
     "nameVi": "Mặt Trời",
-    "image": "/textures/tarot/19-sun.webp",
-    "keywords": ["hân hoan", "thành công", "rực rỡ", "sức sống"],
-    "symbolism": ["Mặt trời tỏa 21 tia sáng rực rỡ (sự sáng tỏ tuyệt đối)", "Đứa trẻ trần trụi cưỡi ngựa trắng (sự hồn nhiên và tự do nguyên bản)", "Bức tường gạch hoa hướng dương (thành quả tốt tươi)"],
+    "image": "/textures/tarot/ar19.jpg",
+    "keywords": [
+      "hân hoan",
+      "thành công",
+      "rực rỡ",
+      "sức sống"
+    ],
+    "symbolism": [
+      "Mặt trời tỏa 21 tia sáng rực rỡ (sự sáng tỏ tuyệt đối)",
+      "Đứa trẻ trần trụi cưỡi ngựa trắng (sự hồn nhiên và tự do nguyên bản)",
+      "Bức tường gạch hoa hướng dương (thành quả tốt tươi)"
+    ],
     "upright": "Ánh sáng rực rỡ của niềm vui, thành tựu và sự lạc quan. Năng lượng tích cực sẽ lan tỏa đến mọi khía cạnh trong đời sống bạn.",
     "reversed": "Niềm vui bị che khuất bởi chút muộn phiền hoặc sự kiêu ngạo nhất thời. Hãy mở rộng lòng mình để đón nhận sự ấm áp.",
     "reflectionPrompts": [
       "Điều gì đang đem lại cho bạn nguồn năng lượng sống và niềm vui thuần khiết nhất?",
       "Bạn muốn tỏa sáng và chia sẻ thành công của mình với những ai?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 20,
     "name": "Judgement",
     "nameVi": "Phán Quyết",
-    "image": "/textures/tarot/20-judgement.webp",
-    "keywords": ["thức tỉnh", "tiếng gọi định mệnh", "tha thứ", "tái sinh"],
-    "symbolism": ["Thiên thần Gabriel thổi tù và vàng (tiếng gọi thức tỉnh)", "Mọi người bước ra từ mộ đá mở rộng vòng tay (sự giải thoát)", "Dãy núi phủ tuyết phía xa (những chân lý bất biến)"],
+    "image": "/textures/tarot/ar20.jpg",
+    "keywords": [
+      "thức tỉnh",
+      "tiếng gọi định mệnh",
+      "tha thứ",
+      "tái sinh"
+    ],
+    "symbolism": [
+      "Thiên thần Gabriel thổi tù và vàng (tiếng gọi thức tỉnh)",
+      "Mọi người bước ra từ mộ đá mở rộng vòng tay (sự giải thoát)",
+      "Dãy núi phủ tuyết phía xa (những chân lý bất biến)"
+    ],
     "upright": "Thời khắc thức tỉnh và nhìn lại hành trình đã qua để tha thứ và giải thoát. Hãy lắng nghe tiếng gọi cao đẹp của tâm hồn.",
     "reversed": "Tự phán xét bản thân quá mức hoặc do dự trước một quyết định làm mới cuộc đời. Hãy can đảm bước sang trang mới.",
     "reflectionPrompts": [
       "Nếu được tha thứ cho mọi sai lầm trong quá khứ, bạn sẽ chọn sống cuộc đời mới ra sao?",
       "Tiếng gọi sâu thẳm trong tim đang thôi thúc bạn làm điều gì?"
-    ]
+    ],
+    "suit": "major"
   },
   {
     "id": 21,
     "name": "The World",
     "nameVi": "Thế Giới",
-    "image": "/textures/tarot/21-world.webp",
-    "keywords": ["viên mãn", "hoàn thành", "toàn vẹn", "hợp nhất"],
-    "symbolism": ["Vòng nguyệt quế tròn đầy (sự hoàn tất chu kỳ vĩ đại)", "Vũ công nhảy múa cầm hai cây gậy (sự làm chủ và hợp nhất)", "Bốn sinh vật thần thánh ở 4 góc (trật tự vũ trụ trọn vẹn)"],
+    "image": "/textures/tarot/ar21.jpg",
+    "keywords": [
+      "viên mãn",
+      "hoàn thành",
+      "toàn vẹn",
+      "hợp nhất"
+    ],
+    "symbolism": [
+      "Vòng nguyệt quế tròn đầy (sự hoàn tất chu kỳ vĩ đại)",
+      "Vũ công nhảy múa cầm hai cây gậy (sự làm chủ và hợp nhất)",
+      "Bốn sinh vật thần thánh ở 4 góc (trật tự vũ trụ trọn vẹn)"
+    ],
     "upright": "Hành trình đã cán đích trong sự viên mãn và trọn vẹn. Mọi nỗ lực được đền đáp xứng đáng, chuẩn bị cho một tầm cao mới.",
     "reversed": "Gần đạt tới đích nhưng còn chút việc dở dang. Hãy kiên trì hoàn thành những bước cuối cùng để tận hưởng trọn vẹn thành quả.",
     "reflectionPrompts": [
       "Bài học lớn nhất mà hành trình vừa qua đã tôi luyện nên con người bạn là gì?",
       "Bạn cảm thấy biết ơn điều gì nhất khi nhìn lại toàn bộ chặng đường đã đi qua?"
+    ],
+    "suit": "major"
+  },
+  {
+    "id": 22,
+    "name": "Ace of Wands",
+    "nameVi": "Ách Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/waac.jpg",
+    "keywords": [
+      "nguồn cảm hứng mới",
+      "ý tưởng đột phá",
+      "sức mạnh sáng tạo",
+      "khởi đầu đầy lửa"
+    ],
+    "symbolism": [
+      "Bàn tay từ mây cầm cây gậy đâm chồi",
+      "Lâu đài trên ngọn đồi phía xa",
+      "Lá cây bay lơ lửng tượng trưng cho sinh khí"
+    ],
+    "upright": "Ngọn lửa cảm hứng bùng cháy. Đây là thời điểm tuyệt vời để khởi xướng dự án mới với sự nhiệt huyết và quyết tâm cao độ.",
+    "reversed": "Thiếu định hướng, năng lượng bị trì trệ hoặc ngần ngại chưa dám nắm bắt cơ hội mới.",
+    "reflectionPrompts": [
+      "Dự án hay đam mê nào đang thôi thúc bạn bắt tay vào hành động ngay hôm nay?"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Two of Wands",
+    "nameVi": "Hai Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa02.jpg",
+    "keywords": [
+      "lập kế hoạch",
+      "tầm nhìn tương lai",
+      "khám phá",
+      "quyết định tiến bước"
+    ],
+    "symbolism": [
+      "Người đàn ông đứng trên tường thành nhìn ra biển",
+      "Tay cầm quả cầu tượng trưng cho thế giới",
+      "Hai cây gậy cắm trên tường thành"
+    ],
+    "upright": "Bạn đang đứng ở vị thế vững chắc và có tầm nhìn xa. Hãy tự tin lên kế hoạch dài hạn để bước ra khỏi vùng an toàn.",
+    "reversed": "Ngại mạo hiểm, do dự khi đứng trước các lựa chọn, hoặc kế hoạch thiếu thực tế.",
+    "reflectionPrompts": [
+      "Kế hoạch tiếp theo của bạn cần bước đi cụ thể nào để mở rộng thế giới cá nhân?"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Three of Wands",
+    "nameVi": "Ba Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa03.jpg",
+    "keywords": [
+      "mở rộng tầm nhìn",
+      "tiến bộ",
+      "thành quả bước đầu",
+      "cơ hội vươn xa"
+    ],
+    "symbolism": [
+      "Nhân vật quay lưng nhìn ra biển cả bao la",
+      "Những con tàu đang giương buồm trở về",
+      "Ba cây gậy cắm vững chãi"
+    ],
+    "upright": "Những hạt giống bạn gieo trồng đang bắt đầu đơm hoa kết trái. Cơ hội hợp tác và mở rộng quy mô đang tới gần.",
+    "reversed": "Kỳ vọng bị trì hoãn, thất vọng tạm thời hoặc khó khăn trong việc phối hợp đối tác.",
+    "reflectionPrompts": [
+      "Bạn đã sẵn sàng đón nhận những cơ hội lớn hơn mà bản thân đã dày công chuẩn bị chưa?"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Four of Wands",
+    "nameVi": "Bốn Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa04.jpg",
+    "keywords": [
+      "chúc mừng",
+      "hạnh phúc sum vầy",
+      "nền tảng vững chắc",
+      "bình an gia đạo"
+    ],
+    "symbolism": [
+      "Vòm hoa rực rỡ đan trên bốn cây gậy",
+      "Hai nhân vật nâng cao bó hoa chúc mừng",
+      "Lâu đài nguy nga phía sau"
+    ],
+    "upright": "Khoảnh khắc của sự ăn mừng, niềm vui sum họp và thành quả ngọt ngào sau thời gian nỗ lực. Môi trường xung quanh ngập tràn ấm áp.",
+    "reversed": "Căng thẳng nội bộ gia đình hoặc tập thể, cảm giác chưa thực sự hòa nhập hoặc niềm vui bị gián đoạn.",
+    "reflectionPrompts": [
+      "Điều gì trong cuộc sống hiện tại xứng đáng để bạn trân trọng và ăn mừng cùng người thân?"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Five of Wands",
+    "nameVi": "Năm Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa05.jpg",
+    "keywords": [
+      "cạnh tranh",
+      "bất đồng ý kiến",
+      "thử thách nhóm",
+      "tranh luận sôi nổi"
+    ],
+    "symbolism": [
+      "Năm chàng trai cầm gậy vung vẩy đấu nhau",
+      "Mỗi người một trang phục khác nhau",
+      "Mặt đất gồ ghề không bằng phẳng"
+    ],
+    "upright": "Xung đột ý kiến và sự cạnh tranh là tự nhiên để tìm ra giải pháp tối ưu. Hãy giữ tâm thế xây dựng và công bằng.",
+    "reversed": "Né tránh mâu thuẫn một cách tiêu cực, hoặc căng thẳng leo thang không cần thiết.",
+    "reflectionPrompts": [
+      "Làm thế nào để bạn biến sự bất đồng quan điểm thành cơ hội thấu hiểu và cải tiến?"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Six of Wands",
+    "nameVi": "Sáu Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa06.jpg",
+    "keywords": [
+      "chiến thắng",
+      "được công nhận",
+      "vinh quang",
+      "tự tin dẫn đầu"
+    ],
+    "symbolism": [
+      "Kỵ sĩ cưỡi ngựa trắng đội vòng nguyệt quế",
+      "Cây gậy gắn vòng nguyệt quế giơ cao",
+      "Đám đông vui mừng tán thưởng xung quanh"
+    ],
+    "upright": "Nỗ lực của bạn đã được đền đáp xứng đáng bằng sự ghi nhận và ủng hộ từ mọi người. Hãy tự hào về hành trình đã qua.",
+    "reversed": "Kiêu ngạo quá mức dẫn đến xa cách, hoặc cảm giác thành tích của mình chưa được nhìn nhận đúng mực.",
+    "reflectionPrompts": [
+      "Bạn đón nhận thành công với lòng biết ơn và sự khiêm nhường như thế nào?"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Seven of Wands",
+    "nameVi": "Bảy Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa07.jpg",
+    "keywords": [
+      "bảo vệ lập trường",
+      "kiên cường",
+      "vượt qua thử thách",
+      "bản lĩnh kiên định"
+    ],
+    "symbolism": [
+      "Người đàn ông đứng trên đỉnh đồi phòng thủ",
+      "Hai chiếc giày cọc cạch biểu thị sự ứng biến nhanh",
+      "Sáu cây gậy từ dưới chĩa lên"
+    ],
+    "upright": "Dù có nhiều áp lực từ bên ngoài, bạn vẫn nắm giữ lợi thế vị trí cao. Hãy kiên định bảo vệ những giá trị cốt lõi của mình.",
+    "reversed": "Kiệt sức vì phải liên tục phòng thủ, hoặc cố chấp bảo vệ điều không còn phù hợp.",
+    "reflectionPrompts": [
+      "Nguyên tắc quan trọng nhất mà bạn sẵn sàng kiên cường giữ vững lúc này là gì?"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Eight of Wands",
+    "nameVi": "Tám Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa08.jpg",
+    "keywords": [
+      "tốc độ nhanh",
+      "tin tức tới tấp",
+      "tiến triển vượt bậc",
+      "chuyển động thông suốt"
+    ],
+    "symbolism": [
+      "Tám cây gậy bay vút qua bầu trời quang đãng",
+      "Dòng sông thanh bình phía dưới",
+      "Mọi chướng ngại đều biến mất"
+    ],
+    "upright": "Mọi việc đang tăng tốc với tốc độ chóng mặt. Những tin tức quan trọng hoặc bước ngoặt sẽ diễn ra suôn sẻ không ngờ.",
+    "reversed": "Hấp tấp vội vã dẫn đến sai sót, hoặc sự chậm trễ khó chịu gây ức chế.",
+    "reflectionPrompts": [
+      "Bạn cần tập trung năng lượng vào đâu để bắt kịp nhịp độ phát triển nhanh chóng này?"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Nine of Wands",
+    "nameVi": "Chín Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa09.jpg",
+    "keywords": [
+      "sức bền kiên trì",
+      "phòng thủ cẩn trọng",
+      "chặng cuối kiên gan",
+      "kinh nghiệm sống"
+    ],
+    "symbolism": [
+      "Người lính bị thương băng đầu đứng tựa gậy",
+      "Tám cây gậy dựng thành hàng rào phía sau",
+      "Ánh mắt cảnh giác nhưng không bỏ cuộc"
+    ],
+    "upright": "Bạn đã đi qua nhiều sóng gió và chỉ còn một bước nữa là tới đích. Đừng bỏ cuộc lúc này; sự kiên nhẫn sẽ mang lại trái ngọt.",
+    "reversed": "Mệt mỏi kiệt sức, phòng thủ quá mức biến thành nghi ngờ thái quá mọi người.",
+    "reflectionPrompts": [
+      "Nguồn nội lực nào đã giúp bạn vượt qua những giai đoạn cam go nhất trong quá khứ?"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Ten of Wands",
+    "nameVi": "Mười Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wa10.jpg",
+    "keywords": [
+      "gánh nặng trách nhiệm",
+      "áp lực quá tải",
+      "ôm đồm nhiều việc",
+      "sắp cán đích"
+    ],
+    "symbolism": [
+      "Người đàn ông cúi gập người ôm bó mười cây gậy nặng nề",
+      "Hướng về ngôi làng phía trước",
+      "Tầm nhìn bị che khuất bởi gánh nặng"
+    ],
+    "upright": "Bạn đang gánh vác quá nhiều trách nhiệm trên vai. Hãy học cách san sẻ và ủy quyền để không bị kiệt sức trước khi đến đích.",
+    "reversed": "Biết buông bỏ những gánh nặng không cần thiết, hoặc sụp đổ vì kiệt quệ tinh thần.",
+    "reflectionPrompts": [
+      "Gánh nặng nào bạn có thể chia sẻ hoặc buông bỏ để bước đi nhẹ nhàng hơn?"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Page of Wands",
+    "nameVi": "Tiểu Đồng Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wapa.jpg",
+    "keywords": [
+      "người mang tin vui",
+      "tinh thần nhiệt huyết",
+      "học hỏi khám phá",
+      "tò mò trẻ trung"
+    ],
+    "symbolism": [
+      "Chàng trai trẻ nhìn say mê cây gậy đang nở lộc",
+      "Chiếc lông vũ đỏ trên nón tượng trưng nhiệt huyết",
+      "Vùng sa mạc phía sau"
+    ],
+    "upright": "Một thông điệp tích cực hoặc một sở thích mới đầy hứng khởi. Hãy đón nhận với sự tò mò trong trẻo và tinh thần sẵn sàng học hỏi.",
+    "reversed": "Thiếu kiên nhẫn, nhiệt tình nửa vời hoặc tin tức bị trì hoãn.",
+    "reflectionPrompts": [
+      "Lĩnh vực mới nào đang khơi dậy niềm đam mê tìm tòi khám phá của bạn?"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Knight of Wands",
+    "nameVi": "Hiệp Sĩ Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/wakn.jpg",
+    "keywords": [
+      "hành động quả cảm",
+      "phiêu lưu xông xáo",
+      "tràn đầy năng lượng",
+      "quyết đoán mãnh liệt"
+    ],
+    "symbolism": [
+      "Kỵ sĩ cưỡi ngựa đỏ tung vó hung dũng",
+      "Áo choàng in hình kỳ nhông lửa",
+      "Ngọn đuốc gậy bốc cháy"
+    ],
+    "upright": "Năng lượng hành động mạnh mẽ và khí thế hừng hực. Đây là thời cơ để dũng cảm tiến lên và chinh phục mục tiêu đã đặt ra.",
+    "reversed": "Nóng vội, liều lĩnh bất cẩn hoặc thiếu kiên nhẫn dẫn đến xung đột.",
+    "reflectionPrompts": [
+      "Làm sao để bạn giữ được ngọn lửa nhiệt huyết mà vẫn duy trì sự sáng suốt, thận trọng?"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Queen of Wands",
+    "nameVi": "Hoàng Hậu Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/waqu.jpg",
+    "keywords": [
+      "tự tin cuốn hút",
+      "ấm áp hào phóng",
+      "sáng tạo độc lập",
+      "năng lượng rạng rỡ"
+    ],
+    "symbolism": [
+      "Nữ hoàng ngồi ngai vàng chạm khắc sư tử",
+      "Tay cầm hoa hướng dương và cây gậy đâm chồi",
+      "Mèo đen dưới chân tượng trưng trực giác sâu sắc"
+    ],
+    "upright": "Sự tự tin, sức quyến rũ tự nhiên và lòng nhân ái của bạn thu hút sự ủng hộ từ mọi người. Hãy tỏa sáng bằng chính con người thật của mình.",
+    "reversed": "Ghen tuông, độc đoán hoặc cảm giác bất an về giá trị bản thân.",
+    "reflectionPrompts": [
+      "Bạn làm thế nào để nuôi dưỡng sự tự tin và lan tỏa nguồn năng lượng tích cực tới xung quanh?"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "King of Wands",
+    "nameVi": "Vua Gậy",
+    "suit": "wands",
+    "image": "/textures/tarot/waki.jpg",
+    "keywords": [
+      "lãnh đạo có tầm nhìn",
+      "người truyền cảm hứng",
+      "bản lĩnh tiên phong",
+      "thành công rực rỡ"
+    ],
+    "symbolism": [
+      "Nhà vua ngồi trên ngai vàng quyền uy chạm kỳ nhông cắn đuôi",
+      "Áo choàng màu cam lửa",
+      "Chiếc vương miện hình ngọn lửa"
+    ],
+    "upright": "Khả năng lãnh đạo xuất sắc và tầm nhìn chiến lược. Bạn có sức mạnh biến những ý tưởng táo bạo thành hiện thực bền vững.",
+    "reversed": "Độc tài, áp đặt ý chí hoặc đòi hỏi quá cao ở người khác.",
+    "reflectionPrompts": [
+      "Làm thế nào để tầm nhìn của bạn có thể truyền cảm hứng và trao quyền cho tập thể cùng phát triển?"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Ace of Cups",
+    "nameVi": "Ách Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cuac.jpg",
+    "keywords": [
+      "tình yêu ngập tràn",
+      "khởi đầu cảm xúc",
+      "trực giác thăng hoa",
+      "lòng trắc ẩn"
+    ],
+    "symbolism": [
+      "Bàn tay nâng chiếc chén thánh tràn năm dòng nước",
+      "Chim bồ câu ngậm bánh thánh thả vào chén",
+      "Hoa sen nở trên mặt hồ phẳng lặng"
+    ],
+    "upright": "Một dòng chảy cảm xúc mới dâng trào. Trái tim bạn rộng mở để đón nhận tình yêu, sự tha thứ và những kết nối tâm linh sâu sắc.",
+    "reversed": "Khép kín cảm xúc, cảm giác cô đơn hoặc tổn thương tình cảm chưa lành.",
+    "reflectionPrompts": [
+      "Bạn đang đón nhận và trao đi tình cảm với sự chân thành và cởi mở như thế nào?"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Two of Cups",
+    "nameVi": "Hai Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu02.jpg",
+    "keywords": [
+      "sự kết nối đôi lứa",
+      "đồng điệu tâm hồn",
+      "hòa giải chân thành",
+      "hợp tác ăn ý"
+    ],
+    "symbolism": [
+      "Đôi nam nữ trao nhau chén rượu giao bôi",
+      "Đầu sư tử có cánh (Caduceus) biểu tượng thần Hermes",
+      "Ngôi nhà ấm cúng phía xa"
+    ],
+    "upright": "Sự thấu hiểu và gắn kết sâu sắc giữa hai tâm hồn. Mối quan hệ đối tác hoặc tình yêu phát triển dựa trên sự tôn trọng lẫn nhau.",
+    "reversed": "Hiểu lầm, mất cân bằng cho - nhận, hoặc khoảng cách cảm xúc cần được giãi bày.",
+    "reflectionPrompts": [
+      "Mối quan hệ nào đang cần sự lắng nghe và hòa hợp chân thành từ bạn?"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Three of Cups",
+    "nameVi": "Ba Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu03.jpg",
+    "keywords": [
+      "niềm vui bằng hữu",
+      "ăn mừng đoàn tụ",
+      "hội ngộ sẻ chia",
+      "tình bạn tri kỷ"
+    ],
+    "symbolism": [
+      "Ba cô gái nâng chén nhảy múa trong vườn cây trĩu quả",
+      "Vòng hoa quả ngọt ngào",
+      "Sự chia sẻ niềm vui không vụ lợi"
+    ],
+    "upright": "Thời gian tuyệt vời để gặp gỡ bạn bè, tận hưởng tình thân và chia sẻ niềm hạnh phúc cùng những người đồng điệu.",
+    "reversed": "Bị cô lập khỏi nhóm bạn, hoặc tiệc tùng quá đà xao nhãng việc quan trọng.",
+    "reflectionPrompts": [
+      "Những người bạn tri kỷ nào đã mang lại cho bạn tiếng cười và nguồn động viên quý giá nhất?"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Four of Cups",
+    "nameVi": "Bốn Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu04.jpg",
+    "keywords": [
+      "chiêm nghiệm nội tâm",
+      "thờ ơ lạnh nhạt",
+      "bỏ lỡ cơ hội",
+      "cần làm mới cảm xúc"
+    ],
+    "symbolism": [
+      "Chàng trai ngồi khoanh tay dưới bóng cây",
+      "Ba chiếc chén đặt trước mặt không ngó ngàng",
+      "Chiếc chén thứ tư lơ lửng từ bàn tay mây trao tặng"
+    ],
+    "upright": "Bạn có thể đang cảm thấy chán nản hoặc quá tập trung vào những điều chưa như ý mà quên mất cơ hội mới đang hiển hiện trước mắt.",
+    "reversed": "Tỉnh thức sau giai đoạn trầm lắng, sẵn sàng nắm bắt cơ hội mới trong đời sống.",
+    "reflectionPrompts": [
+      "Món quà hay cơ hội nào trong tầm tay mà bạn có thể đang vô tình phớt lờ?"
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Five of Cups",
+    "nameVi": "Năm Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu05.jpg",
+    "keywords": [
+      "tiếc nuối mất mát",
+      "nỗi buồn chia ly",
+      "học cách chấp nhận",
+      "vẫn còn hy vọng"
+    ],
+    "symbolism": [
+      "Nhân vật choàng áo đen cúi đầu nhìn ba chiếc chén đổ rượu lênh láng",
+      "Hai chiếc chén nguyên vẹn phía sau lưng",
+      "Cây cầu bắc qua sông dẫn về lâu đài"
+    ],
+    "upright": "Nỗi buồn về điều đã qua là có thật, nhưng đừng quên bạn vẫn còn hai chiếc chén nguyên vẹn phía sau lưng. Hãy quay lại và bước tiếp.",
+    "reversed": "Hàn gắn vết thương lòng, chấp nhận tha thứ và mở lòng bước qua quá khứ.",
+    "reflectionPrompts": [
+      "Điều gì quý giá vẫn đang còn lại bên bạn sau những mất mát hay trắc trở đã qua?"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Six of Cups",
+    "nameVi": "Sáu Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu06.jpg",
+    "keywords": [
+      "hoài niệm tuổi thơ",
+      "sự hồn nhiên trong trẻo",
+      "gặp lại người xưa",
+      "tình cảm ấm áp"
+    ],
+    "symbolism": [
+      "Cậu bé tặng cô bé chiếc chén cắm đầy hoa trắng",
+      "Ngôi làng cổ kính bình yên",
+      "Người lính gác phía xa biểu thị sự an toàn chở che"
+    ],
+    "upright": "Những ký ức đẹp đẽ hoặc người quen cũ mang lại sự ấm lòng. Hãy nuôi dưỡng lại sự ngây thơ, chân thành và ngọt ngào của đứa trẻ bên trong.",
+    "reversed": "Mắc kẹt trong quá khứ, không chịu trưởng thành hoặc từ chối thực tế hiện tại.",
+    "reflectionPrompts": [
+      "Kỷ niệm đẹp hay ước mơ thuở bé nào có thể tiếp thêm nguồn cảm hứng cho bạn hôm nay?"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Seven of Cups",
+    "nameVi": "Bảy Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu07.jpg",
+    "keywords": [
+      "ảo mộng viển vông",
+      "nhiều lựa chọn",
+      "cám dỗ mê hoặc",
+      "cần tỉnh táo thực tế"
+    ],
+    "symbolism": [
+      "Người đàn ông đứng trước bảy chiếc chén trên mây",
+      "Chén chứa đầu người, lâu đài, châu báu, rắn độc, rồng lửa",
+      "Cảnh sắc mờ ảo huyền ảo"
+    ],
+    "upright": "Có quá nhiều cơ hội và ảo vọng trước mắt khiến bạn dễ phân tâm. Hãy tỉnh táo phân biệt đâu là ước mơ thực tế và đâu chỉ là ảo ảnh phù hoa.",
+    "reversed": "Sáng suốt vượt qua ảo tưởng, xác định rõ ràng mục tiêu cốt lõi để hành động dứt khoát.",
+    "reflectionPrompts": [
+      "Trong số các dự định hiện nay, đâu là điều thực chất và bền vững nhất đối với bạn?"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Eight of Cups",
+    "nameVi": "Tám Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu08.jpg",
+    "keywords": [
+      "dũng cảm rời đi",
+      "tìm kiếm chân lý",
+      "buông bỏ điều quen thuộc",
+      "hành trình tâm linh"
+    ],
+    "symbolism": [
+      "Người khoác áo đỏ chống gậy bước đi trong đêm trăng",
+      "Tám chiếc chén xếp ngăn nắp bị bỏ lại",
+      "Con đường gồ ghề hướng lên ngọn núi cao"
+    ],
+    "upright": "Nhận ra điều quen thuộc không còn đem lại sự trọn vẹn tinh thần, bạn dũng cảm dứt áo ra đi để kiếm tìm ý nghĩa sâu sắc hơn cho cuộc đời.",
+    "reversed": "Ngại ngần chưa dám rời bỏ mối quan hệ hoặc môi trường độc hại vì thói quen.",
+    "reflectionPrompts": [
+      "Điều gì trong cuộc sống bạn biết rõ đã đến lúc cần buông tay để tâm hồn thanh thản?"
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Nine of Cups",
+    "nameVi": "Chín Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu09.jpg",
+    "keywords": [
+      "ước nguyện thành hiện thực",
+      "thỏa mãn trọn vẹn",
+      "hạnh phúc viên mãn",
+      "lạc quan an vui"
+    ],
+    "symbolism": [
+      "Người đàn ông mập mạp ngồi cười mãn nguyện",
+      "Chín chiếc chén vàng xếp vòng cung phía sau",
+      "Khăn trải bàn màu xanh hy vọng"
+    ],
+    "upright": "Lá bài của những điều ước thành hiện thực! Sự thỏa mãn sâu sắc về cả thể chất lẫn tinh thần. Hãy tận hưởng niềm vui này với lòng biết ơn.",
+    "reversed": "Thỏa mãn bề nổi, kiêu căng tự phụ hoặc cảm giác trống rỗng dù đã đạt được mục tiêu vật chất.",
+    "reflectionPrompts": [
+      "Điều ước nào của bạn đã thành hiện thực và bạn trân trọng niềm vui đó như thế nào?"
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Ten of Cups",
+    "nameVi": "Mười Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cu10.jpg",
+    "keywords": [
+      "gia đình hạnh phúc",
+      "bình an trọn vẹn",
+      "hòa hợp bền lâu",
+      "phúc lộc tràn trề"
+    ],
+    "symbolism": [
+      "Đôi vợ chồng ôm nhau nhìn cầu vồng mười chén vàng",
+      "Hai đứa trẻ nô đùa bên cạnh",
+      "Ngôi nhà nhỏ ven sông thanh bình"
+    ],
+    "upright": "Hình ảnh tối thượng của hạnh phúc gia đình và sự bình yên nội tâm. Tình cảm đong đầy và sự đồng lòng gắn bó giữa những người thân yêu.",
+    "reversed": "Rạn nứt trong tổ ấm gia đình, bất đồng quan điểm sống hoặc giá trị đạo đức bị lung lay.",
+    "reflectionPrompts": [
+      "Định nghĩa về một mái ấm trọn vẹn và an yên nhất trong lòng bạn là gì?"
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Page of Cups",
+    "nameVi": "Tiểu Đồng Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cupa.jpg",
+    "keywords": [
+      "thông điệp trực giác",
+      "tâm hồn nghệ sĩ",
+      "bất ngờ dễ thương",
+      "trái tim nhạy cảm"
+    ],
+    "symbolism": [
+      "Chàng trai cầm chiếc chén có chú cá nhỏ nhô đầu lên nhìn",
+      "Áo in họa tiết hoa sen trang nhã",
+      "Sóng biển dập dềnh phía sau"
+    ],
+    "upright": "Một thông điệp ngọt ngào hoặc tín hiệu trực giác bất ngờ. Hãy tin vào tiếng nói nhỏ nhẹ nhưng chính xác từ trái tim và linh cảm của bạn.",
+    "reversed": "Cảm xúc mong manh dễ vỡ, thất thường hoặc trốn tránh hiện thực trong thế giới mộng mơ.",
+    "reflectionPrompts": [
+      "Trực giác hay linh cảm gần đây đang mách bảo bạn điều gì về một người hoặc một tình huống?"
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Knight of Cups",
+    "nameVi": "Hiệp Sĩ Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cukn.jpg",
+    "keywords": [
+      "người mang tình yêu",
+      "lãng mạn hào hoa",
+      "theo đuổi ước mơ",
+      "lời mời hấp dẫn"
+    ],
+    "symbolism": [
+      "Kỵ sĩ cưỡi ngựa trắng thong thả bước đi",
+      "Tay nâng chiếc chén thánh một cách trân trọng",
+      "Cánh chim trên mũ biểu tượng hòa bình"
+    ],
+    "upright": "Lời mời gọi đầy tình cảm hoặc một cơ hội hợp tác lãng mạn. Hãy theo đuổi lý tưởng với trái tim thuần khiết và sự thanh lịch.",
+    "reversed": "Hứa suông, thất vọng vì kỳ vọng quá cao, hoặc để cảm xúc chi phối mất đi lý trí.",
+    "reflectionPrompts": [
+      "Lý tưởng sống hay ước mơ lãng mạn nào đang dẫn dắt bạn trên con đường hiện tại?"
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Queen of Cups",
+    "nameVi": "Hoàng Hậu Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cuqu.jpg",
+    "keywords": [
+      "trực giác thấu suốt",
+      "lòng trắc ẩn bao la",
+      "chữa lành tâm hồn",
+      "tình mẹ dịu dàng"
+    ],
+    "symbolism": [
+      "Nữ hoàng ngồi ngai vàng sát mép nước",
+      "Hai tay cầm chiếc chén có nắp đậy tinh xảo",
+      "Mặt biển phẳng lặng phản chiếu bầu trời"
+    ],
+    "upright": "Khả năng thấu cảm tuyệt vời và sự chở che dịu dàng. Bạn là điểm tựa bình yên cho những người xung quanh tìm kiếm sự thấu hiểu và xoa dịu.",
+    "reversed": "Quá nhạy cảm, dễ bị tổn thương hoặc để cảm xúc của người khác xâm lấn ranh giới bản thân.",
+    "reflectionPrompts": [
+      "Làm thế nào để bạn vừa có thể thấu cảm, yêu thương người khác mà vẫn bảo vệ được nguồn năng lượng bình an của chính mình?"
+    ]
+  },
+  {
+    "id": 49,
+    "name": "King of Cups",
+    "nameVi": "Vua Chén",
+    "suit": "cups",
+    "image": "/textures/tarot/cuki.jpg",
+    "keywords": [
+      "làm chủ cảm xúc",
+      "sáng suốt nhân từ",
+      "điềm tĩnh vững chãi",
+      "cố vấn đáng tin"
+    ],
+    "symbolism": [
+      "Nhà vua ngồi trên ngai vàng trôi giữa biển khơi cuộn sóng",
+      "Tay cầm chén và vương trượng",
+      "Dù biển dậy sóng nhưng tâm vua vẫn tĩnh tại"
+    ],
+    "upright": "Sự cân bằng hoàn hảo giữa lý trí và tình cảm. Bạn có thể đối diện với mọi sóng gió cuộc đời bằng một tâm hồn điềm đạm, nhân hậu và bao dung.",
+    "reversed": "Thao túng cảm xúc, lạnh lùng xa cách hoặc dồn nén cảm xúc tiêu cực.",
+    "reflectionPrompts": [
+      "Làm sao để giữ cho tâm hồn luôn an tĩnh, không bị chao đảo trước những biến cố bên ngoài?"
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Ace of Swords",
+    "nameVi": "Ách Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/swac.jpg",
+    "keywords": [
+      "sự thật sáng tỏ",
+      "đột phá tư duy",
+      "công lý minh bạch",
+      "sức mạnh trí tuệ"
+    ],
+    "symbolism": [
+      "Bàn tay từ mây nắm chặt thanh kiếm hai lưỡi",
+      "Vương miện vàng và cành ô liu treo trên mũi kiếm",
+      "Những ngọn núi nhọn sắc sảo phía sau"
+    ],
+    "upright": "Màn sương mờ biến mất, sự thật sáng rõ như ban ngày. Đây là lúc sử dụng tư duy sắc bén và sự thẳng thắn để cắt đứt mọi rối ren.",
+    "reversed": "Hiểu lầm tai hại, lời nói cay độc tổn thương người khác hoặc tư duy bế tắc.",
+    "reflectionPrompts": [
+      "Sự thật cốt lõi nào bạn cần nhìn nhận thẳng thắn mà không né tránh?"
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Two of Swords",
+    "nameVi": "Hai Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw02.jpg",
+    "keywords": [
+      "lưỡng lự bế tắc",
+      "bịt mắt làm ngơ",
+      "thế cân bằng mong manh",
+      "cần ra quyết định"
+    ],
+    "symbolism": [
+      "Người phụ nữ bịt mắt cầm hai thanh kiếm bắt chéo trước ngực",
+      "Ngồi trên bệ đá trước biển đêm đầy đá ngầm",
+      "Trăng lưỡi liềm trên cao"
+    ],
+    "upright": "Bạn đang đứng trước ngã rẽ khó xử và cố tình bịt mắt để trì hoãn quyết định. Hãy tháo dải băng bịt mắt ra và đối diện với thực tế.",
+    "reversed": "Bế tắc kéo dài, quá tải thông tin hoặc sự thật bị vạch trần không thể trốn tránh.",
+    "reflectionPrompts": [
+      "Quyết định nào bạn đang trì hoãn và điều gì thực sự khiến bạn ngần ngại lựa chọn?"
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Three of Swords",
+    "nameVi": "Ba Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw03.jpg",
+    "keywords": [
+      "tổn thương sâu sắc",
+      "tan vỡ cõi lòng",
+      "nỗi đau chia cắt",
+      "thanh lọc tâm hồn"
+    ],
+    "symbolism": [
+      "Trái tim bị ba thanh kiếm xuyên qua",
+      "Mây đen vần vũ và mưa rơi xối xả",
+      "Không có bóng dáng con người"
+    ],
+    "upright": "Nỗi đau buồn hay sự phản bội là một phần của hành trình sống. Hãy cho phép mình cảm nhận nỗi đau để chữa lành và giải phóng nó.",
+    "reversed": "Bắt đầu hồi phục sau tổn thương, tha thứ cho người khác và cho chính mình.",
+    "reflectionPrompts": [
+      "Vết thương nào trong quá khứ cần được bạn lắng nghe, xoa dịu và buông bỏ?"
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Four of Swords",
+    "nameVi": "Bốn Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw04.jpg",
+    "keywords": [
+      "nghỉ ngơi phục hồi",
+      "tĩnh tâm thiền định",
+      "rút lui tạm thời",
+      "tái tạo năng lượng"
+    ],
+    "symbolism": [
+      "Bức tượng hiệp sĩ nằm tĩnh lặng cầu nguyện trên mộ đá",
+      "Ba thanh kiếm treo trên tường, một kiếm đặt dưới thân",
+      "Cửa sổ kính màu nhà thờ thiêng liêng"
+    ],
+    "upright": "Tâm trí bạn cần được nghỉ ngơi sau chuỗi ngày căng thẳng. Hãy tạm dừng lại, rút lui khỏi những ồn ào để phục hồi năng lượng tinh thần.",
+    "reversed": "Kiệt sức vì không chịu nghỉ ngơi, hoặc đã đến lúc phải đứng dậy quay lại với công việc.",
+    "reflectionPrompts": [
+      "Bạn đã dành đủ thời gian tĩnh lặng mỗi ngày để tâm trí được nghỉ ngơi chưa?"
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Five of Swords",
+    "nameVi": "Năm Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw05.jpg",
+    "keywords": [
+      "thắng trận mất bạn",
+      "xung đột cay đắng",
+      "cái giá của sự kiêu hãnh",
+      "tranh chấp vô nghĩa"
+    ],
+    "symbolism": [
+      "Người đàn ông mỉm cười đắc thắng thu gom kiếm",
+      "Hai người thua cuộc quay lưng bước đi trong uất ức",
+      "Mây trời vần vũ sắc nhọn"
+    ],
+    "upright": "Chiến thắng bằng mọi giá chỉ để lại sự cay đắng và cô lập. Hãy tự hỏi: tranh cãi để chứng minh mình đúng có đáng để đánh mất mối quan hệ quý giá không?",
+    "reversed": "Nhận ra cái giá đắt của sự hiếu thắng, mong muốn hòa giải và chấm dứt thù hằn.",
+    "reflectionPrompts": [
+      "Cuộc tranh cãi nào gần đây đang khiến bạn thắng về lý nhưng lại thua về tình?"
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Six of Swords",
+    "nameVi": "Sáu Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw06.jpg",
+    "keywords": [
+      "rời bỏ vùng giông bão",
+      "chuyển biến tích cực",
+      "hành trình hồi phục",
+      "vượt qua khó khăn"
+    ],
+    "symbolism": [
+      "Người chèo đò chở hai mẹ con qua sông",
+      "Sáu thanh kiếm cắm trên thuyền",
+      "Mặt nước bên phải gợn sóng nhưng phía trước phẳng lặng"
+    ],
+    "upright": "Thời kỳ gian nan nhất đang dần lùi lại phía sau. Bạn đang tiến về vùng nước êm ả và thanh bình hơn. Hãy vững lòng bước tiếp.",
+    "reversed": "Vẫn còn mang nặng gánh nặng tâm lý từ quá khứ, hành trình chuyển biến gặp trắc trở.",
+    "reflectionPrompts": [
+      "Bạn cần chuẩn bị tâm thế như thế nào để đón nhận chương mới bình yên hơn trong đời?"
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Seven of Swords",
+    "nameVi": "Bảy Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw07.jpg",
+    "keywords": [
+      "chiến lược mưu mẹo",
+      "hành động kín đáo",
+      "lừa dối né tránh",
+      "cần thận trọng"
+    ],
+    "symbolism": [
+      "Kẻ lén lút ôm năm thanh kiếm bỏ chạy khỏi doanh trại",
+      "Hai thanh kiếm vẫn cắm lại phía sau",
+      "Đầu ngoái lại quan sát xem có bị phát hiện"
+    ],
+    "upright": "Có những tình huống cần dùng sự khéo léo thay vì đối đầu trực diện. Tuy nhiên, hãy thận trọng với sự thiếu trung thực từ người khác hoặc chính mình.",
+    "reversed": "Sự thật bị phát hiện, cắn rứt lương tâm hoặc từ bỏ những thủ thuật mờ ám để sống ngay thẳng.",
+    "reflectionPrompts": [
+      "Bạn có đang trốn tránh một sự thật hay cố gắng đi đường tắt trong việc gì không?"
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Eight of Swords",
+    "nameVi": "Tám Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw08.jpg",
+    "keywords": [
+      "tự giam cầm tâm trí",
+      "bế tắc ảo tưởng",
+      "nỗi sợ hãi vô hình",
+      "cần mở mắt nhìn ra"
+    ],
+    "symbolism": [
+      "Người phụ nữ bị trói lỏng và bịt mắt đứng giữa tám thanh kiếm",
+      "Mặt đất bùn lầy",
+      "Lâu đài trên núi phía xa"
+    ],
+    "upright": "Những rào cản trói buộc bạn thực chất chỉ là nỗi sợ hãi trong tâm trí. Dây trói rất lỏng; chỉ cần bạn mở mắt và bước đi, bạn sẽ tự do.",
+    "reversed": "Nhận ra giới hạn do chính mình tạo ra, thoát khỏi tư duy nạn nhân để tìm lại tự do.",
+    "reflectionPrompts": [
+      "Niềm tin giới hạn nào đang giam giữ bạn trong sự sợ hãi mà thực tế không hề tồn tại?"
+    ]
+  },
+  {
+    "id": 58,
+    "name": "Nine of Swords",
+    "nameVi": "Chín Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw09.jpg",
+    "keywords": [
+      "lo âu mất ngủ",
+      "cơn ác mộng tâm lý",
+      "dằn vặt suy nghĩ",
+      "thổi phồng nỗi sợ"
+    ],
+    "symbolism": [
+      "Người ngồi bật dậy trên giường ôm mặt khóc",
+      "Chín thanh kiếm treo ngang trên nền đen u ám",
+      "Tấm chăn thêu hoa hồng và cung hoàng đạo"
+    ],
+    "upright": "Căng thẳng và nỗi lo âu đang phóng đại vấn đề vượt xa thực tế. Hãy chia sẻ nỗi lòng với người tin cậy để ánh sáng xua tan bóng tối.",
+    "reversed": "Ánh sáng le lói xua tan cơn ác mộng, tìm thấy sự an ủi và hồi phục sau giai đoạn khủng hoảng.",
+    "reflectionPrompts": [
+      "Nỗi sợ hãi nào đang khiến bạn trăn trở và liệu nó có thực sự nghiêm trọng như bạn nghĩ?"
+    ]
+  },
+  {
+    "id": 59,
+    "name": "Ten of Swords",
+    "nameVi": "Mười Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/sw10.jpg",
+    "keywords": [
+      "đáy của nỗi đau",
+      "kết thúc dứt điểm",
+      "bình minh ló dạng",
+      "tái sinh từ đống tro tàn"
+    ],
+    "symbolism": [
+      "Người đàn ông nằm úp với mười thanh kiếm găm trên lưng",
+      "Bầu trời đen kịt nhưng chân trời xa đã le lói ánh bình minh vàng",
+      "Mặt biển phẳng lặng"
+    ],
+    "upright": "Mọi chuyện tồi tệ nhất đã chạm đáy và kết thúc dứt điểm. Không thể tệ hơn được nữa; từ đây trở đi chỉ có ánh bình minh và sự tái sinh.",
+    "reversed": "Chống cự lại sự kết thúc tất yếu, hoặc từ từ vực dậy sau một cú sốc lớn.",
+    "reflectionPrompts": [
+      "Khi điều tồi tệ nhất đã qua đi, bạn sẽ bắt đầu xây dựng lại cuộc sống với niềm tin nào?"
+    ]
+  },
+  {
+    "id": 60,
+    "name": "Page of Swords",
+    "nameVi": "Tiểu Đồng Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/swpa.jpg",
+    "keywords": [
+      "hiếu kỳ sắc sảo",
+      "người canh gác cảnh giác",
+      "tìm tòi sự thật",
+      "học hỏi nhanh nhạy"
+    ],
+    "symbolism": [
+      "Chàng trai trẻ hai tay cầm thanh kiếm giơ cao sẵn sàng",
+      "Gió thổi mạnh làm lay động lọn tóc",
+      "Đàn chim bay lượn trên nền trời mây cuộn"
+    ],
+    "upright": "Tinh thần ham học hỏi, tư duy phản biện và khao khát tìm ra chân tướng sự việc. Hãy giữ sự thận trọng trong lời nói.",
+    "reversed": "Bộc trực bốc đồng, săm soi lỗi lầm của người khác hoặc buôn chuyện vô căn cứ.",
+    "reflectionPrompts": [
+      "Bạn cần tìm hiểu thêm thông tin gì trước khi đưa ra kết luận về một vấn đề quan trọng?"
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Knight of Swords",
+    "nameVi": "Hiệp Sĩ Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/swkn.jpg",
+    "keywords": [
+      "quyết đoán xông xáo",
+      "hành động thần tốc",
+      "thẳng thắn sắc bén",
+      "tập trung cao độ"
+    ],
+    "symbolism": [
+      "Kỵ sĩ cưỡi ngựa phi nước đại lao về phía trước",
+      "Thanh kiếm tuốt trần giơ cao",
+      "Mây gió cuồn cuộn biểu thị tốc độ bão táp"
+    ],
+    "upright": "Tập trung cao độ và hành động thần tốc để đạt mục tiêu. Đừng để bất kỳ chướng ngại nào làm lung lay quyết tâm của bạn.",
+    "reversed": "Hấp tấp lỗ mãng, nói năng xúc phạm người khác hoặc tạo ra sai lầm do vội vàng.",
+    "reflectionPrompts": [
+      "Làm sao để vừa hành động quyết liệt vừa giữ được sự hòa nhã và tôn trọng người khác?"
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Queen of Swords",
+    "nameVi": "Hoàng Hậu Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/swqu.jpg",
+    "keywords": [
+      "trí tuệ độc lập",
+      "sáng suốt công minh",
+      "thấu thị sự thật",
+      "ranh giới rõ ràng"
+    ],
+    "symbolism": [
+      "Nữ hoàng ngồi ngai vàng vươn cao lên tận trời mây",
+      "Một tay cầm kiếm dựng thẳng, một tay mở ra tiếp nhận",
+      "Gương mặt nghiêm nghị thấu suốt"
+    ],
+    "upright": "Khả năng nhìn thấu bản chất sự việc mà không bị cảm xúc chi phối. Hãy thiết lập ranh giới rõ ràng và đối xử công bằng với tất cả.",
+    "reversed": "Lạnh lùng cay nghiệt, đóng chặt trái tim vì những tổn thương trong quá khứ.",
+    "reflectionPrompts": [
+      "Ranh giới cá nhân nào bạn cần thiết lập rõ ràng để bảo vệ sự bình an của mình?"
+    ]
+  },
+  {
+    "id": 63,
+    "name": "King of Swords",
+    "nameVi": "Vua Kiếm",
+    "suit": "swords",
+    "image": "/textures/tarot/swki.jpg",
+    "keywords": [
+      "bậc thầy trí tuệ",
+      "công lý chuẩn mực",
+      "tư duy chiến lược",
+      "lãnh đạo kỷ cương"
+    ],
+    "symbolism": [
+      "Nhà vua ngồi ngai vàng chạm khắc thiên thần",
+      "Thanh kiếm dựng thẳng biểu trưng cho công lý",
+      "Áo choàng màu tím hoàng gia"
+    ],
+    "upright": "Khả năng phân tích logic và đưa ra quyết định dựa trên sự thật và nguyên tắc công bằng tuyệt đối. Lời khuyên từ bạn mang sức nặng đáng tin cậy.",
+    "reversed": "Lạm dụng quyền lực, giáo điều độc đoán hoặc sử dụng trí tuệ để thao túng người khác.",
+    "reflectionPrompts": [
+      "Khi đứng trước quyết định lớn, làm thế nào để bạn cân bằng giữa lý lẽ sắc bén và lòng nhân từ?"
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Ace of Pentacles",
+    "nameVi": "Ách Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/peac.jpg",
+    "keywords": [
+      "cơ hội tài chính",
+      "hạt giống thịnh vượng",
+      "nền tảng vật chất",
+      "thành quả thực tế"
+    ],
+    "symbolism": [
+      "Bàn tay từ mây nâng đồng tiền vàng khắc ngôi sao năm cánh",
+      "Khu vườn sum suê hoa cỏ dẫn ra vòm hoa",
+      "Dãy núi xanh vững chãi phía xa"
+    ],
+    "upright": "Một cơ hội tuyệt vời về công việc, đầu tư hoặc cải thiện thu nhập. Hạt giống thịnh vượng đã được trao vào tay bạn; hãy chăm sóc nó cẩn thận.",
+    "reversed": "Bỏ lỡ cơ hội tài chính, chi tiêu lãng phí hoặc kế hoạch đầu tư thiếu tính khả thi.",
+    "reflectionPrompts": [
+      "Cơ hội thực tế nào đang mở ra trước mắt để bạn xây dựng sự vững chắc cho tương lai?"
+    ]
+  },
+  {
+    "id": 65,
+    "name": "Two of Pentacles",
+    "nameVi": "Hai Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe02.jpg",
+    "keywords": [
+      "cân bằng linh hoạt",
+      "quản lý nhiều việc",
+      "thích nghi biến động",
+      "xoay xở khéo léo"
+    ],
+    "symbolism": [
+      "Chàng trai tung hứng hai đồng tiền vàng trong dải băng vô cực",
+      "Những con tàu nhấp nhô trên ngọn sóng lớn phía sau",
+      "Đôi chân bước đi nhịp nhàng"
+    ],
+    "upright": "Khả năng xoay xở và thích nghi khéo léo với nhịp sống bận rộn. Hãy duy trì sự cân bằng giữa công việc, tài chính và đời sống cá nhân.",
+    "reversed": "Quá tải vì ôm đồm nhiều việc, mất cân bằng tài chính hoặc cảm giác căng thẳng triền miên.",
+    "reflectionPrompts": [
+      "Bạn cần điều chỉnh thời gian và tài nguyên thế nào để không bị cuốn vào vòng xoáy bận rộn?"
+    ]
+  },
+  {
+    "id": 66,
+    "name": "Three of Pentacles",
+    "nameVi": "Ba Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe03.jpg",
+    "keywords": [
+      "tay nghề tinh xảo",
+      "hợp tác nhóm",
+      "học hỏi chuyên môn",
+      "xây dựng thành quả"
+    ],
+    "symbolism": [
+      "Người thợ điêu khắc chăm chú làm việc trong nhà thờ",
+      "Nhà sư và kiến trúc sư cầm bản vẽ thảo luận",
+      "Ba đồng tiền khắc trên vòm đá"
+    ],
+    "upright": "Kỹ năng chuyên môn của bạn được đánh giá cao. Sự hợp tác nhịp nhàng giữa các cá nhân xuất sắc sẽ tạo nên những công trình để đời.",
+    "reversed": "Thiếu sự phối hợp đồng đội, kỹ năng chưa hoàn thiện hoặc thiếu tinh thần học hỏi.",
+    "reflectionPrompts": [
+      "Kỹ năng hay chuyên môn nào bạn muốn mài giũa để đóng góp tốt nhất cho tập thể?"
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Four of Pentacles",
+    "nameVi": "Bốn Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe04.jpg",
+    "keywords": [
+      "giữ gìn của cải",
+      "kiểm soát an toàn",
+      "keo kiệt sợ mất",
+      "cần mở rộng lưu thông"
+    ],
+    "symbolism": [
+      "Người đàn ông ôm chặt đồng tiền trước ngực, đội một đồng trên đầu, hai chân dẫm lên hai đồng",
+      "Thành phố phồn hoa phía sau",
+      "Tư thế khép kín"
+    ],
+    "upright": "Bạn có ý thức bảo toàn tài chính và xây dựng sự ổn định. Tuy nhiên, đừng để nỗi sợ mất mát biến bạn thành kẻ keo kiệt, khép kín với cuộc đời.",
+    "reversed": "Hào phóng hơn, buông bỏ nhu cầu kiểm soát hoặc chi tiêu mất kiểm soát.",
+    "reflectionPrompts": [
+      "Bạn đang nắm giữ điều gì quá chặt khiến năng lượng mới không thể lưu thông vào cuộc sống?"
+    ]
+  },
+  {
+    "id": 68,
+    "name": "Five of Pentacles",
+    "nameVi": "Năm Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe05.jpg",
+    "keywords": [
+      "khó khăn tài chính",
+      "cô đơn thiếu thốn",
+      "bỏ quên sự trợ giúp",
+      "thử thách nghịch cảnh"
+    ],
+    "symbolism": [
+      "Hai người ăn mày tàn tật lầm lũi bước đi trong bão tuyết",
+      "Cửa sổ nhà thờ rực rỡ ánh sáng năm đồng tiền",
+      "Sự trợ giúp ở ngay bên cạnh nhưng họ không nhìn thấy"
+    ],
+    "upright": "Khó khăn về vật chất hay cảm giác bị cô lập chỉ là tạm thời. Hãy ngẩng đầu lên: cánh cửa trợ giúp và lòng tốt luôn ở ngay bên cạnh bạn.",
+    "reversed": "Vượt qua giai đoạn thiếu thốn, tìm thấy công việc mới hoặc sự hỗ trợ quý giá từ cộng đồng.",
+    "reflectionPrompts": [
+      "Khi gặp khó khăn, bạn có sẵn sàng gạt bỏ sự mặc cảm để đón nhận sự giúp đỡ từ người khác?"
+    ]
+  },
+  {
+    "id": 69,
+    "name": "Six of Pentacles",
+    "nameVi": "Sáu Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe06.jpg",
+    "keywords": [
+      "cho và nhận",
+      "hào phóng sẻ chia",
+      "công bằng từ tâm",
+      "nhận được giúp đỡ"
+    ],
+    "symbolism": [
+      "Thương gia giàu có tay cầm cán cân công lý, tay phát tiền cho người nghèo",
+      "Cán cân thăng bằng hoàn hảo",
+      "Dòng chảy tài chính tuần hoàn"
+    ],
+    "upright": "Quy luật lưu thông của sự thịnh vượng: cho đi với lòng hảo tâm và đón nhận với lòng biết ơn. Bạn đang ở vị thế có thể giúp đỡ người khác.",
+    "reversed": "Cho đi có điều kiện, nợ nần không sòng phẳng hoặc mất cân bằng quyền lực trong mối quan hệ.",
+    "reflectionPrompts": [
+      "Làm thế nào để bạn duy trì sự cân bằng lành mạnh giữa việc cho đi và đón nhận trong đời sống?"
+    ]
+  },
+  {
+    "id": 70,
+    "name": "Seven of Pentacles",
+    "nameVi": "Bảy Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe07.jpg",
+    "keywords": [
+      "kiên nhẫn chờ đợi",
+      "đánh giá thành quả",
+      "đầu tư dài hạn",
+      "thành quả tích lũy"
+    ],
+    "symbolism": [
+      "Người nông dân chống cuốc nhìn cây nho trĩu bảy đồng tiền vàng",
+      "Thành quả đang dần chín",
+      "Ánh mắt suy ngẫm kiên nhẫn"
+    ],
+    "upright": "Bạn đã nỗ lực rất nhiều và giờ là lúc kiên nhẫn chờ thành quả chín muồi. Hãy dành thời gian đánh giá lại hướng đi để tiếp tục tối ưu hóa.",
+    "reversed": "Nôn nóng sốt ruột, thất vọng vì kết quả chậm chạp hoặc lãng phí công sức vào việc không sinh lời.",
+    "reflectionPrompts": [
+      "Thành quả nào đang dần thành hình và cần sự kiên nhẫn bồi đắp thêm của bạn mỗi ngày?"
+    ]
+  },
+  {
+    "id": 71,
+    "name": "Eight of Pentacles",
+    "nameVi": "Tám Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe08.jpg",
+    "keywords": [
+      "chuyên tâm rèn luyện",
+      "nghệ thuật tinh xảo",
+      "cần cù bền bỉ",
+      "nâng cao tay nghề"
+    ],
+    "symbolism": [
+      "Người thợ trẻ miệt mài gõ từng đồng tiền vàng trên đe",
+      "Bảy đồng tiền đã hoàn thành treo thẳng hàng",
+      "Thành phố ở phía xa biểu thị sự tách biệt tập trung"
+    ],
+    "upright": "Sự tập trung cao độ và tính kỷ luật trong công việc. Việc mài giũa tay nghề và học hỏi không ngừng sẽ sớm mang lại danh tiếng và thành công.",
+    "reversed": "Làm việc rập khuôn vô hồn, thiếu động lực phấn đấu hoặc xao nhãng việc nâng cao kỹ năng.",
+    "reflectionPrompts": [
+      "Kỹ năng nào bạn muốn rèn luyện mỗi ngày để trở thành một chuyên gia thực thụ trong lĩnh vực của mình?"
+    ]
+  },
+  {
+    "id": 72,
+    "name": "Nine of Pentacles",
+    "nameVi": "Chín Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe09.jpg",
+    "keywords": [
+      "độc lập tự chủ",
+      "hưởng thụ thành quả",
+      "thanh lịch sung túc",
+      "tự hào về bản thân"
+    ],
+    "symbolism": [
+      "Người phụ nữ quý phái dạo bước trong vườn nho trĩu quả",
+      "Chim ưng săn mồi đậu trên tay có bao tay",
+      "Ốc sên dưới chân tượng trưng sự kiên định bền bỉ"
+    ],
+    "upright": "Bạn đã tự thân xây dựng nên cuộc sống độc lập, thịnh vượng và an nhàn. Hãy tận hưởng những tiện nghi và vẻ đẹp mà chính tay bạn đã tạo dựng.",
+    "reversed": "Phụ thuộc tài chính vào người khác, làm việc quá sức quên hưởng thụ hoặc phô trương bề ngoài.",
+    "reflectionPrompts": [
+      "Bạn trân trọng sự độc lập và những thành quả do chính nỗ lực của mình tạo ra như thế nào?"
+    ]
+  },
+  {
+    "id": 73,
+    "name": "Ten of Pentacles",
+    "nameVi": "Mười Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pe10.jpg",
+    "keywords": [
+      "di sản gia đình",
+      "thịnh vượng bền vững",
+      "truyền thống cội nguồn",
+      "viên mãn vật chất"
+    ],
+    "symbolism": [
+      "Ba thế hệ gia đình quây quần dưới cổng vòm dinh thự",
+      "Hai chú chó trung thành",
+      "Mười đồng tiền vàng sắp xếp theo hình Cây Sự Sống (Tree of Life)"
+    ],
+    "upright": "Đỉnh cao của sự an toàn tài chính và phước lành gia tộc. Bạn được bao bọc bởi nền tảng vững chắc và để lại di sản quý giá cho thế hệ mai sau.",
+    "reversed": "Tranh chấp tài sản gia đình, mâu thuẫn thế hệ hoặc nguy cơ mất đi nền tảng ổn định.",
+    "reflectionPrompts": [
+      "Giá trị hay di sản lâu dài nào bạn muốn vun đắp và trao truyền lại cho những người bạn yêu thương?"
+    ]
+  },
+  {
+    "id": 74,
+    "name": "Page of Pentacles",
+    "nameVi": "Tiểu Đồng Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pepa.jpg",
+    "keywords": [
+      "học trò chăm chỉ",
+      "cơ hội học tập",
+      "kế hoạch thực tế",
+      "bắt đầu tích lũy"
+    ],
+    "symbolism": [
+      "Chàng thanh niên trẻ hai tay nâng niu đồng tiền vàng",
+      "Đứng trên cánh đồng cỏ xanh hoa nở",
+      "Ngọn núi xa tượng trưng mục tiêu vững chãi"
+    ],
+    "upright": "Khao khát học hỏi những kỹ năng mới và xây dựng tương lai một cách thực tế. Hãy bắt đầu từ những bước nhỏ nhưng chắc chắn.",
+    "reversed": "Lười biếng thiếu kỷ luật, mơ mộng viển vông hoặc kế hoạch thiếu tính thực tiễn.",
+    "reflectionPrompts": [
+      "Kiến thức hay kỹ năng thực tiễn nào bạn nên đầu tư học tập ngay từ bây giờ?"
+    ]
+  },
+  {
+    "id": 75,
+    "name": "Knight of Pentacles",
+    "nameVi": "Hiệp Sĩ Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pekn.jpg",
+    "keywords": [
+      "trách nhiệm đáng tin cậy",
+      "làm việc chăm chỉ",
+      "kiên trì bền bỉ",
+      "tiến bước vững chắc"
+    ],
+    "symbolism": [
+      "Kỵ sĩ cưỡi chú ngựa đen đứng vững chãi trên đồng ruộng",
+      "Tay cầm đồng tiền vàng nhìn chăm chú",
+      "Cánh đồng đã được cày xới cẩn thận"
+    ],
+    "upright": "Sự kiên trì, đáng tin cậy và tận tụy tuyệt đối. Dù tiến độ có thể chậm hơn người khác nhưng mỗi bước chân của bạn đều vững chắc và không thể bị xô đổ.",
+    "reversed": "Bảo thủ cứng nhắc, lặp đi lặp lại những thói quen cũ kỹ hoặc lười nhác.",
+    "reflectionPrompts": [
+      "Làm thế nào để bạn duy trì sự kiên định thực hiện cam kết của mình tới cùng?"
+    ]
+  },
+  {
+    "id": 76,
+    "name": "Queen of Pentacles",
+    "nameVi": "Hoàng Hậu Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/pequ.jpg",
+    "keywords": [
+      "người nuôi dưỡng chu đáo",
+      "tháo vát thực tế",
+      "thịnh vượng ấm no",
+      "gắn kết với thiên nhiên"
+    ],
+    "symbolism": [
+      "Nữ hoàng ngồi ngai vàng chạm khắc hoa cỏ muông thú giữa thiên nhiên trù phú",
+      "Ôm đồng tiền vàng trong lòng",
+      "Chú thỏ rừng nhảy nhót tượng trưng cho sự sinh sôi nảy nở"
+    ],
+    "upright": "Sự tháo vát, đảm đang và hào phóng. Bạn có khả năng chăm lo chu đáo cho tổ ấm và biến mọi nguồn lực xung quanh thành sự thịnh vượng ấm no.",
+    "reversed": "Bỏ bê việc chăm sóc bản thân, lo lắng thái quá về tiền bạc hoặc quá coi trọng vật chất.",
+    "reflectionPrompts": [
+      "Bạn làm thế nào để vừa chăm sóc tốt cho công việc, tài chính vừa nuôi dưỡng sức khỏe và đời sống tinh thần?"
+    ]
+  },
+  {
+    "id": 77,
+    "name": "King of Pentacles",
+    "nameVi": "Vua Tiền",
+    "suit": "pentacles",
+    "image": "/textures/tarot/peki.jpg",
+    "keywords": [
+      "đế chế thịnh vượng",
+      "chuyên gia tài chính",
+      "thành đạt vững bền",
+      "hào hiệp đáng kính"
+    ],
+    "symbolism": [
+      "Nhà vua ngồi ngai vàng chạm khắc đầu bò đực",
+      "Áo choàng in hình chùm nho trĩu quả",
+      "Bàn chân đặt lên biểu tượng quyền lực lâu đài"
+    ],
+    "upright": "Sự thành công vang dội về tài chính và sự nghiệp. Bạn đã xây dựng được một đế chế vững chắc bằng sự thông thái, cần mẫn và có thể hào hiệp nâng đỡ người khác.",
+    "reversed": "Tham lam vật chất, độc đoán trong tiền bạc hoặc đánh giá con người chỉ qua khối tài sản.",
+    "reflectionPrompts": [
+      "Bạn sử dụng sự sung túc và kinh nghiệm của mình như thế nào để kiến tạo giá trị bền vững cho xã hội?"
     ]
   }
 ]

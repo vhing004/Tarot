@@ -8,7 +8,7 @@
 - **Workflow đang chạy**: W07 (Mở rộng Supabase, AI Oracle & Đa ngôn ngữ)
 - **Nhánh git**: `chore/deploy` (sắp merge vào `main`)
 - **Việc tiếp theo (1 dòng)**: Hoàn thành phát hành v1.0.0, kết nối Cloudflare Pages và chuẩn bị kế hoạch Phase P5.
-- **CONTENT_STATUS**: `sample` (22 lá Ẩn Chính / ~8 quẻ mẫu). Đổi thành `full` chỉ khi đủ dữ liệu (xem W12).
+- **CONTENT_STATUS**: `full` (Đủ trọn vẹn 78 lá bài Tarot Rider-Waite-Smith 1909 / ~8 quẻ mẫu). Đổi thành `full` chỉ khi đủ dữ liệu (xem W12).
 
 ## 2. Bảng phase
 | Phase | Workflow | Nội dung | Hoàn thành | Gate đã qua | Tag |
@@ -66,15 +66,11 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 7. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành task **Professional Tarot Journey** (phát triển Tarot chuyên nghiệp có nhịp điệu chiêm nghiệm).
+- Đã hoàn thành task **Full 78 Tarot Deck & Real Artwork System** (`PLAN-20261118-full-78-tarot-deck-and-artwork`).
 - **Thay đổi chính**:
-  - `TarotMode.ts`: Thay state `REVEAL` → `INSPECT` (chiêm nghiệm từng lá theo thứ tự, có nút Bỏ qua)
-  - `CardInspectOverlay.ts`: Component mới hiển thị tên lá, biểu tượng, từ khóa, lời thông điệp
-  - `ReadingPanel.ts`: Thêm Reflection Prompt Box (câu hỏi phản tư) và Journal Notes (ô ghi chú cá nhân + lưu vào repo)
-  - `main.css`: Thêm 238 dòng CSS cho inspect overlay, reflection box, journal notes
-  - `cards.json`: 22 lá Ẩn Chính đủ `symbolism[]` và `reflectionPrompts[]`
-  - `spreads.ts`: 4 kiểu trải bài chuyên nghiệp
-  - `interpret.ts`: Template lời giải 5 phần chuẩn
-- **Kết quả kiểm thử**: Vitest **57/57** pass (11 suites), TypeScript 0 error, check:rules 47 files 0 vi phạm, build thành công.
-- **Commit**: `3c858d9` — đã push lên `origin/main`.
-- **Bước kế tiếp**: Test thủ công trải nghiệm INSPECT trên browser (localhost:5173), kiểm tra gate G3 lifecycle.
+  - Trang bị trọn vẹn **78 ảnh tranh vẽ Rider-Waite-Smith 1909** (Public Domain) thực tế, xóa bỏ các file dummy 34 bytes.
+  - Mở rộng `cards.json` thành **đủ 78 lá bài** (22 Ẩn Chính + 56 Ẩn Phụ: Wands, Cups, Swords, Pentacles) với đầy đủ ý nghĩa, biểu tượng visual, từ khóa và câu hỏi phản tư.
+  - Sửa lỗi hình học góc xoay 3D (`rotation.x` từ PI/2 sang -PI/2) giúp mặt trước có tranh lá bài hiển thị rực rỡ, chính diện và sắc nét.
+  - Bổ sung tùy chọn chọn bộ bài (22 lá Ẩn Chính hoặc 78 lá Toàn diện) trong `QuestionForm.ts`.
+  - Bổ sung cơ chế fallback trực quan trong `CardInspectOverlay` đảm bảo không bao giờ bị rỗng ảnh.
+- **Kết quả kiểm thử**: Vitest **57/57** pass, TypeScript 0 error, check:rules 47 files 0 vi phạm, build thành công 100%.
