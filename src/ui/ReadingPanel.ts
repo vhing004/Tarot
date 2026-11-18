@@ -2,6 +2,7 @@ import { t } from '@/shared/i18n';
 import type { DrawnCard, Hexagram, Reading } from '@/shared/types';
 import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
 import { generateShareCard, shareOrDownloadImage } from '@/services/share';
+import { AiOracleModal } from '@/ui/AiOracleModal';
 
 export interface ReadingPanelCallbacks {
   onRetry: () => void;
@@ -13,6 +14,7 @@ export class ReadingPanel {
   private element: HTMLElement | null = null;
   private readonly callbacks: ReadingPanelCallbacks;
   private currentReading: Reading | null = null;
+  private aiModal: AiOracleModal | null = null;
 
   constructor(callbacks: ReadingPanelCallbacks) {
     this.callbacks = callbacks;
@@ -127,6 +129,37 @@ export class ReadingPanel {
       promptBox.appendChild(promptList);
       cardBox.appendChild(promptBox);
     }
+
+    // Banner / Nút gọi AI Chiêm Nghiệm Tarot Đa Tùy Chọn
+    const aiCallout = document.createElement('div');
+    aiCallout.className = 'ai-callout-banner';
+
+    const aiIconSpan = document.createElement('span');
+    aiIconSpan.className = 'ai-callout-icon';
+    aiIconSpan.textContent = '🔮';
+
+    const aiInfo = document.createElement('div');
+    aiInfo.className = 'ai-callout-info';
+    const aiTitle = document.createElement('strong');
+    aiTitle.className = 'ai-callout-title';
+    aiTitle.textContent = 'Góc Nhìn Chiêm Nghiệm Chuyên Sâu từ AI Master';
+    const aiDesc = document.createElement('span');
+    aiDesc.className = 'ai-callout-desc';
+    aiDesc.textContent = 'Khám phá lời khuyên theo 4 góc nhìn: Khích lệ, Thẳng thắn cảnh báo rủi ro, Triết học nội tâm hoặc Hành động cụ thể.';
+    aiInfo.appendChild(aiTitle);
+    aiInfo.appendChild(aiDesc);
+
+    const aiBtn = document.createElement('button');
+    aiBtn.className = 'btn btn-primary ai-open-btn';
+    aiBtn.textContent = '✨ Tham vấn AI Master';
+    aiBtn.addEventListener('click', () => {
+      this.openAiModal(cards, parent);
+    });
+
+    aiCallout.appendChild(aiIconSpan);
+    aiCallout.appendChild(aiInfo);
+    aiCallout.appendChild(aiBtn);
+    cardBox.appendChild(aiCallout);
 
     this.appendCommonFooter(cardBox, interpretation);
 
@@ -359,7 +392,33 @@ export class ReadingPanel {
     cardBox.appendChild(btnGroup);
   }
 
+  private openAiModal(cards: readonly DrawnCard[], parent: HTMLElement): void {
+    this.aiModal?.unmount();
+    this.aiModal = new AiOracleModal({
+      cards,
+      question: this.currentReading?.question ?? '',
+      topic: this.currentReading?.topic ?? 'general',
+      onClose: () => {
+        this.aiModal?.unmount();
+        this.aiModal = null;
+      },
+      onSaveToJournal: (text: string) => {
+        const textarea = this.element?.querySelector<HTMLTextAreaElement>('.journal-note-input');
+        if (textarea) {
+          const current = textarea.value.trim();
+          textarea.value = current ? `${current}\n\n[Lời khuyên AI]:\n${text}` : `[Lời khuyên AI]:\n${text}`;
+          // Kích hoạt nút lưu nếu có
+          const saveBtn = this.element?.querySelector<HTMLButtonElement>('.journal-save-row .btn');
+          saveBtn?.click();
+        }
+      },
+    });
+    this.aiModal.mount(parent);
+  }
+
   unmount(): void {
+    this.aiModal?.unmount();
+    this.aiModal = null;
     if (this.element) {
       this.element.remove();
       this.element = null;

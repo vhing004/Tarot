@@ -107,6 +107,7 @@
 - [x] Task T.7: Tích hợp tùy chọn chọn quy mô bộ bài (22 lá hoặc 78 lá) trong `QuestionForm.ts` và cơ chế fallback an toàn trong `CardInspectOverlay`.
 - [x] Task T.8: Hiển thị tranh ảnh các lá bài đã rút trong Màn hình Tóm tắt kết quả (`ReadingPanel`) và danh sách Lịch sử (`History`) (`PLAN-20261118-summary-card-images`).
 - [x] Task T.9: Chuyển đổi toàn diện trải nghiệm thành ứng dụng thuần Tarot 3D (Tarot Sanctum), lược bỏ Kinh Dịch khỏi giao diện và runtime bundle, tối ưu nút bấm chính menu và chuỗi hiển thị (`PLAN-20261118-tarot-only`).
+- [x] Task T.10: Tích hợp Modal AI Chiêm nghiệm Tarot (`AiOracleModal`) với 4 góc nhìn đa dạng (Khích lệ, Thẳng thắn cảnh báo rủi ro, Triết học tâm thức, Hành động cụ thể), tích hợp toàn diện tri thức Tarot 78 lá, kết nối Gemini Flash Free API và bộ AI Offline Heuristic thông minh (`PLAN-20261118-ai-oracle-modal`).
 
 ---
 
