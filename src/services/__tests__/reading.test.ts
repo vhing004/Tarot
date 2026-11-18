@@ -20,6 +20,8 @@ describe('Reading Summary Service (R05 §5)', () => {
               nameVi: 'Cặp Đôi',
               image: '/textures/tarot/06-lovers.webp',
               keywords: ['tình cảm'],
+              symbolism: ['Hai nhân vật', 'Thiên thần'],
+              reflectionPrompts: ['Điều gì kết nối bạn với người kia?'],
               upright: 'Hòa hợp',
               reversed: 'Mâu thuẫn',
             },

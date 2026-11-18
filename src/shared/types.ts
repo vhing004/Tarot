@@ -6,14 +6,16 @@ export interface TarotCard {
   nameVi: string;
   image: string;
   keywords: string[];
+  symbolism: string[];
   upright: string;
   reversed: string;
+  reflectionPrompts: string[];
 }
 
 export interface DrawnCard {
   card: TarotCard;
   reversed: boolean;
-  position: string; // vd 'present' | 'past' | 'future'
+  position: string; // vd 'present' | 'past' | 'future' | 'situation' | 'challenge' | 'advice' | 'mind' | 'heart' | 'action'
 }
 
 export interface Hexagram {
@@ -32,7 +34,7 @@ export interface CoinLine {
 }
 
 export interface TarotResult {
-  spread: 'single' | 'three';
+  spread: string;
   cards: DrawnCard[];
 }
 
@@ -51,6 +53,7 @@ export interface Reading {
   createdAt: number;
   result: TarotResult | DivinationResult;
   interpretation: string;
+  notes?: string; // Ghi chú nhật ký cá nhân của người bói
 }
 
 export interface ReadingRepository {

@@ -9,6 +9,8 @@ const mockDeck: TarotCard[] = Array.from({ length: 22 }, (_, i) => ({
   nameVi: `Lá bài ${i}`,
   image: `/textures/tarot/${i}.webp`,
   keywords: ['thử nghiệm'],
+  symbolism: ['Biểu tượng test'],
+  reflectionPrompts: ['Câu hỏi phản tư test?'],
   upright: 'Nghĩa xuôi',
   reversed: 'Nghĩa ngược',
 }));

@@ -817,3 +817,241 @@ html, body {
   display: flex;
   justify-content: flex-end;
 }
+
+/* ==========================================================================
+   Tarot Card Inspection Overlay (Professional Ritual Pacing)
+   docs/tarot_game_development_guide.md mục 4, 9, 13
+   ========================================================================== */
+.card-inspect-container {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  max-width: 780px;
+  background: linear-gradient(145deg, rgba(22, 14, 38, 0.94), rgba(12, 8, 22, 0.96));
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.2);
+  border-radius: 16px;
+  padding: 1.25rem 1.75rem;
+  backdrop-filter: blur(14px);
+  z-index: 25;
+  animation: inspectSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text-main);
+}
+
+@keyframes inspectSlideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.inspect-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.inspect-step-badge {
+  font-size: 0.8rem;
+  color: var(--gold-light);
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.inspect-pos-badge {
+  font-weight: 600;
+  color: #ffd977;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.inspect-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.inspect-title {
+  font-size: 1.35rem;
+  color: #fff;
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.inspect-keywords {
+  font-size: 0.85rem;
+  color: var(--gold-primary);
+  font-style: italic;
+  margin-bottom: 0.6rem;
+}
+
+.inspect-meaning {
+  font-size: 0.95rem;
+  color: #e5daf5;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.inspect-symbols-box {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--gold-primary);
+}
+
+.inspect-symbols-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.inspect-symbols-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.inspect-symbol-tag {
+  font-size: 0.8rem;
+  color: #e2d2f7;
+  background: rgba(120, 60, 200, 0.22);
+  border: 1px solid rgba(160, 100, 240, 0.35);
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+}
+
+.inspect-action-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.inspect-next-btn {
+  padding: 0.75rem 1.8rem;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+}
+
+@media (max-width: 600px) {
+  .card-inspect-container {
+    bottom: 0.8rem;
+    padding: 1rem 1.1rem;
+    max-height: 65vh;
+    overflow-y: auto;
+  }
+  .inspect-title {
+    font-size: 1.15rem;
+  }
+  .inspect-meaning {
+    font-size: 0.88rem;
+  }
+  .inspect-next-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   Reflection Prompt Box & Journal Notes
+   ========================================================================== */
+.reflection-prompt-box {
+  background: linear-gradient(135deg, rgba(42, 22, 68, 0.7), rgba(18, 12, 32, 0.85));
+  border: 1px solid rgba(186, 140, 255, 0.45);
+  box-shadow: 0 0 20px rgba(186, 140, 255, 0.15);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.reflection-prompt-title {
+  font-size: 1.05rem;
+  color: #e2baff;
+  margin: 0 0 0.75rem 0;
+  font-family: 'Cinzel', serif;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reflection-prompt-list {
+  margin: 0;
+  padding-left: 1.3rem;
+  color: #e3d6f7;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.reflection-prompt-list li {
+  margin-bottom: 0.45rem;
+}
+
+.journal-note-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.journal-note-title {
+  font-size: 1.02rem;
+  color: var(--gold-light);
+  margin: 0 0 0.6rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.journal-note-input {
+  width: 100%;
+  min-height: 90px;
+  background: rgba(14, 9, 24, 0.75);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.75rem;
+  font-family: inherit;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.journal-note-input:focus {
+  outline: none;
+  border-color: var(--gold-light);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.journal-save-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.journal-save-status {
+  font-size: 0.88rem;
+  color: #6ee7b7;
+  font-style: italic;
+}

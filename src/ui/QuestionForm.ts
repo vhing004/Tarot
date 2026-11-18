@@ -80,8 +80,12 @@ export class QuestionForm {
     spreadLabel.textContent = t('tarot_spread_label');
     const selectSpread = document.createElement('select');
     selectSpread.className = 'form-select';
-    for (const key of Object.keys(TAROT_SPREADS) as TarotSpreadType[]) {
+
+    // Các spread tiêu biểu chuyên nghiệp (mục 5 docs/tarot_game_development_guide.md)
+    const availableSpreads: TarotSpreadType[] = ['single', 'three_time', 'three_situation', 'three_mind'];
+    for (const key of availableSpreads) {
       const def = TAROT_SPREADS[key];
+      if (!def) continue;
       const opt = document.createElement('option');
       opt.value = def.type;
       opt.textContent = def.labelVi;

@@ -311,6 +311,12 @@ export class DivinationMode implements Mode {
               onExit: () => {
                 this.ctx?.onExitToMenu();
               },
+              onSaveNotes: async (notes: string) => {
+                if (this.currentReadingRecord && this.ctx) {
+                  this.currentReadingRecord.notes = notes;
+                  await this.ctx.repo.save(this.currentReadingRecord);
+                }
+              },
             });
 
             this.readingPanel.mountDivination(

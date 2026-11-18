@@ -31,6 +31,8 @@ const mockReading: Reading = {
           nameVi: 'Kẻ Khờ',
           image: '/cards/0.webp',
           keywords: ['khởi đầu'],
+          symbolism: ['Túi hành lý', 'Vực thẳm'],
+          reflectionPrompts: ['Bạn đang bắt đầu hành trình nào?'],
           upright: 'Bắt đầu mới',
           reversed: 'Thiếu suy nghĩ',
         },

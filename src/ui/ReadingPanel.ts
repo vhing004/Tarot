@@ -6,6 +6,7 @@ import { generateShareCard, shareOrDownloadImage } from '@/services/share';
 export interface ReadingPanelCallbacks {
   onRetry: () => void;
   onExit: () => void;
+  onSaveNotes?: (notes: string) => Promise<void> | void;
 }
 
 export class ReadingPanel {
@@ -80,6 +81,34 @@ export class ReadingPanel {
       cardsList.appendChild(cardItem);
     }
     cardBox.appendChild(cardsList);
+
+    // Thu thập các câu hỏi phản tư (docs/tarot_game_development_guide.md mục 4 & 13)
+    const allPrompts: string[] = [];
+    for (const drawn of cards) {
+      if (drawn.card.reflectionPrompts) {
+        for (const p of drawn.card.reflectionPrompts) {
+          if (!allPrompts.includes(p)) allPrompts.push(p);
+        }
+      }
+    }
+    if (allPrompts.length > 0) {
+      const promptBox = document.createElement('div');
+      promptBox.className = 'reflection-prompt-box';
+      const promptTitle = document.createElement('h4');
+      promptTitle.className = 'reflection-prompt-title';
+      promptTitle.textContent = '🔮 Câu Hỏi Phản Tư Dành Cho Bạn (Self-Reflection):';
+      promptBox.appendChild(promptTitle);
+
+      const promptList = document.createElement('ul');
+      promptList.className = 'reflection-prompt-list';
+      for (const p of allPrompts) {
+        const li = document.createElement('li');
+        li.textContent = p;
+        promptList.appendChild(li);
+      }
+      promptBox.appendChild(promptList);
+      cardBox.appendChild(promptBox);
+    }
 
     this.appendCommonFooter(cardBox, interpretation);
 
@@ -207,6 +236,58 @@ export class ReadingPanel {
     interpSection.appendChild(interpHeader);
     interpSection.appendChild(interpText);
     cardBox.appendChild(interpSection);
+
+    // Ô ghi chú chiêm nghiệm cá nhân (docs/tarot_game_development_guide.md mục 13)
+    if (this.currentReading && this.callbacks.onSaveNotes) {
+      const journalBox = document.createElement('div');
+      journalBox.className = 'journal-note-box';
+
+      const journalTitle = document.createElement('h4');
+      journalTitle.className = 'journal-note-title';
+      journalTitle.textContent = '📝 Nhật Ký Chiêm Nghiệm Cá Nhân:';
+
+      const textarea = document.createElement('textarea');
+      textarea.className = 'journal-note-input';
+      textarea.placeholder =
+        'Ghi lại những cảm nhận, thông điệp đặc biệt hoặc kế hoạch hành động của bạn sau lượt trải bài này...';
+      textarea.value = this.currentReading.notes ?? '';
+
+      const saveRow = document.createElement('div');
+      saveRow.className = 'journal-save-row';
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'btn btn-secondary btn-sm';
+      saveBtn.textContent = '💾 Lưu ghi chú';
+
+      const statusSpan = document.createElement('span');
+      statusSpan.className = 'journal-save-status';
+
+      saveBtn.addEventListener('click', async () => {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Đang lưu...';
+        try {
+          await this.callbacks.onSaveNotes?.(textarea.value);
+          statusSpan.textContent = 'Đã lưu vào nhật ký ✨';
+          setTimeout(() => {
+            statusSpan.textContent = '';
+          }, 3000);
+        } catch (err) {
+          console.error('Lỗi lưu nhật ký:', err);
+          statusSpan.textContent = 'Lỗi lưu ghi chú!';
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.textContent = '💾 Lưu ghi chú';
+        }
+      });
+
+      saveRow.appendChild(saveBtn);
+      saveRow.appendChild(statusSpan);
+
+      journalBox.appendChild(journalTitle);
+      journalBox.appendChild(textarea);
+      journalBox.appendChild(saveRow);
+      cardBox.appendChild(journalBox);
+    }
 
     // Disclaimer bắt buộc (R05 §2)
     const disclaimer = document.createElement('p');

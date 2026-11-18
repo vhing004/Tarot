@@ -21,6 +21,8 @@ import { DeckView } from '@/modes/tarot/view/DeckView';
 import { SmokeParticles } from '@/core/SmokeParticles';
 import { QuestionForm, type QuestionFormData } from '@/ui/QuestionForm';
 import { ReadingPanel } from '@/ui/ReadingPanel';
+import { CardInspectOverlay } from '@/modes/tarot/ui/CardInspectOverlay';
+import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
 
 type TarotFsmState =
   | 'INTRO'
@@ -28,7 +30,7 @@ type TarotFsmState =
   | 'SHUFFLE'
   | 'SPREAD'
   | 'PICK'
-  | 'REVEAL'
+  | 'INSPECT'
   | 'SAVE'
   | 'READING';
 
@@ -65,6 +67,8 @@ export class TarotMode implements Mode {
   // UI Components
   private questionForm: QuestionForm | null = null;
   private readingPanel: ReadingPanel | null = null;
+  private inspectOverlay: CardInspectOverlay | null = null;
+  private currentInspectIndex = 0;
   private statusBarEl: HTMLElement | null = null;
   private skipBtnEl: HTMLElement | null = null;
 
@@ -224,15 +228,21 @@ export class TarotMode implements Mode {
           this.deckView?.disableInteraction();
         },
       })
-      .addState('REVEAL', {
+      .addState('INSPECT', {
         enter: () => {
-          this.showStatusBar(this.ctx?.t('tarot_status_reveal') ?? 'Đang lật bài...');
+          this.hideStatusBar();
+          // Nút bỏ qua: snap tất cả lá về trạng thái lật rồi chuyển thẳng sang SAVE
           this.showSkipButton(() => {
             this.snapAllCardsToRevealed();
             this.fsm.go('SAVE');
           });
-
-          void this.revealCardsSequentially();
+          this.currentInspectIndex = 0;
+          void this.inspectStep();
+        },
+        exit: () => {
+          this.hideSkipButton();
+          this.inspectOverlay?.unmount();
+          this.inspectOverlay = null;
         },
       })
       .addState('SAVE', {
@@ -285,6 +295,12 @@ export class TarotMode implements Mode {
               onExit: () => {
                 this.ctx?.onExitToMenu();
               },
+              onSaveNotes: async (notes: string) => {
+                if (this.currentReadingRecord && this.ctx) {
+                  this.currentReadingRecord.notes = notes;
+                  await this.ctx.repo.save(this.currentReadingRecord);
+                }
+              },
             });
             this.readingPanel.mount(
               uiRoot,
@@ -314,41 +330,69 @@ export class TarotMode implements Mode {
     if (this.pickedCards3D.length >= needCount) {
       this.deckView?.disableInteraction();
       this.deckView?.positionPickedCards(this.pickedCards3D, () => {
-        this.fsm.go('REVEAL');
+        this.fsm.go('INSPECT');
       });
     }
   }
 
-  private async revealCardsSequentially(): Promise<void> {
+  private async inspectStep(): Promise<void> {
     if (!this.ctx) return;
-
-    for (let i = 0; i < this.pickedCards3D.length; i++) {
-      const card3D = this.pickedCards3D[i]!;
-      const drawnData = this.drawnCardsResult[i]!;
-
-      // Nạp texture mặt trước theo yêu cầu (lazy load - R03 §6)
-      const texture = await this.assetLoader.loadTexture(drawnData.card.image);
-      card3D.setFrontTexture(texture);
-
-      this.ctx.audio.playCardFlip();
-
-      await new Promise<void>((resolve) => {
-        if (!this.ctx) {
-          resolve();
-          return;
-        }
-        card3D.flip(this.ctx.engine, drawnData.reversed, () => {
-          resolve();
-        });
-      });
-    }
-
-    if (this.fsm.current === 'REVEAL') {
+    const total = this.pickedCards3D.length;
+    if (this.currentInspectIndex >= total) {
       this.fsm.go('SAVE');
+      return;
     }
+
+    const card3D = this.pickedCards3D[this.currentInspectIndex];
+    const drawnData = this.drawnCardsResult[this.currentInspectIndex];
+    if (!card3D || !drawnData) {
+      this.fsm.go('SAVE');
+      return;
+    }
+
+    // 1. Tải texture mặt trước (lazy load - R03 §6)
+    const texture = await this.assetLoader.loadTexture(drawnData.card.image);
+    card3D.setFrontTexture(texture);
+
+    // 2. Lật lá bài này
+    this.ctx.audio.playCardFlip();
+    await new Promise<void>((resolve) => {
+      if (!this.ctx) {
+        resolve();
+        return;
+      }
+      card3D.flip(this.ctx.engine, drawnData.reversed, () => {
+        resolve();
+      });
+    });
+
+    // 3. Hiển thị CardInspectOverlay (docs/tarot_game_development_guide.md mục 9)
+    const uiRoot = document.getElementById('app-ui');
+    if (!uiRoot) return;
+
+    const isLast = this.currentInspectIndex >= total - 1;
+    const nextDrawn = !isLast ? this.drawnCardsResult[this.currentInspectIndex + 1] : undefined;
+    const nextPosLabel = nextDrawn ? (POSITION_LABELS_VI[nextDrawn.position] ?? nextDrawn.position) : undefined;
+
+    this.inspectOverlay?.unmount();
+    this.inspectOverlay = new CardInspectOverlay({
+      isLastCard: isLast,
+      nextPositionLabel: nextPosLabel,
+      onNext: () => {
+        this.currentInspectIndex++;
+        if (this.currentInspectIndex >= total) {
+          this.fsm.go('SAVE');
+        } else {
+          void this.inspectStep();
+        }
+      },
+    });
+
+    this.inspectOverlay.mount(uiRoot, drawnData, this.currentInspectIndex, total);
   }
 
   private snapAllCardsToRevealed(): void {
+    // Snap nhanh tất cả lá về trạng thái lật (dùng khi người dùng bỏ qua INSPECT)
     for (let i = 0; i < this.pickedCards3D.length; i++) {
       const card3D = this.pickedCards3D[i]!;
       const drawnData = this.drawnCardsResult[i];
@@ -420,7 +464,11 @@ export class TarotMode implements Mode {
 
     this.fsm.dispose();
     this.questionForm?.unmount();
+    this.questionForm = null;
     this.readingPanel?.unmount();
+    this.readingPanel = null;
+    this.inspectOverlay?.unmount();
+    this.inspectOverlay = null;
     this.hideStatusBar();
     this.hideSkipButton();
 

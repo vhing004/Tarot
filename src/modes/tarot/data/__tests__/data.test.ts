@@ -43,6 +43,12 @@ describe('Tarot Data Verification (Gate G5)', () => {
 
       expect(typeof card.reversed).toBe('string');
       expect(card.reversed.trim().length).toBeGreaterThan(0);
+
+      expect(Array.isArray(card.symbolism)).toBe(true);
+      expect(card.symbolism.length).toBeGreaterThan(0);
+
+      expect(Array.isArray(card.reflectionPrompts)).toBe(true);
+      expect(card.reflectionPrompts.length).toBeGreaterThan(0);
     }
 
     expect(ids.size).toBe(22);
