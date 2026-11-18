@@ -1147,7 +1147,7 @@ html, body {
 
 @media (max-width: 600px) {
   .card-inspect-container {
-    bottom: 0.5rem;
+    bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
     padding: 0.8rem 0.9rem;
     max-height: 70vh;
     overflow-y: auto;

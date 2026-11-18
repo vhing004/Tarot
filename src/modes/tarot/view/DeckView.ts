@@ -45,6 +45,13 @@ export class DeckView extends Group {
   // Cờ khóa click khi lá bài đang di chuyển Bézier (Spec §6 chống spam)
   private isMoving = false;
 
+  // Theo dõi thao tác vuốt lướt bộ bài trên màn hình cảm ứng điện thoại (Spec §4)
+  private pointerDownX = 0;
+  private pointerDownY = 0;
+  private isPointerDown = false;
+  private isSwipingDeck = false;
+  private deckPanTween: gsap.core.Tween | null = null;
+
   constructor(engine: Engine, deckData: readonly TarotCard[], backMaterial: MeshStandardMaterial) {
     super();
     this.engine = engine;
@@ -314,15 +321,21 @@ export class DeckView extends Group {
       this.hoveredCard = null;
     }
 
-    // Tọa độ vị trí cận cảnh người chọn (nằm ở phía dưới màn hình, không che bài xòe)
-    const spacing = 1.05;
+    // Tọa độ vị trí cận cảnh người chọn thích ứng linh hoạt theo màn hình (desktop vs mobile)
+    const camY = this.engine.camera.position.y;
+    const camZ = this.engine.camera.position.z;
+    const fitFactor = camZ / 7.0; // Hệ số thích ứng từ camera
+    const isMobile = window.innerWidth < 640 || window.innerWidth < window.innerHeight;
+
+    const spacing = isMobile ? Math.min(0.85, (window.innerWidth / 480) * 0.8) : 1.05;
     const startX = -((totalSlots - 1) * spacing) / 2;
     const playerSlotX = startX + slotIndex * spacing;
-    const playerSlotY = 1.1;  // Độ cao phía trước bàn bói, gần tầm mắt người chơi
-    const playerSlotZ = 4.2;  // Bay gần hẳn về phía người chọn (ra ngoài mặt bàn xòe bài)
+    const playerSlotY = 1.1 * fitFactor;  // Độ cao phía trước bàn bói, tương ứng NDC y ≈ -0.7
+    const playerSlotZ = 4.2 * fitFactor;  // Bay gần hẳn về phía người chọn (ra ngoài mặt bàn xòe bài)
 
-    // Góc nghiêng để mặt sau bài nhìn thẳng trực diện vào camera (0, 4, 7):
-    const targetRx = Math.PI - Math.atan((4.0 - playerSlotY) / (7.0 - playerSlotZ));
+    // Góc nghiêng để mặt sau bài nhìn thẳng trực diện vào camera:
+    const targetRx = Math.PI - Math.atan((camY - playerSlotY) / (camZ - playerSlotZ));
+    const cardScale = isMobile ? Math.min(0.72, 0.58 * fitFactor) : 0.78;
 
     // Thông báo slot ngay khi bắt đầu di chuyển
     if (onSlotTargeted) onSlotTargeted();
@@ -376,9 +389,9 @@ export class DeckView extends Group {
     tl.to(
       card.scale,
       {
-        x: 0.78,
-        y: 0.78,
-        z: 0.78,
+        x: cardScale,
+        y: cardScale,
+        z: cardScale,
         duration: 0.65,
         ease: 'power2.inOut',
         onUpdate: () => { this.engine.requestRender(); },
@@ -560,15 +573,21 @@ export class DeckView extends Group {
   enableInteraction(onClick: (card: Card3D) => void): void {
     this.isInteractive = true;
     this.onCardClickCallback = onClick;
+    window.addEventListener('pointerdown', this.onPointerDown);
     window.addEventListener('pointermove', this.onPointerMove);
     window.addEventListener('pointerup', this.onPointerUp);
+    window.addEventListener('pointercancel', this.onPointerCancel);
   }
 
   disableInteraction(): void {
     this.isInteractive = false;
     this.onCardClickCallback = null;
+    this.isPointerDown = false;
+    this.isSwipingDeck = false;
+    window.removeEventListener('pointerdown', this.onPointerDown);
     window.removeEventListener('pointermove', this.onPointerMove);
     window.removeEventListener('pointerup', this.onPointerUp);
+    window.removeEventListener('pointercancel', this.onPointerCancel);
 
     if (this.hoveredCard) {
       this.animateCardLower(this.hoveredCard);
@@ -576,8 +595,46 @@ export class DeckView extends Group {
     }
   }
 
+  private onPointerDown = (event: PointerEvent): void => {
+    if (!this.isInteractive || this.isMoving) return;
+    this.isPointerDown = true;
+    this.isSwipingDeck = false;
+    this.pointerDownX = event.clientX;
+    this.pointerDownY = event.clientY;
+
+    if (this.deckPanTween) {
+      this.deckPanTween.kill();
+      this.deckPanTween = null;
+    }
+  };
+
   private onPointerMove = (event: PointerEvent): void => {
     if (!this.isInteractive) return;
+
+    // Nếu đang giữ chạm: kiểm tra cử chỉ vuốt/lướt bộ bài ngang
+    if (this.isPointerDown) {
+      const dx = event.clientX - this.pointerDownX;
+      const dy = event.clientY - this.pointerDownY;
+      const dist = Math.hypot(dx, dy);
+
+      // Nếu di chuyển quá 8px -> kích hoạt chế độ lướt bộ bài
+      if (dist > 8) {
+        this.isSwipingDeck = true;
+        if (this.hoveredCard) {
+          this.animateCardLower(this.hoveredCard);
+          this.hoveredCard = null;
+        }
+
+        // Xoay nhẹ cụm bài theo chiều ngang trong biên độ an toàn [-0.28, 0.28] rad (~16 độ)
+        const panFactor = (dx / (window.innerWidth || 400)) * 0.45;
+        this.rotation.y = Math.max(-0.28, Math.min(0.28, panFactor));
+        this.engine.requestRender();
+        return;
+      }
+    }
+
+    // Trên thiết bị cảm ứng khi đang lướt bài thì bỏ qua hover
+    if (event.pointerType === 'touch' && this.isSwipingDeck) return;
 
     const rect = this.engine.renderer.domElement.getBoundingClientRect();
     this.pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -679,6 +736,23 @@ export class DeckView extends Group {
   }
 
   private onPointerUp = (event: PointerEvent): void => {
+    const wasSwiping = this.isSwipingDeck;
+    this.isPointerDown = false;
+    this.isSwipingDeck = false;
+
+    // Nếu vừa thực hiện thao tác vuốt lướt bộ bài: đàn hồi êm ái góc xoay về 0
+    if (wasSwiping) {
+      this.deckPanTween = gsap.to(this.rotation, {
+        y: 0,
+        duration: 0.45,
+        ease: 'power2.out',
+        onUpdate: () => {
+          this.engine.requestRender();
+        },
+      });
+      return; // Không chọn bài khi đang vuốt lướt
+    }
+
     // Khóa click khi đang di chuyển bài hoặc không còn tương tác
     if (!this.isInteractive || !this.onCardClickCallback || this.isMoving) return;
 
@@ -700,6 +774,21 @@ export class DeckView extends Group {
     }
   };
 
+  private onPointerCancel = (): void => {
+    this.isPointerDown = false;
+    this.isSwipingDeck = false;
+    if (Math.abs(this.rotation.y) > 0.001) {
+      this.deckPanTween = gsap.to(this.rotation, {
+        y: 0,
+        duration: 0.35,
+        ease: 'power2.out',
+        onUpdate: () => {
+          this.engine.requestRender();
+        },
+      });
+    }
+  };
+
   private killCardHoverTween(card: Card3D): void {
     const existing = this.cardHoverTweens.get(card);
     if (existing) {
@@ -718,6 +807,11 @@ export class DeckView extends Group {
   disposeDeck(): void {
     this.disableInteraction();
     this.clearAllHoverTweens();
+    if (this.deckPanTween) {
+      this.deckPanTween.kill();
+      this.deckPanTween = null;
+    }
+    this.rotation.set(0, 0, 0);
     this.sparkles.disposeSparkles();
     for (const card of this.cards) {
       card.disposeCard();

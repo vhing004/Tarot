@@ -47,8 +47,7 @@ export class Engine {
     const height = container.clientHeight || window.innerHeight;
 
     this.camera = new PerspectiveCamera(45, width / height, 0.1, 100);
-    this.camera.position.set(0, 4, 7);
-    this.camera.lookAt(0, 0, 0);
+    this.updateCameraViewport(width, height);
 
     this.renderer = new WebGLRenderer({
       antialias: true,
@@ -211,12 +210,23 @@ export class Engine {
     }
   };
 
+  private updateCameraViewport(width: number, height: number): void {
+    const aspect = width / height;
+    this.camera.aspect = aspect;
+    this.camera.updateProjectionMatrix();
+
+    // Thích ứng góc nhìn trên thiết bị di động màn hình dọc (portrait aspect < 1.0)
+    // Tự động lùi camera theo tỷ lệ để bao quát trọn vẹn 78 lá bài mà không bị cắt cạnh hai bên
+    const fitFactor = aspect < 1.0 ? Math.min(1.65, 1.0 / (aspect * 1.12)) : 1.0;
+    this.camera.position.set(0, 4 * fitFactor, 7 * fitFactor);
+    this.camera.lookAt(0, 0, 0);
+  }
+
   private onResize = (): void => {
     if (this.isDisposed) return;
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
+    this.updateCameraViewport(width, height);
     this.renderer.setSize(width, height);
     this.requestRender();
   };
