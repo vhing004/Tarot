@@ -56,6 +56,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Witch 3D & 3-Row Float Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
 | 2026-11-18 | Realistic Witch, Sparkles & Corner Gather | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 | 2026-11-18 | Glow Rim & Witch Corner Shrink | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
+| 2026-11-18 | Player Close Draw & Center Reveal | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 
 ## 4. Quyết định (Decision log)
 | Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
@@ -66,7 +67,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-004 | 2026-11-18 | Render-on-demand theo dõi activeTweens và updaters | Tiết kiệm pin tối đa cho thiết bị di động | R03, W01 |
 | D-005 | 2026-11-18 | BoxGeometry dùng chung + lazy load front texture cho 22 lá bài | Tối ưu draw call, bộ nhớ GPU và tốc độ tải | R03, W02 |
 | D-006 | 2026-11-18 | Chốt toàn bộ 6 hào bằng castHexagram ở CONCENTRATE | Đúng nguyên tắc R04 §1, animation xu khớp kết quả 100% | R04, W03 |
-| D-007 | 2026-11-18 | Synthesizer âm thanh thuần Web Audio API thay vì file tĩnh | Tiết kiệm 100% băng thông audio asset (0 KB), chạy offline 100%, không lo bản quyền | R01, R05, W04 |
+| D-007 | 2026-11-18 | Synthesizer âm thuần Web Audio API thay vì file tĩnh | Tiết kiệm 100% băng thông audio asset (0 KB), chạy offline 100%, không lo bản quyền | R01, R05, W04 |
 | D-008 | 2026-11-18 | Vẽ ảnh chia sẻ trên 2D Canvas độc lập (800x1200 px) | Không cần preserveDrawingBuffer trên WebGL (tốn GPU), bảo vệ riêng tư câu hỏi | R03, R05, R06, W04 |
 | D-009 | 2026-11-18 | Adaptive Quality dùng rolling window 60 frame, warmup 90 frame, debounce 120 frame giữa hai lần hạ | Tránh hạ cấu hình quá nhạy khi load, chỉ hạ khi FPS thấp kéo dài | R03 §5, W05 |
 | D-010 | 2026-11-18 | CSP `'unsafe-inline'` cho style-src (do three.js và GSAP inject style động) | Không thể dùng nonce/hash cho style 3rd-party injected; img-src/worker-src blob: cần cho Canvas share và Audio worklet | R06 §5, W05 |
@@ -79,6 +80,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-017 | 2026-11-18 | Tạo hình Nữ Phù Thủy 3D (Witch) và chia bài 3 hàng x 26 lá cùng hover bay bổng | Chuẩn 78 lá, tăng tính huyền bí ma thuật, trải nghiệm trực quan sống động | R01, R03, R04 |
 | D-018 | 2026-11-18 | Nâng cấp Phù Thủy 3D chân thực, hiệu ứng hạt tóe sáng và gom bài về 1 góc | Thao tác xáo bài uốn đan cọc sống động, ma thuật lấp lánh và bố cục bàn bói gọn gàng | R01, R03, R04 |
 | D-019 | 2026-11-18 | Khung viền sáng hào quang, rút bài lơ lửng tách biệt và thu nhỏ bài thừa cạnh phù thủy | Khắc phục trùng đè bài trên bàn, tôn vinh các lá được chọn và tối ưu thị giác | R01, R03, R04 |
+| D-020 | 2026-11-18 | Rút bài cận cảnh trước mắt người chọn (Z: 2.6, Y: 1.45) rồi lướt ra giữa bàn lật bài | Tăng tối đa cảm giác xúc giác cầm bài và trình diễn kết quả trang trọng | R01, R03, R04 |
 
 ## 5. Lỗi tồn đọng (Bug tracker)
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
@@ -86,9 +88,9 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 6. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành task **Card Hover Glowing Rim, Separated Draw & Witch Corner Shrink** (`PLAN-20261118-card-hover-glowing-border`).
+- Đã hoàn thành task **Player Close Draw & Center Reveal** (`PLAN-20261118-card-draw-to-player-and-center-reveal`).
 - **Thay đổi chính**:
-  - Bổ sung **Khung viền hào quang phát sáng ma thuật (`Card3D.glowRimMesh`)**: Khi hover vào lá bài, toàn bộ 4 cạnh mép viền bừng sáng rực rỡ vàng kim ma thuật kết hợp chế độ `AdditiveBlending`.
-  - Khắc phục **Lỗi bài chọn bị trùng đè**: Khi người chơi rút từng lá bài, lá bài bay bổng lên cao trên không trung ($Y = 0.72, Z = 1.05$) lơ lửng phía trước tầm nhìn, hoàn toàn không chạm/đè lên mặt bàn đang xòe bài.
-  - Hoạt cảnh **Thu nhỏ toàn bộ bài thừa về cạnh tay phù thủy (`DeckView.dismissUnpickedCards`)**: Toàn bộ các lá bài chưa được chọn đồng loạt lướt trượt về cạnh tay phải phù thủy ($X \approx 1.25, Z \approx -1.35$), **thu nhỏ kích thước `scale: 0.65`** xếp chồng ngay ngắn thành một cọc bài nhỏ xinh tinh xảo; sau đó các lá bài đã chọn từ trên cao nhẹ nhàng hạ cánh xuống trung tâm bàn bói ($Z = 0.25, Y = 0.06$) sạch sẽ, trang trọng và nổi bật 100%.
+  - Khi người chơi click chọn từng lá bài: Lá bài được rút sẽ bay bổng và trôi lướt về **cận cảnh ngay trước tầm mắt người chọn** ($Z \approx 2.6, Y \approx 1.45$), nghiêng mặt bài đối diện góc nhìn camera.
+  - Khi đã chọn đủ số lá bài: Toàn bộ bài thừa ở cả 3 hàng thu nhỏ (`scale: 0.65`) trượt về cọc cạnh tay phù thủy dọn sạch mặt bàn; đồng thời các lá bài đang ở trước mắt người chơi **bay lướt ra giữa bàn bói** ($Z \approx 0.22, Y \approx 0.06$) dàn đều trang trọng.
+  - Ngay sau khi đáp xuống giữa bàn, trò chơi chuyển sang bước **lật bài (Inspect)** từng lá và hiển thị luận giải chi tiết.
 - **Kết quả kiểm thử**: Vitest **65/65** pass, TypeScript 0 error, check:rules 52 files 0 vi phạm, build bundle thành công 100%.

@@ -256,9 +256,9 @@ export class DeckView extends Group {
   }
 
   /**
-   * Diễn hoạt khi người chơi click chọn 1 lá bài:
-   * Lá bài bay bổng lên cao trên không trung (Y = 0.72, Z = 1.05),
-   * lơ lửng phía trước tầm nhìn người chơi, hoàn toàn KHÔNG CHẠM/TRÙNG MẶT BÀN đang xòe bài.
+   * Khi người chơi chọn bài:
+   * Lá bài được chọn sẽ BAY BỔNG VÀ TIẾN GẦN VỀ PHÍA NGƯỜI CHỌN (cận cảnh trước mắt Z ~ 2.6, Y ~ 1.45),
+   * tách biệt hoàn toàn khỏi mặt bàn xòe bài.
    */
   animateCardDraw(
     card: Card3D,
@@ -275,11 +275,12 @@ export class DeckView extends Group {
       this.hoveredCard = null;
     }
 
-    const spacing = 1.35;
+    // Tọa độ cận cảnh người chọn (ngay trước mắt)
+    const spacing = 1.05;
     const startX = -((totalSlots - 1) * spacing) / 2;
-    const hoverSlotX = startX + slotIndex * spacing;
-    const hoverSlotY = 0.72; // Lơ lửng trên cao
-    const hoverSlotZ = 1.05; // Phía trước tầm mắt người chơi, tách biệt khỏi bàn bài
+    const playerSlotX = startX + slotIndex * spacing;
+    const playerSlotY = 1.45; // Cận cảnh tầm mắt người chơi
+    const playerSlotZ = 2.6; // Bay gần về phía người chọn
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -289,19 +290,19 @@ export class DeckView extends Group {
 
     // 1. Nhấc bổng vút lên không trung
     tl.to(card.position, {
-      y: 0.95,
-      duration: 0.32,
+      y: 1.15,
+      duration: 0.28,
       ease: 'power2.out',
     });
 
-    // 2. Trôi lơ lửng ở vị trí phía trước mặt người chơi (chờ đủ số lá)
+    // 2. Trôi lướt nhanh về ngay trước mắt người chọn
     tl.to(
       card.position,
       {
-        x: hoverSlotX,
-        y: hoverSlotY,
-        z: hoverSlotZ,
-        duration: 0.65,
+        x: playerSlotX,
+        y: playerSlotY,
+        z: playerSlotZ,
+        duration: 0.62,
         ease: 'power2.inOut',
       },
       '-=0.08',
@@ -310,22 +311,23 @@ export class DeckView extends Group {
     tl.to(
       card.rotation,
       {
-        x: Math.PI / 2 - 0.22, // Hơi nghiêng mặt bài về phía camera
+        x: Math.PI / 2 - 0.45, // Nghiêng thẳng hướng vào tầm nhìn camera
         y: 0,
         z: Math.PI,
-        duration: 0.65,
+        duration: 0.62,
         ease: 'power2.inOut',
       },
-      '-=0.65',
+      '-=0.62',
     );
 
     this.engine.trackTween(tl);
   }
 
   /**
-   * Khi đã chọn đủ số lá bài:
-   * 1. Toàn bộ các lá bài thừa ở cả 3 hàng tự động trượt về cạnh tay phù thủy và THU NHỎ LẠI (scale -> 0.65)
-   * 2. Các lá bài đã chọn từ trên không trung nhẹ nhàng hạ cánh xuống vị trí trung tâm bàn bói (sạch sẽ, độc tôn)
+   * Sau khi đã chọn xong đủ các lá bài:
+   * 1. Toàn bộ các lá bài thừa thu nhỏ (scale 0.65) và trượt về cạnh tay phù thủy, dọn sạch mặt bàn
+   * 2. Các lá bài đang ở gần người chọn đồng loạt BAY RA GIỮA BÀN (Z ~ 0.22, Y ~ 0.06),
+   * sẵn sàng cho hoạt cảnh lật bài (Inspect)
    */
   dismissUnpickedCards(onComplete?: () => void): void {
     this.clearAllHoverTweens();
@@ -349,7 +351,6 @@ export class DeckView extends Group {
         const targetY = baseWitchY + stackIndex * 0.0025;
         const microRot = ((stackIndex % 5) - 2) * 0.015;
 
-        // Trượt về vị trí cạnh tay phù thủy
         tl.to(
           card.position,
           {
@@ -362,7 +363,6 @@ export class DeckView extends Group {
           stackIndex * 0.004,
         );
 
-        // Thu nhỏ kích thước lại 0.65
         tl.to(
           card.scale,
           {
@@ -391,17 +391,17 @@ export class DeckView extends Group {
       }
     }
 
-    // 2. Sau khi bài thừa đã dọn xong, các lá bài đã chọn nhẹ nhàng đáp xuống trung tâm bàn bói
+    // 2. Sau khi bài thừa dọn sạch, các lá bài đã chọn từ trước mắt người chơi BAY RA GIỮA BÀN BÓI
     const count = this.pickedCardsList.length;
     const spacing = 1.35;
     const startX = -((count - 1) * spacing) / 2;
-    const landTimeStart = Math.min(0.5, stackIndex * 0.004 + 0.2);
+    const landTimeStart = Math.min(0.5, stackIndex * 0.004 + 0.15);
 
     for (let i = 0; i < count; i++) {
       const card = this.pickedCardsList[i]!;
       const targetX = startX + i * spacing;
       const targetY = 0.06;
-      const targetZ = 0.25; // Nằm ở vị trí trung tâm bàn bói đẹp mắt
+      const targetZ = 0.22; // Chính giữa mặt bàn bói
 
       tl.to(
         card.position,
@@ -409,10 +409,10 @@ export class DeckView extends Group {
           x: targetX,
           y: targetY,
           z: targetZ,
-          duration: 0.65,
-          ease: 'power2.out',
+          duration: 0.72,
+          ease: 'power2.inOut',
         },
-        landTimeStart + i * 0.1,
+        landTimeStart + i * 0.08,
       );
 
       tl.to(
@@ -421,10 +421,10 @@ export class DeckView extends Group {
           x: Math.PI / 2,
           y: 0,
           z: Math.PI,
-          duration: 0.65,
-          ease: 'power2.out',
+          duration: 0.72,
+          ease: 'power2.inOut',
         },
-        landTimeStart + i * 0.1,
+        landTimeStart + i * 0.08,
       );
     }
 
@@ -479,7 +479,7 @@ export class DeckView extends Group {
         {
           x: targetX,
           y: 0.06,
-          z: 0.25,
+          z: 0.22,
           duration: 0.5,
           ease: 'power2.out',
         },
