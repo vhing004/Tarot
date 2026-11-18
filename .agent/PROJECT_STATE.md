@@ -4,10 +4,10 @@
 > Chỉ đổi `[ ]` thành `[x]` khi đã qua gate tương ứng (định nghĩa ở [R07](rules/R07-quality-gates.md)) và có bằng chứng (lệnh + kết quả) ghi ở "Nhật ký gate".
 
 ## 1. Trạng thái hiện tại
-- **Phase hiện tại**: P3 (sẵn sàng khởi động)
-- **Workflow đang chạy**: W04 (Polish, History, Audio & Effects)
-- **Nhánh git**: `phase/p2-divination`
-- **Việc tiếp theo (1 dòng)**: Bắt đầu W04: Xây dựng UI Lịch sử bói toán, AudioManager (BGM + SFX), hiệu ứng hạt khói nến và chia sẻ kết quả.
+- **Phase hiện tại**: P4 (sẵn sàng khởi động)
+- **Workflow đang chạy**: W05 (Tối ưu hiệu năng, Adaptive Quality & Chuẩn bị Cloudflare Pages)
+- **Nhánh git**: `phase/p3-polish` (sắp merge vào `main`)
+- **Việc tiếp theo (1 dòng)**: Bắt đầu W05: Đo đạc FPS và memory thực tế, triển khai Adaptive Quality hoàn chỉnh và chuẩn bị cấu hình deploy.
 - **CONTENT_STATUS**: `sample` (22 lá Ẩn Chính / ~8 quẻ mẫu). Đổi thành `full` chỉ khi đủ dữ liệu (xem W12).
 
 ## 2. Bảng phase
@@ -16,7 +16,7 @@
 | P0 | [W01](workflows/01-init-project.md) | Khung dự án, Engine, Menu, repo | [x] | G0 G1 G2 G3 | `v0.0.1` |
 | P1 | [W02](workflows/02-build-tarot-mode.md) | Tarot MVP (22 lá) | [x] | G1 G2 G3 G5 | `v0.1.0` |
 | P2 | [W03](workflows/03-build-divination-mode.md) | Gieo quẻ MVP | [x] | G1 G2 G3 G5 | `v0.2.0` |
-| P3 | [W04](workflows/04-polish-history-audio.md) | Lịch sử, chia sẻ, âm thanh, hiệu ứng | [ ] | G1 G2 G3 G6 | `v0.3.0` |
+| P3 | [W04](workflows/04-polish-history-audio.md) | Lịch sử, chia sẻ, âm thanh, hiệu ứng | [x] | G1 G2 G3 G6 | `v0.3.0` |
 | P4 | [W05](workflows/05-optimize-performance.md) | Tối ưu hiệu năng | [ ] | G1 G3 G4 | `v0.4.0` |
 | Deploy | [W06](workflows/06-deploy-cloudflare.md) | Cloudflare Pages | [ ] | G7 | `v1.0.0` |
 | P5 | [W07](workflows/07-extend-supabase-ai-i18n.md) | Mở rộng | [ ] | theo từng mục | `v1.x` |
@@ -38,6 +38,10 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | P2 | G2 | `npm run check:rules` | Đạt | 37 file quét, 0 vi phạm rule (không import chéo giữa 2 mode, không Math.random trong vùng thuần) |
 | 2026-11-18 | P2 | G3 | Vào/ra DivinationMode 3 lần | Đạt | Toàn bộ 3 đồng xu, hexagram lines và mesh được giải phóng triệt để về baseline |
 | 2026-11-18 | P2 | G5 | `hexagram.test.ts` + `data.test.ts` | Đạt | 100% test vectors R04 §5 pass (4 sum values, thứ tự hào dưới-lên, quẻ Càn/Khôn/Truân/Mông/Cấu, hào động) |
+| 2026-11-18 | P3 | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 44/44 tests pass, Build thành công toàn bộ module |
+| 2026-11-18 | P3 | G2 | `npm run check:rules` | Đạt | 45 file quét, 0 vi phạm rule |
+| 2026-11-18 | P3 | G3 | Vào/ra Tarot/Divination 3 lần có Smoke & Audio | Đạt | `SmokeParticles.dispose()` giải phóng BufferGeometry và PointsMaterial, audio dừng sạch |
+| 2026-11-18 | P3 | G6 | Rà soát bảo mật & XSS & LocalStorage | Đạt | Dùng textContent/createElement, schemaVersion 1 + migration/try-catch, chia sẻ không lộ câu hỏi cá nhân |
 
 ## 4. Quyết định (Decision log)
 | ID | Ngày | Quyết định | Lý do | Ảnh hưởng rule/workflow |
@@ -48,6 +52,8 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-004 | 2026-11-18 | Render-on-demand theo dõi activeTweens và updaters | Tiết kiệm pin tối đa cho thiết bị di động | R03, W01 |
 | D-005 | 2026-11-18 | BoxGeometry dùng chung + lazy load front texture cho 22 lá bài | Tối ưu draw call, bộ nhớ GPU và tốc độ tải | R03, W02 |
 | D-006 | 2026-11-18 | Chốt toàn bộ 6 hào bằng castHexagram ở CONCENTRATE | Đúng nguyên tắc R04 §1, animation xu khớp kết quả 100% | R04, W03 |
+| D-007 | 2026-11-18 | Synthesizer âm thanh thuần Web Audio API thay vì file tĩnh | Tiết kiệm 100% băng thông audio asset (0 KB), chạy offline 100%, không lo bản quyền | R01, R05, W04 |
+| D-008 | 2026-11-18 | Vẽ ảnh chia sẻ trên 2D Canvas độc lập (800x1200 px) | Không cần preserveDrawingBuffer trên WebGL (tốn GPU), bảo vệ riêng tư câu hỏi | R03, R05, R06, W04 |
 
 ## 5. Lỗi tồn đọng / nợ kỹ thuật
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
@@ -55,6 +61,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 6. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành toàn bộ Phase P2 (W03): Chế độ Gieo quẻ Kinh Dịch MVP.
-- Đầy đủ trải nghiệm 7 bước: Nhập câu hỏi -> Định tâm -> Tung 3 đồng xu 6 lần -> Dựng Quẻ Chủ từ dưới lên -> Biến đổi hào động thành Quẻ Biến -> Lời giải chi tiết -> Lưu lịch sử vào LocalRepository.
-- Bước kế tiếp: Chuyển sang Phase P3 (W04) để phát triển Lịch sử bói toán, Âm thanh và Hiệu ứng.
+- Đã hoàn thành toàn bộ Phase P3 (W04): Lịch sử bói toán, Âm thanh Web Audio API, Hiệu ứng Khói trầm hương 3D và Tạo ảnh chia sẻ kết quả.
+- Đầy đủ trải nghiệm âm thanh tương tác: Drone thiền định nền, tiếng xáo bài, tiếng lật bài, tiếng xu rơi vang vọng kim loại, chuông ngân kết quả.
+- Giao diện Lịch sử cho phép xem lại các quẻ bói trong quá khứ, xóa từng quẻ hoặc xóa tất cả.
+- Bước kế tiếp: Chuyển sang Phase P4 (W05) để thực hiện tối ưu hiệu năng chuyên sâu và chuẩn bị deploy Cloudflare Pages.

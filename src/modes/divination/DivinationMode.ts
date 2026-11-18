@@ -15,6 +15,7 @@ import { lookupHexagram } from '@/modes/divination/logic/lookup';
 import { buildDivinationInterpretation } from '@/modes/divination/logic/interpret';
 import { Coin3D } from '@/modes/divination/view/Coin';
 import { HexagramView } from '@/modes/divination/view/HexagramView';
+import { SmokeParticles } from '@/core/SmokeParticles';
 import { QuestionForm, type QuestionFormData } from '@/ui/QuestionForm';
 import { ReadingPanel } from '@/ui/ReadingPanel';
 
@@ -38,6 +39,7 @@ export class DivinationMode implements Mode {
   // Đồ họa bàn bói & ánh sáng
   private candleLight: PointLight | null = null;
   private candleMat: MeshStandardMaterial | null = null;
+  private smokeParticles: SmokeParticles | null = null;
   private flickerTime = 0;
   private unregisterUpdater: (() => void) | null = null;
 
@@ -54,6 +56,7 @@ export class DivinationMode implements Mode {
   private movingLines: number[] = [];
   private currentThrowIndex = 0;
   private currentInterpretation = '';
+  private currentReadingRecord: Reading | null = null;
 
   // UI elements
   private questionForm: QuestionForm | null = null;
@@ -129,6 +132,10 @@ export class DivinationMode implements Mode {
     this.candleLight = new PointLight(0xff9933, 2.2, 7, 1.5);
     this.candleLight.position.set(1.8, 0.5, -1.2);
     this.group.add(this.candleLight);
+
+    // Khói trầm hương bốc lên cạnh nến
+    this.smokeParticles = new SmokeParticles(1.8, 0.45, -1.2, 'high');
+    this.group.add(this.smokeParticles);
 
     // 6. Thiết lập StateMachine
     this.setupStateMachine();
@@ -273,6 +280,7 @@ export class DivinationMode implements Mode {
             },
             interpretation: this.currentInterpretation,
           };
+          this.currentReadingRecord = readingRecord;
 
           if (this.ctx) {
             this.ctx.repo.save(readingRecord).catch((err: unknown) => {
@@ -285,6 +293,8 @@ export class DivinationMode implements Mode {
       })
       .addState('READING', {
         enter: () => {
+          this.ctx?.audio.playChime();
+
           const uiRoot = document.getElementById('app-ui');
           if (uiRoot && this.ctx) {
             const primaryHex = lookupHexagram(this.primaryKey);
@@ -306,6 +316,7 @@ export class DivinationMode implements Mode {
               changedHex,
               this.movingLines,
               this.currentInterpretation,
+              this.currentReadingRecord ?? undefined,
             );
           }
         },
@@ -327,6 +338,8 @@ export class DivinationMode implements Mode {
     this.showStatusBar(statusTemplate.replace('{current}', lineNum.toString()));
 
     // Tung 3 đồng xu diễn hoạt theo đúng kết quả đã chốt (R04 §6)
+    this.ctx.audio.playCoinDrop();
+
     const coinPromises = this.coins.map((coin, idx) => {
       const faceUp = line.coins[idx] === 3; // 3 là ngửa, 2 là sấp
       const delay = idx * 0.08;
@@ -441,6 +454,8 @@ export class DivinationMode implements Mode {
       this.candleMat.emissiveIntensity = Math.max(0.8, 1.6 + wave);
     }
 
+    this.smokeParticles?.update(dt);
+
     this.fsm.update(dt);
     this.ctx?.engine.requestRender();
   }
@@ -483,6 +498,10 @@ export class DivinationMode implements Mode {
     if (this.hexagramView) {
       this.hexagramView.disposeHexagramView();
       this.hexagramView = null;
+    }
+    if (this.smokeParticles) {
+      this.smokeParticles.disposeParticles();
+      this.smokeParticles = null;
     }
     disposeObject(this.group);
     this.candleLight = null;

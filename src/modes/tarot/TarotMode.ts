@@ -18,6 +18,7 @@ import { TAROT_SPREADS, type TarotSpreadType } from '@/modes/tarot/logic/spreads
 import { buildTarotInterpretation } from '@/modes/tarot/logic/interpret';
 import { Card3D } from '@/modes/tarot/view/Card';
 import { DeckView } from '@/modes/tarot/view/DeckView';
+import { SmokeParticles } from '@/core/SmokeParticles';
 import { QuestionForm, type QuestionFormData } from '@/ui/QuestionForm';
 import { ReadingPanel } from '@/ui/ReadingPanel';
 
@@ -42,6 +43,7 @@ export class TarotMode implements Mode {
   // Đồ họa 3D cảnh bàn bói
   private candleLight: PointLight | null = null;
   private candleMat: MeshStandardMaterial | null = null;
+  private smokeParticles: SmokeParticles | null = null;
   private flickerTime = 0;
   private unregisterUpdater: (() => void) | null = null;
 
@@ -58,6 +60,7 @@ export class TarotMode implements Mode {
   private drawnCardsResult: DrawnCard[] = [];
   private pickedCards3D: Card3D[] = [];
   private currentInterpretation = '';
+  private currentReadingRecord: Reading | null = null;
 
   // UI Components
   private questionForm: QuestionForm | null = null;
@@ -105,6 +108,10 @@ export class TarotMode implements Mode {
     this.candleLight = new PointLight(0xffaa44, 2.2, 7, 1.5);
     this.candleLight.position.set(0, 0.55, -1.3);
     this.group.add(this.candleLight);
+
+    // Khói trầm hương bốc lên từ ngọn nến (R03 §5)
+    this.smokeParticles = new SmokeParticles(0, 0.5, -1.3, 'high');
+    this.group.add(this.smokeParticles);
 
     // 3. Tải texture mặt sau bài
     const backTexture = await this.assetLoader.loadTexture('/textures/tarot/back.webp');
@@ -175,6 +182,8 @@ export class TarotMode implements Mode {
           // CHỐT KẾT QUẢ BÓI TRƯỚC BẰNG CSPRNG (R04 §1)
           this.drawnCardsResult = drawCards(this.deckData, this.targetPositions, cryptoRandom);
           this.pickedCards3D = [];
+
+          this.ctx?.audio.playShuffle();
 
           this.showStatusBar(this.ctx?.t('tarot_status_shuffle') ?? 'Đang xáo bài...');
           this.showSkipButton(() => {
@@ -248,6 +257,7 @@ export class TarotMode implements Mode {
             },
             interpretation: this.currentInterpretation,
           };
+          this.currentReadingRecord = readingRecord;
 
           if (this.ctx) {
             this.ctx.repo.save(readingRecord).catch((err: unknown) => {
@@ -260,6 +270,8 @@ export class TarotMode implements Mode {
       })
       .addState('READING', {
         enter: () => {
+          this.ctx?.audio.playChime();
+
           const uiRoot = document.getElementById('app-ui');
           if (uiRoot && this.ctx) {
             this.readingPanel = new ReadingPanel({
@@ -271,7 +283,12 @@ export class TarotMode implements Mode {
                 this.ctx?.onExitToMenu();
               },
             });
-            this.readingPanel.mount(uiRoot, this.drawnCardsResult, this.currentInterpretation);
+            this.readingPanel.mount(
+              uiRoot,
+              this.drawnCardsResult,
+              this.currentInterpretation,
+              this.currentReadingRecord ?? undefined,
+            );
           }
         },
         exit: () => {
@@ -309,6 +326,8 @@ export class TarotMode implements Mode {
       // Nạp texture mặt trước theo yêu cầu (lazy load - R03 §6)
       const texture = await this.assetLoader.loadTexture(drawnData.card.image);
       card3D.setFrontTexture(texture);
+
+      this.ctx.audio.playCardFlip();
 
       await new Promise<void>((resolve) => {
         if (!this.ctx) {
@@ -384,6 +403,8 @@ export class TarotMode implements Mode {
       this.candleMat.emissiveIntensity = Math.max(0.8, 1.5 + wave);
     }
 
+    this.smokeParticles?.update(dt);
+
     this.fsm.update(dt);
     this.ctx?.engine.requestRender();
   }
@@ -423,6 +444,10 @@ export class TarotMode implements Mode {
       this.sharedBackMaterial = null;
     }
     this.assetLoader.dispose();
+    if (this.smokeParticles) {
+      this.smokeParticles.disposeParticles();
+      this.smokeParticles = null;
+    }
     disposeObject(this.group);
     this.candleLight = null;
     this.candleMat = null;
