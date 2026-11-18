@@ -1,4 +1,5 @@
 import {
+  AmbientLight,
   CanvasTexture,
   CylinderGeometry,
   Group,
@@ -76,14 +77,16 @@ export class TarotMode implements Mode {
   async init(ctx: ModeContext): Promise<void> {
     this.ctx = ctx;
 
-    // 1. Dựng bàn bói tròn — màu tối hơn để lá bài nổi bật (R01 §8 màu sắc tương phản)
+    // 0. Ánh sáng môi trường — đủ sáng để thấy lá bài, vẫn giữ không khí huyền bí
+    const ambientLight = new AmbientLight(0x3a2060, 1.8); // tím xanh huyền bí, cường độ vừa đủ
+    this.group.add(ambientLight);
+
+    // 1. Dựng bàn bói tròn
     const tableGeo = new CylinderGeometry(3.2, 3.2, 0.2, 36);
     const tableMat = new MeshStandardMaterial({
-      color: 0x0a0618,     // tối hơn trước (0x181024 → 0x0a0618) để lá bài vàng/sáng nổi hơn
+      color: 0x0d0820,
       roughness: 0.9,
       metalness: 0.05,
-      emissive: 0x1a0a2e,  // viền rìa bàn hơi tím xanh phát sáng nhẹ
-      emissiveIntensity: 0.15,
     });
     const tableMesh = new Mesh(tableGeo, tableMat);
     tableMesh.position.set(0, -0.1, 0);
@@ -128,8 +131,9 @@ export class TarotMode implements Mode {
     const backTex = this.createCardBackTexture();
     this.sharedBackMaterial = new MeshStandardMaterial({
       map: backTex,
-      emissive: 0x8b0020,    // phát sáng đỏ mạnh — đảm bảo thấy được trong cảnh tối
-      emissiveIntensity: 0.7,
+      color: 0xffffff,       // TRẮNG: không nhân tối texture — màu canvas hiển thị đúng 100%
+      emissive: 0xcc1122,    // đỏ sáng phát ra từ lá bài
+      emissiveIntensity: 0.5,
       roughness: 0.6,
       metalness: 0.0,
     });

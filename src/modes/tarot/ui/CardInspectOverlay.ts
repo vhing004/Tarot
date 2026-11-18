@@ -28,6 +28,27 @@ export class CardInspectOverlay {
     const orientationClass = isReversed ? 'badge-reversed' : 'badge-upright';
     const meaning = isReversed ? card.reversed : card.upright;
 
+    // ── Layout 2 cột: ảnh lá bài bên trái, thông tin bên phải ──
+    const layout = document.createElement('div');
+    layout.className = 'inspect-layout';
+
+    // ── CỘT TRÁI: ảnh lá bài ──
+    const imgCol = document.createElement('div');
+    imgCol.className = 'inspect-img-col';
+
+    const cardImg = document.createElement('img');
+    cardImg.className = isReversed ? 'inspect-card-img reversed' : 'inspect-card-img';
+    cardImg.alt = `${card.nameVi} (${card.name})`;
+    // Dùng src để tải ảnh — tránh innerHTML (R06 §2)
+    cardImg.src = card.image;
+    imgCol.appendChild(cardImg);
+
+    layout.appendChild(imgCol);
+
+    // ── CỘT PHẢI: thông tin ──
+    const infoCol = document.createElement('div');
+    infoCol.className = 'inspect-info-col';
+
     // 1. Header vị trí
     const header = document.createElement('div');
     header.className = 'inspect-header';
@@ -42,7 +63,7 @@ export class CardInspectOverlay {
 
     header.appendChild(stepBadge);
     header.appendChild(posBadge);
-    root.appendChild(header);
+    infoCol.appendChild(header);
 
     // 2. Tên lá và huy hiệu chiều lá
     const titleRow = document.createElement('div');
@@ -58,21 +79,21 @@ export class CardInspectOverlay {
 
     titleRow.appendChild(title);
     titleRow.appendChild(badge);
-    root.appendChild(titleRow);
+    infoCol.appendChild(titleRow);
 
     // 3. Từ khóa cốt lõi
     const keywordsEl = document.createElement('div');
     keywordsEl.className = 'inspect-keywords';
     keywordsEl.textContent = `Từ khóa: ${card.keywords.join(' • ')}`;
-    root.appendChild(keywordsEl);
+    infoCol.appendChild(keywordsEl);
 
     // 4. Lời thông điệp
     const meaningEl = document.createElement('p');
     meaningEl.className = 'inspect-meaning';
     meaningEl.textContent = meaning;
-    root.appendChild(meaningEl);
+    infoCol.appendChild(meaningEl);
 
-    // 5. Khám phá biểu tượng hình ảnh cốt lõi (docs/tarot_game_development_guide.md mục 4 & 9)
+    // 5. Biểu tượng nổi bật
     if (card.symbolism && card.symbolism.length > 0) {
       const symbolsBox = document.createElement('div');
       symbolsBox.className = 'inspect-symbols-box';
@@ -91,10 +112,10 @@ export class CardInspectOverlay {
         symbolsList.appendChild(item);
       }
       symbolsBox.appendChild(symbolsList);
-      root.appendChild(symbolsBox);
+      infoCol.appendChild(symbolsBox);
     }
 
-    // 6. Nút chuyển tiếp (tiến trình có nhịp điệu)
+    // 6. Nút chuyển tiếp
     const actionRow = document.createElement('div');
     actionRow.className = 'inspect-action-row';
 
@@ -115,7 +136,10 @@ export class CardInspectOverlay {
     });
 
     actionRow.appendChild(nextBtn);
-    root.appendChild(actionRow);
+    infoCol.appendChild(actionRow);
+
+    layout.appendChild(infoCol);
+    root.appendChild(layout);
 
     this.element = root;
     parent.appendChild(root);

@@ -33,9 +33,9 @@ export class Card3D extends Mesh {
   private activeTween: gsap.core.Animation | null = null;
 
   constructor(cardData: TarotCard, index: number, sharedBackMaterial: MeshStandardMaterial) {
-    // Mặt 4 là mặt trước (+Z), Mặt 5 là mặt sau (-Z)
+    // Mặt trước: trắng để texture ảnh bài hiển thị đúng màu khi setFrontTexture
     const frontMat = new MeshStandardMaterial({
-      color: 0x221832,
+      color: 0xffffff,
       roughness: 0.4,
       metalness: 0.1,
     });
