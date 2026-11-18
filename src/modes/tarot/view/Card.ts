@@ -60,14 +60,18 @@ export class Card3D extends Mesh {
   setFrontTexture(texture: Texture): void {
     this.frontMaterial.map = texture;
     this.frontMaterial.color.setHex(0xffffff);
+    // Tăng nhẹ emissive để tranh vẽ Rider-Waite hiển thị sáng rõ, rực rỡ trong không gian nến
+    this.frontMaterial.emissive.setHex(0x282420);
+    this.frontMaterial.emissiveIntensity = 0.35;
+    this.frontMaterial.roughness = 0.3;
     this.frontMaterial.needsUpdate = true;
   }
 
   /**
    * Diễn hoạt lật lá bài 3D (R04 §6):
-   * - Nhấc nhẹ lá bài lên
-   * - Xoay quanh trục Y 180° để lật mặt trước lên
-   * - Nếu reversed thì xoay thêm trục Z 180°
+   * - Nhấc bổng lá bài lên khỏi mặt bàn
+   * - Lật từ mặt sau (x = Math.PI/2) sang mặt trước (x = -Math.PI/2)
+   * - Nếu reversed thì xoay z = Math.PI (ngược chiều), nếu upright thì z = 0 (xuôi chiều)
    */
   flip(engine: Engine, toReversed: boolean, onComplete?: () => void): void {
     this.isReversed = toReversed;
@@ -78,8 +82,9 @@ export class Card3D extends Mesh {
     }
 
     const startY = this.position.y;
-    const targetYRot = Math.PI; // Lật mặt trước lên trên (+Y)
-    const targetZRot = toReversed ? Math.PI : 0; // Đảo ngược nếu là reversed
+    // Lật mặt trước lên trên (+Y): rotation.x từ PI/2 sang -PI/2
+    const targetXRot = -Math.PI / 2;
+    const targetZRot = toReversed ? Math.PI : 0;
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -89,14 +94,15 @@ export class Card3D extends Mesh {
     });
 
     tl.to(this.position, {
-      y: startY + 0.6,
+      y: startY + 0.55,
       duration: 0.35,
       ease: 'power2.out',
     })
       .to(
         this.rotation,
         {
-          y: targetYRot,
+          x: targetXRot,
+          y: 0,
           z: targetZRot,
           duration: 0.65,
           ease: 'power2.inOut',
@@ -123,8 +129,7 @@ export class Card3D extends Mesh {
     }
     this.isReversed = toReversed;
     this.isRevealed = true;
-    this.rotation.y = Math.PI;
-    this.rotation.z = toReversed ? Math.PI : 0;
+    this.rotation.set(-Math.PI / 2, 0, toReversed ? Math.PI : 0);
   }
 
   disposeCard(): void {

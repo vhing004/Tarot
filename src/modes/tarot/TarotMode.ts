@@ -241,10 +241,11 @@ export class TarotMode implements Mode {
       .addState('INSPECT', {
         enter: () => {
           this.hideStatusBar();
-          // Nút bỏ qua: snap tất cả lá về trạng thái lật rồi chuyển thẳng sang SAVE
+          // Nút bỏ qua: tải texture và snap tất cả lá về trạng thái lật rồi chuyển thẳng sang SAVE
           this.showSkipButton(() => {
-            this.snapAllCardsToRevealed();
-            this.fsm.go('SAVE');
+            void this.snapAllCardsToRevealed().then(() => {
+              this.fsm.go('SAVE');
+            });
           });
           this.currentInspectIndex = 0;
           void this.inspectStep();
@@ -401,12 +402,14 @@ export class TarotMode implements Mode {
     this.inspectOverlay.mount(uiRoot, drawnData, this.currentInspectIndex, total);
   }
 
-  private snapAllCardsToRevealed(): void {
-    // Snap nhanh tất cả lá về trạng thái lật (dùng khi người dùng bỏ qua INSPECT)
+  private async snapAllCardsToRevealed(): Promise<void> {
+    // Snap nhanh tất cả lá về trạng thái lật (nạp đủ texture để hiện tranh Rider-Waite)
     for (let i = 0; i < this.pickedCards3D.length; i++) {
       const card3D = this.pickedCards3D[i]!;
       const drawnData = this.drawnCardsResult[i];
       if (drawnData) {
+        const texture = await this.assetLoader.loadTexture(drawnData.card.image);
+        card3D.setFrontTexture(texture);
         card3D.snapToRevealed(drawnData.reversed);
       }
     }
@@ -530,21 +533,26 @@ export class TarotMode implements Mode {
 
     // 1. Nền đỏ crimson/scarlet sáng — rõ ràng khác bàn tím đen 0x0a0618
     const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0,   '#c0152a');  // đỏ tươi sáng
-    bg.addColorStop(0.5, '#8b0020');  // đỏ sâu giữa
-    bg.addColorStop(1,   '#c0152a');  // đỏ tươi sáng
+    bg.addColorStop(0,   '#c81b30');  // đỏ tươi sáng
+    bg.addColorStop(0.5, '#910022');  // đỏ sâu giữa
+    bg.addColorStop(1,   '#c81b30');  // đỏ tươi sáng
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
 
+    // Viền mép ngoài cùng tối màu tạo độ tương phản tách biệt giữa các lá xếp đè nhau
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(2, 2, W - 4, H - 4);
+
     // 2. Viền vàng ngoài cùng — dày, sáng
     ctx.strokeStyle = '#ffe44d';
-    ctx.lineWidth = 8;
-    ctx.strokeRect(4, 4, W - 8, H - 8);
+    ctx.lineWidth = 7;
+    ctx.strokeRect(6, 6, W - 12, H - 12);
 
     // 3. Viền trong — đường kép
     ctx.strokeStyle = '#ffd700';
     ctx.lineWidth = 2.5;
-    ctx.strokeRect(16, 16, W - 32, H - 32);
+    ctx.strokeRect(18, 18, W - 36, H - 36);
 
     // 4. Hình thoi trung tâm — fill đỏ tươi để nổi bật
     const cx = W / 2;

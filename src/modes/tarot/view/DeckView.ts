@@ -44,8 +44,13 @@ export class DeckView extends Group {
   stackCardsInstant(): void {
     for (let i = 0; i < this.cards.length; i++) {
       const card = this.cards[i]!;
-      card.position.set(0, 0.01 + i * 0.008, 0);
-      card.rotation.set(-Math.PI / 2, 0, 0); // Đặt nằm úp trên mặt bàn
+      // Độ lệch vi mô giữa các lá tạo độ tương phản mép viền vàng chân thực
+      const microJitterX = ((i % 5) - 2) * 0.004;
+      const microJitterZ = ((i % 3) - 1) * 0.005;
+      const microJitterRot = ((i % 4) - 1.5) * 0.015;
+
+      card.position.set(microJitterX, 0.01 + i * 0.013, microJitterZ);
+      card.rotation.set(Math.PI / 2, 0, Math.PI + microJitterRot); // Úp mặt sau đỏ vàng (+Y) lên trên
       card.isRevealed = false;
     }
     this.engine.requestRender();
@@ -53,7 +58,7 @@ export class DeckView extends Group {
 
   /**
    * Animation xáo bài 3D (R04 §1):
-   * Tách bài làm 2 nửa trái phải, xới lên và gom lại.
+   * Tách bài làm 2 nửa trái phải, uốn cong và đan xen từng lá.
    */
   playShuffleAnimation(onComplete?: () => void): void {
     const tl = gsap.timeline({
@@ -67,31 +72,58 @@ export class DeckView extends Group {
     for (let i = 0; i < this.cards.length; i++) {
       const card = this.cards[i]!;
       const isLeft = i < half;
-      const offsetX = isLeft ? -1.2 : 1.2;
-      const delay = (i % half) * 0.02;
+      const offsetX = isLeft ? -1.35 : 1.35;
+      const delay = (i % half) * 0.025;
+      const arcTiltZ = isLeft ? -0.2 : 0.2;
 
-      // Nhấc bài sang 2 bên
+      // 1. Nhấc bài sang 2 bên và uốn cong góc nghiêng
       tl.to(
         card.position,
         {
           x: offsetX,
-          y: 0.3 + (i % half) * 0.01,
-          duration: 0.4,
+          y: 0.35 + (i % half) * 0.015,
+          duration: 0.45,
           ease: 'power2.out',
         },
         delay,
       );
 
-      // Đan xen bài trở lại tâm
+      tl.to(
+        card.rotation,
+        {
+          x: Math.PI / 2,
+          y: 0,
+          z: Math.PI + arcTiltZ,
+          duration: 0.45,
+          ease: 'power2.out',
+        },
+        delay,
+      );
+
+      // 2. Đan xen bài trở lại tâm (xen kẽ từng lá rơi xuống)
+      const microJitterRot = ((i % 4) - 1.5) * 0.015;
       tl.to(
         card.position,
         {
-          x: 0,
-          y: 0.01 + i * 0.008,
-          duration: 0.4,
+          x: ((i % 5) - 2) * 0.004,
+          y: 0.01 + i * 0.013,
+          z: ((i % 3) - 1) * 0.005,
+          duration: 0.45,
           ease: 'power2.inOut',
         },
-        0.5 + (half - (i % half)) * 0.025,
+        0.55 + (half - (i % half)) * 0.025,
+      );
+
+      tl.to(
+        card.rotation,
+        {
+          x: Math.PI / 2,
+          y: 0,
+          z: Math.PI + microJitterRot,
+          duration: 0.45,
+          ease: 'power2.inOut',
+        },
+        0.55 + (half - (i % half)) * 0.025,
       );
     }
 
@@ -120,7 +152,7 @@ export class DeckView extends Group {
 
       const targetX = Math.sin(angle) * radius;
       const targetZ = -Math.cos(angle) * (radius * 0.6) + 0.3;
-      const targetY = 0.02 + i * 0.003;
+      const targetY = 0.015 + i * 0.005;
 
       tl.to(
         card.position,
@@ -137,9 +169,9 @@ export class DeckView extends Group {
       tl.to(
         card.rotation,
         {
-          x: -Math.PI / 2,
+          x: Math.PI / 2,
           y: 0,
-          z: -angle * 0.9,
+          z: Math.PI - angle * 0.9,
           duration: 0.7,
           ease: 'power3.out',
         },
@@ -179,7 +211,7 @@ export class DeckView extends Group {
       }
     }
 
-    // Đưa các lá được chọn vào vị trí trung tâm
+    // Đưa các lá được chọn vào vị trí trung tâm (vẫn úp mặt sau lên để chờ lật từng lá)
     for (let i = 0; i < count; i++) {
       const card = pickedCards[i]!;
       const targetX = startX + i * spacing;
@@ -199,9 +231,9 @@ export class DeckView extends Group {
       tl.to(
         card.rotation,
         {
-          x: -Math.PI / 2,
+          x: Math.PI / 2,
           y: 0,
-          z: 0,
+          z: Math.PI,
           duration: 0.8,
           ease: 'power2.out',
         },
