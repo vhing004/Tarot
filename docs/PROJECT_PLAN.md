@@ -115,6 +115,7 @@
 - [x] Task T.14: Nâng cấp Phù Thủy 3D chân thực (đường nét mặt V-line, cằm, mũi thanh, mắt sáng tím, tóc bồng bềnh, cử động xáo bài uốn đan cọc bài), hiệu ứng hạt ma thuật tóe sáng (`CardSparkles`) khi hover và hoạt cảnh thu gom toàn bộ bài còn lại về một góc bàn (`PLAN-20261118-realistic-3d-witch-sparkles-corner-gather`).
 - [x] Task T.15: Khung viền sáng hào quang (`Card3D.glowRimMesh`), rút bài lơ lửng tách biệt không đè bàn xòe, thu nhỏ cọc bài thừa (`scale: 0.65`) về bên cạnh tay phù thủy và hạ cánh trang trọng các lá đã chọn xuống tâm bàn (`PLAN-20261118-card-hover-glowing-border`).
 - [x] Task T.16: Rút bài bay gần về phía người chọn (cận cảnh $Z: 2.6, Y: 1.45$), sau đó bay lướt ra giữa bàn ($Z: 0.22$) và kích hoạt lật bài (`PLAN-20261118-card-draw-to-player-and-center-reveal`).
+- [x] Task T.17: Tối ưu triệt để độ cao ($Y: 2.1, Z: 3.2$) và góc nghiêng vuông góc camera ($rotX: \pi/2 - 0.52$) khi rút bài, loại bỏ hoàn toàn hiện tượng lá bài đè lên 3 hàng bài và mép mỏng dẹt; thu nhỏ bài thừa ($scale: 0.5$) về góc tay phù thủy ($X: 1.6, Z: -1.3$) và lướt bài đã chọn ra tâm bàn bói trước khi lật bài (`PLAN-20261118-fix-card-draw-overlap-and-orientation`).
 
 ---
 

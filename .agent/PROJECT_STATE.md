@@ -57,6 +57,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Realistic Witch, Sparkles & Corner Gather | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 | 2026-11-18 | Glow Rim & Witch Corner Shrink | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 | 2026-11-18 | Player Close Draw & Center Reveal | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
+| 2026-11-18 | Fix Card Draw Overlap & Orientation | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 
 ## 4. Quyết định (Decision log)
 | Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
