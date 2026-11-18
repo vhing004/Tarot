@@ -6,6 +6,8 @@ import type { QualityLevel } from '@/shared/types';
 export interface SettingsCallbacks {
   onClose: () => void;
   onQualityChange?: (quality: QualityLevel) => void;
+  /** Gọi khi người dùng chọn "Tự động" → bật adaptive quality */
+  onAdaptiveQuality?: () => void;
 }
 
 export class SettingsModal {
@@ -109,6 +111,13 @@ export class SettingsModal {
 
     const qualitySelect = document.createElement('select');
     qualitySelect.className = 'form-select';
+
+    // Mục "Tự động" đứng đầu danh sách
+    const autoOpt = document.createElement('option');
+    autoOpt.value = 'auto';
+    autoOpt.textContent = '🤖 Tự động (khuyến nghị)';
+    qualitySelect.appendChild(autoOpt);
+
     const levels: { id: QualityLevel; name: string }[] = [
       { id: 'low', name: 'Tiết kiệm pin (Thấp)' },
       { id: 'medium', name: 'Cân bằng (Vừa)' },
@@ -124,10 +133,18 @@ export class SettingsModal {
     }
 
     qualitySelect.addEventListener('change', () => {
-      const q = qualitySelect.value as QualityLevel;
-      this.settingsService.save({ quality: q });
-      if (this.callbacks.onQualityChange) {
-        this.callbacks.onQualityChange(q);
+      const val = qualitySelect.value;
+      if (val === 'auto') {
+        // Người dùng chọn "Tự động" → bật adaptive, không lưu mức cứng
+        if (this.callbacks.onAdaptiveQuality) {
+          this.callbacks.onAdaptiveQuality();
+        }
+      } else {
+        const q = val as QualityLevel;
+        this.settingsService.save({ quality: q });
+        if (this.callbacks.onQualityChange) {
+          this.callbacks.onQualityChange(q);
+        }
       }
     });
 

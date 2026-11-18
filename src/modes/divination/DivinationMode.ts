@@ -133,8 +133,11 @@ export class DivinationMode implements Mode {
     this.candleLight.position.set(1.8, 0.5, -1.2);
     this.group.add(this.candleLight);
 
-    // Khói trầm hương bốc lên cạnh nến
-    this.smokeParticles = new SmokeParticles(1.8, 0.45, -1.2, 'high');
+    // Khói trầm hương bốc lên cạnh nến, số hạt theo cấu hình Quality (R03 §5)
+    const qualityLevel = ctx.quality.getLevel();
+    this.smokeParticles = new SmokeParticles(1.8, 0.45, -1.2, qualityLevel);
+    // Tạm dừng ngay nếu người dùng bật reducedMotion
+    if (ctx.reducedMotion) this.smokeParticles.pause();
     this.group.add(this.smokeParticles);
 
     // 6. Thiết lập StateMachine
