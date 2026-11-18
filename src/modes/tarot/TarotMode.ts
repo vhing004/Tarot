@@ -124,14 +124,14 @@ export class TarotMode implements Mode {
     this.group.add(this.smokeParticles);
 
     // 3. Tạo texture mặt sau bài bằng Canvas API (procedural — không cần file tĩnh)
-    // Nền đỏ tía bordeaux + viền vàng sáng để tương phản mạnh với bàn tím đen
+    // Nền đỏ tươi/crimson sáng + viền vàng sáng để tương phản rõ ràng với bàn tím đen
     const backTex = this.createCardBackTexture();
     this.sharedBackMaterial = new MeshStandardMaterial({
       map: backTex,
-      emissive: 0x3a0510,    // phát sáng đỏ ấm để lá bài thấy được trong ánh nến
-      emissiveIntensity: 0.4,
-      roughness: 0.5,
-      metalness: 0.1,
+      emissive: 0x8b0020,    // phát sáng đỏ mạnh — đảm bảo thấy được trong cảnh tối
+      emissiveIntensity: 0.7,
+      roughness: 0.6,
+      metalness: 0.0,
     });
 
     // 4. Khởi tạo DeckView 22 lá bài 3D
@@ -524,54 +524,57 @@ export class TarotMode implements Mode {
     canvas.height = H;
     const ctx = canvas.getContext('2d')!;
 
-    // 1. Nền gradient đỏ tía/bordeaux sâu — tương phản hoàn toàn với bàn tối 0x0a0618
+    // 1. Nền đỏ crimson/scarlet sáng — rõ ràng khác bàn tím đen 0x0a0618
     const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, '#5c0a1a');
-    bg.addColorStop(0.5, '#3d0510');
-    bg.addColorStop(1, '#5c0a1a');
+    bg.addColorStop(0,   '#c0152a');  // đỏ tươi sáng
+    bg.addColorStop(0.5, '#8b0020');  // đỏ sâu giữa
+    bg.addColorStop(1,   '#c0152a');  // đỏ tươi sáng
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
 
-    // 2. Viền vàng ngoài cùng
-    ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 7;
-    ctx.strokeRect(5, 5, W - 10, H - 10);
+    // 2. Viền vàng ngoài cùng — dày, sáng
+    ctx.strokeStyle = '#ffe44d';
+    ctx.lineWidth = 8;
+    ctx.strokeRect(4, 4, W - 8, H - 8);
 
     // 3. Viền trong — đường kép
-    ctx.strokeStyle = '#ffaa00';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(14, 14, W - 28, H - 28);
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(16, 16, W - 32, H - 32);
 
-    // 4. Hình thoi trung tâm (trang trí celtic)
+    // 4. Hình thoi trung tâm — fill đỏ tươi để nổi bật
     const cx = W / 2;
     const cy = H / 2;
     ctx.save();
-    ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 2.5;
+    // Fill thoi lớn màu đỏ tươi hơn nền
     ctx.beginPath();
     ctx.moveTo(cx, cy - 80);
     ctx.lineTo(cx + 55, cy);
     ctx.lineTo(cx, cy + 80);
     ctx.lineTo(cx - 55, cy);
     ctx.closePath();
+    ctx.fillStyle = 'rgba(220, 30, 50, 0.4)';
+    ctx.fill();
+    ctx.strokeStyle = '#ffe44d';
+    ctx.lineWidth = 2.5;
     ctx.stroke();
 
     // Hình thoi nhỏ bên trong
-    ctx.strokeStyle = '#ffe566';
-    ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.moveTo(cx, cy - 50);
     ctx.lineTo(cx + 34, cy);
     ctx.lineTo(cx, cy + 50);
     ctx.lineTo(cx - 34, cy);
     ctx.closePath();
+    ctx.strokeStyle = '#fff0a0';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
     ctx.restore();
 
     // 5. Ngôi sao 8 cánh ở tâm
     ctx.save();
     ctx.translate(cx, cy);
-    ctx.strokeStyle = '#ffe566';
+    ctx.strokeStyle = '#ffe44d';
     ctx.lineWidth = 2;
     for (let i = 0; i < 8; i++) {
       const angle = (i * Math.PI) / 4;
@@ -580,17 +583,18 @@ export class TarotMode implements Mode {
       ctx.lineTo(Math.cos(angle) * 24, Math.sin(angle) * 24);
       ctx.stroke();
     }
-    // Vòng tròn tâm phát sáng
+    // Vòng tròn tâm — vàng sáng nổi bật
     ctx.beginPath();
-    ctx.arc(0, 0, 10, 0, Math.PI * 2);
-    ctx.fillStyle = '#ff4444';
+    ctx.arc(0, 0, 11, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffd700';
     ctx.fill();
-    ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0, 0, 6, 0, Math.PI * 2);
+    ctx.fillStyle = '#ff2244';
+    ctx.fill();
     ctx.restore();
 
-    // 6. Hoa văn góc — hình tròn vàng
+    // 6. Hoa văn góc — tròn vàng + nhân đỏ tươi
     const corners = [
       [22, 28],
       [W - 22, 28],
@@ -600,24 +604,23 @@ export class TarotMode implements Mode {
     for (const [x, y] of corners) {
       ctx.save();
       ctx.translate(x, y);
-      ctx.strokeStyle = '#ffd700';
-      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.arc(0, 0, 10, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.arc(0, 0, 11, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffd700';
+      ctx.fill();
       ctx.beginPath();
-      ctx.arc(0, 0, 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#cc2200';
+      ctx.arc(0, 0, 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#ff2244';
       ctx.fill();
       ctx.restore();
     }
 
     // 7. Chấm sáng ngẫu nhiên (tinh tú) — hiệu ứng thẩm mỹ, dùng Math.random được (R04 §2 view/)
-    ctx.fillStyle = 'rgba(255, 240, 180, 0.7)';
-    for (let i = 0; i < 35; i++) {
+    ctx.fillStyle = 'rgba(255, 248, 200, 0.85)';
+    for (let i = 0; i < 40; i++) {
       const sx = 20 + Math.random() * (W - 40);
       const sy = 20 + Math.random() * (H - 40);
-      const r = Math.random() * 1.3 + 0.3;
+      const r = Math.random() * 1.5 + 0.4;
       ctx.beginPath();
       ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fill();
