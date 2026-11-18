@@ -97,6 +97,12 @@
 - [x] Task D.3: Soạn thảo tài liệu hướng dẫn vận hành và rollback chi tiết tại `docs/DEPLOYMENT.md`.
 - [x] Task D.4: Phát hành tag chính thức `v1.0.0` và đồng bộ toàn bộ lên GitHub remote.
 
+### Nâng cấp Trải nghiệm Tarot Chuyên nghiệp (Professional Tarot Journey - Hoàn thành: 2026-11-18)
+- [x] Task T.1: Tái cấu trúc luồng trải bài có nhịp điệu (Ritual Pacing) theo `docs/tarot_game_development_guide.md`, chuyển `REVEAL` thành `INSPECT` State với nút bỏ qua linh hoạt.
+- [x] Task T.2: Xây dựng `CardInspectOverlay` dạng 2 cột: hiển thị ảnh thật của lá bài (hỗ trợ xoay ngược 180°), tên, biểu tượng trực quan (`symbolism`), từ khóa và lời giải chi tiết.
+- [x] Task T.3: Bổ sung Hộp câu hỏi phản tư (`reflection-prompt-box`) và Nhật ký chiêm nghiệm cá nhân (`journal-note-box`) có nút lưu bất đồng bộ vào `ReadingRepository`.
+- [x] Task T.4: Tối ưu đồ họa và ánh sáng cảnh 3D: thêm `AmbientLight`, tạo procedural canvas texture mặt sau màu đỏ tươi `#c0152a` + viền vàng kim `#ffe44d`, vật liệu trắng phản chiếu chuẩn, giúp lá bài tương phản sắc nét trên nền bàn tối.
+
 ---
 
 ## 5. Hướng phát triển Dài hạn
