@@ -113,6 +113,7 @@
 - [x] Task T.12: Thêm nhân vật Thầy Bói 3D (`TarotReader3D`) ngồi xáo bài, xòe bài, mời rút bài và nâng cấp hiệu ứng xòe dải quạt (Ribbon Fan), tương tác hover nhô bài xúc giác và rút từng lá bài bay lên slot (`PLAN-20261118-tarot-reader-and-fan-spread`).
 - [x] Task T.13: Tạo hình Nữ Phù Thủy 3D (`TarotReader3D` mũ chóp nhọn, tóc bạch kim, mắt ma thuật phát sáng tím, dây chuyền pha lê), chia bài 3 hàng $\times 26$ lá uốn cong và hiệu ứng hover từng lá bài bay lên mượt mà (`PLAN-20261118-three-rows-tarot-hover-float`).
 - [x] Task T.14: Nâng cấp Phù Thủy 3D chân thực (đường nét mặt V-line, cằm, mũi thanh, mắt sáng tím, tóc bồng bềnh, cử động xáo bài uốn đan cọc bài), hiệu ứng hạt ma thuật tóe sáng (`CardSparkles`) khi hover và hoạt cảnh thu gom toàn bộ bài còn lại về một góc bàn (`PLAN-20261118-realistic-3d-witch-sparkles-corner-gather`).
+- [x] Task T.15: Khung viền sáng hào quang (`Card3D.glowRimMesh`), rút bài lơ lửng tách biệt không đè bàn xòe, thu nhỏ cọc bài thừa (`scale: 0.65`) về bên cạnh tay phù thủy và hạ cánh trang trọng các lá đã chọn xuống tâm bàn (`PLAN-20261118-card-hover-glowing-border`).
 
 ---
 

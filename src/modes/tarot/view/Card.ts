@@ -1,6 +1,8 @@
 import {
+  AdditiveBlending,
   BoxGeometry,
   Mesh,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   type Texture,
 } from 'three';
@@ -16,8 +18,8 @@ const sharedCardGeometry = new BoxGeometry(CARD_WIDTH, CARD_HEIGHT, CARD_THICKNE
 
 // Viền cạnh lá bài: vàng kim sáng để nổi bật trên bàn tối (tương phản màu sắc)
 const sharedEdgeMaterial = new MeshStandardMaterial({
-  color: 0xd4af37,      // vàng kim
-  emissive: 0xb8860b,   // phát sáng vàng nhẹ để thấy được trong ánh nến
+  color: 0xd4af37,
+  emissive: 0xb8860b,
   emissiveIntensity: 0.4,
   metalness: 0.7,
   roughness: 0.3,
@@ -30,7 +32,10 @@ export class Card3D extends Mesh {
   public isRevealed = false;
 
   private frontMaterial: MeshStandardMaterial;
+  private glowRimMesh: Mesh;
+  private glowMaterial: MeshBasicMaterial;
   private activeTween: gsap.core.Animation | null = null;
+  private glowTween: gsap.core.Tween | null = null;
 
   constructor(cardData: TarotCard, index: number, sharedBackMaterial: MeshStandardMaterial) {
     // Mặt trước: trắng để texture ảnh bài hiển thị đúng màu khi setFrontTexture
@@ -55,16 +60,84 @@ export class Card3D extends Mesh {
 
     this.castShadow = true;
     this.receiveShadow = true;
+
+    // Khung viền hào quang phát sáng ma thuật ôm quanh 4 mép cạnh lá bài
+    const rimGeo = new BoxGeometry(CARD_WIDTH + 0.05, CARD_HEIGHT + 0.05, CARD_THICKNESS + 0.012);
+    this.glowMaterial = new MeshBasicMaterial({
+      color: 0xffeb55, // Vàng kim ánh hào quang ma thuật rực rỡ
+      transparent: true,
+      opacity: 0,
+      blending: AdditiveBlending,
+      depthWrite: false,
+    });
+    this.glowRimMesh = new Mesh(rimGeo, this.glowMaterial);
+    this.glowRimMesh.visible = false;
+    this.add(this.glowRimMesh);
   }
 
   setFrontTexture(texture: Texture): void {
     this.frontMaterial.map = texture;
     this.frontMaterial.color.setHex(0xffffff);
-    // Tăng nhẹ emissive để tranh vẽ Rider-Waite hiển thị sáng rõ, rực rỡ trong không gian nến
     this.frontMaterial.emissive.setHex(0x282420);
     this.frontMaterial.emissiveIntensity = 0.35;
     this.frontMaterial.roughness = 0.3;
     this.frontMaterial.needsUpdate = true;
+  }
+
+  /**
+   * Bật/tắt hiệu ứng sáng viền hào quang vàng kim khi hover
+   */
+  setHoverGlow(hovered: boolean, engine?: Engine): void {
+    if (this.glowTween) {
+      this.glowTween.kill();
+    }
+
+    if (hovered) {
+      this.glowRimMesh.visible = true;
+      this.glowTween = gsap.to(this.glowMaterial, {
+        opacity: 0.95,
+        duration: 0.22,
+        ease: 'power2.out',
+        onUpdate: () => {
+          engine?.requestRender();
+        },
+      });
+      gsap.to(this.glowRimMesh.scale, {
+        x: 1.03,
+        y: 1.03,
+        z: 1.03,
+        duration: 0.22,
+        ease: 'power2.out',
+        onUpdate: () => {
+          engine?.requestRender();
+        },
+      });
+    } else {
+      this.glowTween = gsap.to(this.glowMaterial, {
+        opacity: 0,
+        duration: 0.25,
+        ease: 'power2.inOut',
+        onUpdate: () => {
+          engine?.requestRender();
+        },
+        onComplete: () => {
+          if (this.glowMaterial.opacity <= 0.01) {
+            this.glowRimMesh.visible = false;
+          }
+          engine?.requestRender();
+        },
+      });
+      gsap.to(this.glowRimMesh.scale, {
+        x: 1.0,
+        y: 1.0,
+        z: 1.0,
+        duration: 0.25,
+        ease: 'power2.inOut',
+        onUpdate: () => {
+          engine?.requestRender();
+        },
+      });
+    }
   }
 
   /**
@@ -82,7 +155,6 @@ export class Card3D extends Mesh {
     }
 
     const startY = this.position.y;
-    // Lật mặt trước lên trên (+Y): rotation.x từ PI/2 sang -PI/2
     const targetXRot = -Math.PI / 2;
     const targetZRot = toReversed ? Math.PI : 0;
 
@@ -120,7 +192,7 @@ export class Card3D extends Mesh {
   }
 
   /**
-   * Đặt ngay tức thì về trạng thái lật xong (cho tính năng bỏ qua animation - R04 §6)
+   * Đặt ngay tức thì về trạng thái lật xong
    */
   snapToRevealed(toReversed: boolean): void {
     if (this.activeTween) {
@@ -137,7 +209,12 @@ export class Card3D extends Mesh {
       this.activeTween.kill();
       this.activeTween = null;
     }
-    // Front material do Card sở hữu nên được dispose, backMaterial và edgeMaterial là dùng chung
+    if (this.glowTween) {
+      this.glowTween.kill();
+      this.glowTween = null;
+    }
+    this.glowRimMesh.geometry.dispose();
+    this.glowMaterial.dispose();
     this.frontMaterial.dispose();
   }
 }

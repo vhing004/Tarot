@@ -55,6 +55,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Tarot Reader & Fan Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
 | 2026-11-18 | Witch 3D & 3-Row Float Spread | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 51 files 0 vi phạm, build thành công |
 | 2026-11-18 | Realistic Witch, Sparkles & Corner Gather | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
+| 2026-11-18 | Glow Rim & Witch Corner Shrink | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 52 files 0 vi phạm, build thành công |
 
 ## 4. Quyết định (Decision log)
 | Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
@@ -77,6 +78,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-016 | 2026-11-18 | Dựng Thầy Bói 3D procedural PBR và xòe bài Ribbon Fan tương tác xúc giác | Tăng tính đắm chìm huyền bí, cho phép rút từng lá bài xúc giác, 0 KB static asset | R01, R03, R04 |
 | D-017 | 2026-11-18 | Tạo hình Nữ Phù Thủy 3D (Witch) và chia bài 3 hàng x 26 lá cùng hover bay bổng | Chuẩn 78 lá, tăng tính huyền bí ma thuật, trải nghiệm trực quan sống động | R01, R03, R04 |
 | D-018 | 2026-11-18 | Nâng cấp Phù Thủy 3D chân thực, hiệu ứng hạt tóe sáng và gom bài về 1 góc | Thao tác xáo bài uốn đan cọc sống động, ma thuật lấp lánh và bố cục bàn bói gọn gàng | R01, R03, R04 |
+| D-019 | 2026-11-18 | Khung viền sáng hào quang, rút bài lơ lửng tách biệt và thu nhỏ bài thừa cạnh phù thủy | Khắc phục trùng đè bài trên bàn, tôn vinh các lá được chọn và tối ưu thị giác | R01, R03, R04 |
 
 ## 5. Lỗi tồn đọng (Bug tracker)
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
@@ -84,9 +86,9 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 6. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành task **Realistic 3D Witch, Sparkles & Corner Gather** (`PLAN-20261118-realistic-3d-witch-sparkles-corner-gather`).
+- Đã hoàn thành task **Card Hover Glowing Rim, Separated Draw & Witch Corner Shrink** (`PLAN-20261118-card-hover-glowing-border`).
 - **Thay đổi chính**:
-  - Nâng cấp **Nữ Phù Thủy 3D Chân Thực (`TarotReader3D.ts`)**: Khuôn mặt V-line thanh tú, sống mũi thanh, môi son, đôi mắt ma thuật phát sáng tím sâu thẳm, mái tóc bạch kim bồng bềnh nhiều tầng; động tác xáo bài chân thực: cúi người, nghiêng đầu chăm chú, tay áp sát nâng và uốn đan xen 4 nhịp cọc bài kèm bụi ma thuật.
-  - Tích hợp **Hiệu ứng hạt ánh sáng tóe sáng (`CardSparkles.ts`)**: Khi hover vào lá bài, một chùm hạt ánh sáng vàng kim và tím ngọc bùng nổ lấp lánh từ tâm lá bài tỏa ra xung quanh và tan dần.
-  - Hoạt cảnh **Thu gom toàn bộ bài còn lại về 1 góc bàn (`DeckView.ts`)**: Khi chọn bài, tất cả các lá bài chưa rút sẽ đồng loạt lướt trượt, xếp chồng ngay ngắn thành một cọc bài gọn gàng ở góc trên bên phải bàn bói ($X \approx 1.85, Z \approx -0.75$), để lại không gian trung tâm tĩnh lặng cho các lá bài được rút.
+  - Bổ sung **Khung viền hào quang phát sáng ma thuật (`Card3D.glowRimMesh`)**: Khi hover vào lá bài, toàn bộ 4 cạnh mép viền bừng sáng rực rỡ vàng kim ma thuật kết hợp chế độ `AdditiveBlending`.
+  - Khắc phục **Lỗi bài chọn bị trùng đè**: Khi người chơi rút từng lá bài, lá bài bay bổng lên cao trên không trung ($Y = 0.72, Z = 1.05$) lơ lửng phía trước tầm nhìn, hoàn toàn không chạm/đè lên mặt bàn đang xòe bài.
+  - Hoạt cảnh **Thu nhỏ toàn bộ bài thừa về cạnh tay phù thủy (`DeckView.dismissUnpickedCards`)**: Toàn bộ các lá bài chưa được chọn đồng loạt lướt trượt về cạnh tay phải phù thủy ($X \approx 1.25, Z \approx -1.35$), **thu nhỏ kích thước `scale: 0.65`** xếp chồng ngay ngắn thành một cọc bài nhỏ xinh tinh xảo; sau đó các lá bài đã chọn từ trên cao nhẹ nhàng hạ cánh xuống trung tâm bàn bói ($Z = 0.25, Y = 0.06$) sạch sẽ, trang trọng và nổi bật 100%.
 - **Kết quả kiểm thử**: Vitest **65/65** pass, TypeScript 0 error, check:rules 52 files 0 vi phạm, build bundle thành công 100%.
