@@ -61,6 +61,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | Tarot 78 Fan Slots Flow | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 53 files 0 vi phạm, 3 slot nhận bài & confirm flow |
 | 2026-11-18 | Mobile Opt & CI/CD Deploy | G1, G7 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 53 files 0 vi phạm, adaptive camera, touch swipe pan, safe-area |
 | 2026-11-18 | Tarot 78-lá Fan Slots Flow | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 65/65 tests pass, check:rules 53 files 0 vi phạm, build thành công (TarotMode 192.91 kB / 63.38 kB gzip) |
+| 2026-11-18 | Tarot Principles Interpretation | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 66/66 tests pass (+3 tests interpret.test.ts), check:rules 53 files 0 vi phạm, build thành công (TarotMode 192.84 kB / 63.10 kB gzip) |
 
 ## 4. Quyết định (Decision log)
 | Mã | Ngày | Nội dung | Lý do | Rule/Workflow |
@@ -85,6 +86,8 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | D-018 | 2026-11-18 | Nâng cấp Phù Thủy 3D chân thực, hiệu ứng hạt tóe sáng và gom bài về 1 góc | Thao tác xáo bài uốn đan cọc sống động, ma thuật lấp lánh và bố cục bàn bói gọn gàng | R01, R03, R04 |
 | D-019 | 2026-11-18 | Khung viền sáng hào quang, rút bài lơ lửng tách biệt và thu nhỏ bài thừa cạnh phù thủy | Khắc phục trùng đè bài trên bàn, tôn vinh các lá được chọn và tối ưu thị giác | R01, R03, R04 |
 | D-020 | 2026-11-18 | Rút bài cận cảnh trước mắt người chọn (Z: 2.6, Y: 1.45) rồi lướt ra giữa bàn lật bài | Tăng tối đa cảm giác xúc giác cầm bài và trình diễn kết quả trang trọng | R01, R03, R04 |
+| D-021 | 2026-11-18 | Tối ưu hóa toàn diện trải nghiệm di động và kích hoạt CI/CD GitHub Actions | Hỗ trợ màn hình dọc, cảm ứng swipe pan 78 lá bài và triển khai tự động lên web | R01, R03, R07 |
+| D-022 | 2026-11-18 | Luận giải Tarot theo 4 nguyên tố, dòng chảy 3 lá và câu hỏi băn khoăn | Đảm bảo tính triết lý Tarot chuẩn mực, trả lời trực diện câu hỏi và tôn trọng ý chí tự do | R01, R04, R05 |
 
 ## 5. Lỗi tồn đọng (Bug tracker)
 | ID | Mô tả | Mức | Phase phát hiện | Workflow xử lý |
@@ -92,9 +95,10 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | | Không có | | | |
 
 ## 6. Ghi chú bàn giao phiên gần nhất
-- Đã hoàn thành task **Player Close Draw & Center Reveal** (`PLAN-20261118-card-draw-to-player-and-center-reveal`).
+- Đã hoàn thành task **Tarot Principles Interpretation** (`PLAN-20261118-tarot-principles-interpretation`).
 - **Thay đổi chính**:
-  - Khi người chơi click chọn từng lá bài: Lá bài được rút sẽ bay bổng và trôi lướt về **cận cảnh ngay trước tầm mắt người chọn** ($Z \approx 2.6, Y \approx 1.45$), nghiêng mặt bài đối diện góc nhìn camera.
-  - Khi đã chọn đủ số lá bài: Toàn bộ bài thừa ở cả 3 hàng thu nhỏ (`scale: 0.65`) trượt về cọc cạnh tay phù thủy dọn sạch mặt bàn; đồng thời các lá bài đang ở trước mắt người chơi **bay lướt ra giữa bàn bói** ($Z \approx 0.22, Y \approx 0.06$) dàn đều trang trọng.
-  - Ngay sau khi đáp xuống giữa bàn, trò chơi chuyển sang bước **lật bài (Inspect)** từng lá và hiển thị luận giải chi tiết.
+  - Triển khai hàm logic thuần `getCardTopicMeaning()` gắn kết 4 nguyên tố (Wands-Lửa, Cups-Nước, Swords-Khí, Pentacles-Đất, Major-Tâm linh) và các chủ đề (Tình cảm, Công việc, Tài chính, Sức khỏe, Tổng quan) cho cả 78 lá chiều xuôi/ngược.
+  - Cập nhật `buildTarotInterpretation()` tạo lời giải tổng hợp 5 phần: Tiêu điểm băn khoăn, Dòng chảy Quá khứ → Hiện tại → Tương lai, và Lời khuyên hành động (Free will & Agency).
+  - Tích hợp banner bối cảnh và hộp luận giải theo chủ đề trên cả màn hình lật bài (`CardInspectOverlay`) và màn hình tổng kết (`ReadingPanel`).
+  - Unit test `interpret.test.ts` (3 tests) và toàn bộ 66 unit tests đạt 100% pass, 0 vi phạm rule.
 - **Kết quả kiểm thử**: Vitest **65/65** pass, TypeScript 0 error, check:rules 52 files 0 vi phạm, build bundle thành công 100%.

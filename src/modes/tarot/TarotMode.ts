@@ -542,7 +542,14 @@ export class TarotMode implements Mode {
       },
     });
 
-    this.inspectOverlay.mount(uiRoot, drawnData, this.currentInspectIndex, total);
+    this.inspectOverlay.mount(
+      uiRoot,
+      drawnData,
+      this.currentInspectIndex,
+      total,
+      this.currentTopic,
+      this.currentQuestion,
+    );
   }
 
   private async snapAllCardsToRevealed(): Promise<void> {

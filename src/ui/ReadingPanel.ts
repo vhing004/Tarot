@@ -3,7 +3,8 @@ import type { DrawnCard, Hexagram, Reading } from '@/shared/types';
 import { POSITION_LABELS_VI } from '@/modes/tarot/logic/spreads';
 import { generateShareCard, shareOrDownloadImage } from '@/services/share';
 import { AiOracleModal } from '@/ui/AiOracleModal';
-import { resolveAssetUrl } from '@/shared/constants';
+import { resolveAssetUrl, TOPICS } from '@/shared/constants';
+import { getCardTopicMeaning } from '@/modes/tarot/logic/interpret';
 
 export interface ReadingPanelCallbacks {
   onRetry: () => void;
@@ -44,6 +45,28 @@ export class ReadingPanel {
     title.className = 'reading-title';
     title.textContent = t('tarot_reading_title');
     cardBox.appendChild(title);
+
+    const topic = reading?.topic ?? 'general';
+    const topicObj = TOPICS.find((t) => t.id === topic);
+    const topicLabel = topicObj ? topicObj.labelVi : 'Tổng quan';
+    const question = reading?.question?.trim() ?? '';
+
+    // Khung Tiêu điểm & Băn khoăn của người chơi
+    const focusBanner = document.createElement('div');
+    focusBanner.className = 'reading-focus-banner';
+
+    const topicEl = document.createElement('div');
+    topicEl.className = 'reading-focus-topic';
+    topicEl.textContent = `🔮 Lĩnh vực: ${topicLabel}`;
+    focusBanner.appendChild(topicEl);
+
+    if (question.length > 0) {
+      const questionEl = document.createElement('div');
+      questionEl.className = 'reading-focus-question';
+      questionEl.textContent = `Băn khoăn của bạn: "${question}"`;
+      focusBanner.appendChild(questionEl);
+    }
+    cardBox.appendChild(focusBanner);
 
     // Danh sách thẻ bài Tarot
     const cardsList = document.createElement('div');
@@ -86,19 +109,19 @@ export class ReadingPanel {
         : 'card-badge badge-upright';
       cardOrientation.textContent = drawn.reversed ? 'Ngược (Reversed)' : 'Xuôi (Upright)';
 
+      const topicDesc = document.createElement('p');
+      topicDesc.className = 'card-topic-meaning';
+      topicDesc.textContent = getCardTopicMeaning(drawn.card, drawn.reversed, topic);
+
       const keywords = document.createElement('p');
       keywords.className = 'card-keywords';
       keywords.textContent = `Từ khóa: ${drawn.card.keywords.join(' • ')}`;
 
-      const desc = document.createElement('p');
-      desc.className = 'card-meaning';
-      desc.textContent = drawn.reversed ? drawn.card.reversed : drawn.card.upright;
-
       cardItem.appendChild(posTitle);
       cardItem.appendChild(cardName);
       cardItem.appendChild(cardOrientation);
+      cardItem.appendChild(topicDesc);
       cardItem.appendChild(keywords);
-      cardItem.appendChild(desc);
       cardsList.appendChild(cardItem);
     }
     cardBox.appendChild(cardsList);

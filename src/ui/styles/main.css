@@ -575,6 +575,44 @@ html, body {
   margin-top: 0.2rem;
 }
 
+.reading-focus-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.9rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, rgba(80, 20, 130, 0.4), rgba(20, 10, 40, 0.6));
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.reading-focus-topic {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: 0.04em;
+}
+
+.reading-focus-question {
+  font-size: 1.05rem;
+  color: #fff;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.card-topic-meaning {
+  font-size: 0.88rem;
+  color: #f0e6ff;
+  line-height: 1.55;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  border-left: 2px solid var(--gold-primary);
+}
+
 .reading-interpretation-section {
   background: rgba(30, 20, 48, 0.5);
   border-left: 3px solid var(--gold-primary);
@@ -1052,6 +1090,55 @@ html, body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.6rem;
+}
+
+.inspect-context-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  padding: 0.45rem 0.85rem;
+  margin-bottom: 0.8rem;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+}
+
+.inspect-topic-badge {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: 0.04em;
+}
+
+.inspect-question-text {
+  font-size: 0.85rem;
+  color: #fff;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.inspect-topic-box {
+  background: rgba(80, 30, 140, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-left: 3px solid var(--gold-primary);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.inspect-topic-header {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 0.35rem;
+}
+
+.inspect-topic-meaning {
+  font-size: 0.92rem;
+  color: #f5eeff;
+  line-height: 1.55;
+  margin: 0;
 }
 
 .inspect-step-badge {
