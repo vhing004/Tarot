@@ -15,6 +15,7 @@
 - **Ngôn ngữ**: TypeScript (`strict: true`, no `any`, `noUncheckedIndexedAccess`).
 - **Build tool**: Vite + ES2020 target + dynamic `import()` code-splitting.
 - **Animation**: GSAP (được đồng bộ và theo dõi trong Render-on-demand loop).
+- **Audio**: Web Audio API (Synthesizer lập trình thủ tục: drone BGM + SFX, 0 KB static assets).
 - **UI**: HTML/CSS/TS thuần (Overlay dạng responsive, mobile bottom sheet, textContent chống XSS).
 - **Kiểm thử**: Vitest (chạy trên Node cho toàn bộ logic thuần).
 - **Lưu trữ**: Interface `ReadingRepository` -> `LocalRepository` (localStorage có type-guard + quota control) -> `SupabaseRepository` (Cloud RLS).
@@ -29,7 +30,7 @@
 ### Điểm yếu & Rủi ro
 - **Rủi ro rò rỉ bộ nhớ WebGL (G3 Lifecycle)**: Việc ra/vào mode nhiều lần nếu không giải phóng kỹ `geometry`, `material`, `texture` và kill GSAP tween sẽ gây crash WebGL context trên mobile.
 - **Rủi ro tải tài nguyên ban đầu**: Tải texture không nén hoặc mô hình 3D quá nặng sẽ làm tăng LCP và hao băng thông. Cần nén KTX2/WebP và nén Draco/meshopt cho GLTF.
-- **Chính sách Autoplay Audio**: Trình duyệt di động chặn âm thanh tự động nếu người dùng chưa tương tác đầu tiên.
+- **Chính sách Autoplay Audio**: Trình duyệt di động chặn âm thanh tự động nếu người dùng chưa tương tác đầu tiên (đã giải quyết bằng unlock listener trong `AudioManager`).
 - **Tính chính xác của thuật toán Kinh Dịch**: Cần đảm bảo thứ tự hào từ dưới lên (hào 1 ở index 0, hào 6 ở index 5) và chỉ hào 6 (lão âm) và 9 (lão dương) mới là hào động.
 
 ---
@@ -41,8 +42,8 @@
 | **P0** | **Khởi tạo & Khung nền tảng (Foundation)** | Scaffold Vite+TS, Engine 3D render-on-demand, AssetLoader, StateMachine, RandomSource, LocalRepository, Menu UI, scripts kiểm tra rules. | `npm run check` pass, Menu vào/ra mode rỗng, baseline memory sạch (G0, G1, G2). | **Hoàn thành (2026-11-18)** |
 | **P1** | **Tarot Mode MVP** | 22 lá Ẩn Chính, xáo bài Fisher-Yates, trải bài quạt 3D, rút 1/3 lá, lật bài, hiển thị kết quả ReadingPanel, dispose sạch khi thoát. | Hoàn thành 1 lượt bói Tarot, lật xuôi/ngược chuẩn, G1, G2, G3, G5. | **Hoàn thành (2026-11-18)** |
 | **P2** | **Gieo quẻ Kinh Dịch MVP** | Tung 3 đồng xu 6 lần, dựng quẻ chủ và quẻ biến từ dưới lên, HexagramView, tra cứu `hexagrams.json`, unit tests thuật toán. | Test Vitest 100% test vectors, diễn hoạt xu chuẩn với kết quả, G1, G2, G3, G5. | **Hoàn thành (2026-11-18)** |
-| **P3** | **Polish, Lịch sử & Âm thanh** | `LocalRepository` hoàn thiện UI History (xem, xóa), hiệu ứng bàn nến chập chờn, khói hạt, AudioManager (BGM, SFX xu/bài), share ảnh canvas/HTML. | Giao diện hoàn chỉnh, âm thanh mượt, lưu trữ an toàn (G1, G2, G3, G6). | **Sẵn sàng khởi động** |
-| **P4** | **Tối ưu Hiệu năng & Deploy** | Adaptive Quality (đo FPS, tự hạ cấu hình), nén WebP/Draco, cấu hình `public/_headers`, kiểm tra ngân sách hiệu năng (FPS ≥ 45 mobile), deploy Cloudflare Pages. | Đạt chuẩn hiệu năng R03, live URL Cloudflare Pages (G1, G3, G4, G7). | Chờ P3 |
+| **P3** | **Polish, Lịch sử & Âm thanh** | `LocalRepository` hoàn thiện UI History (xem, xóa), hiệu ứng bàn nến chập chờn, khói hạt, AudioManager (BGM, SFX xu/bài), share ảnh canvas/HTML. | Giao diện hoàn chỉnh, âm thanh mượt, lưu trữ an toàn (G1, G2, G3, G6). | **Hoàn thành (2026-11-18)** |
+| **P4** | **Tối ưu Hiệu năng & Deploy** | Adaptive Quality (đo FPS, tự hạ cấu hình), nén WebP/Draco, cấu hình `public/_headers`, kiểm tra ngân sách hiệu năng (FPS ≥ 45 mobile), deploy Cloudflare Pages. | Đạt chuẩn hiệu năng R03, live URL Cloudflare Pages (G1, G3, G4, G7). | **Sẵn sàng khởi động** |
 | **P5** | **Mở rộng & Nâng cao** | Mở rộng 78 lá Tarot, đủ 64 quẻ Kinh Dịch, tích hợp Supabase (RLS), AI Serverless Function giải quẻ chuyên sâu, đa ngôn ngữ (i18n Vi/En), PWA offline. | Đầy đủ dữ liệu sản phẩm thương mại, AI interpretation an toàn qua gateway. | Dự kiến |
 
 ---
@@ -58,6 +59,28 @@
 - [x] Task P0.6: Triển khai tầng 3D Engine: `Engine.ts` (render-on-demand, tween tracking, visibility pause), `StateMachine.ts`, `AssetLoader.ts`, `dispose.ts`, `AudioManager.ts` (stub), `Quality.ts` (stub).
 - [x] Task P0.7: Triển khai Mode interface, 2 mock modes (`TarotMode.ts`, `DivinationMode.ts` dựng bàn + nến cơ bản để kiểm tra lifecycle), `ui/Menu.ts` và `main.ts`.
 - [x] Task P0.8: Chạy kiểm tra cổng chất lượng G0, G1, G2, G3 baseline và ghi nhật ký vào `PROJECT_STATE.md`.
+
+### Phase P1 (Hoàn thành: 2026-11-18)
+- [x] Task P1.1: Tạo dữ liệu 22 lá Ẩn Chính (`cards.json`) và tài liệu nguồn gốc giấy phép (`SOURCES.md`).
+- [x] Task P1.2: Triển khai logic Tarot thuần (`deck.ts`, `spreads.ts`, `interpret.ts`) và unit tests Vitest.
+- [x] Task P1.3: Dựng đồ họa 3D Tarot View (`Card.ts`, `DeckView.ts`, texture canvas hoa văn mặt sau + mặt trước).
+- [x] Task P1.4: Triển khai FSM TarotMode (INTRO -> SHUFFLE -> SPREAD -> PICK -> REVEAL -> READING -> SAVE).
+- [x] Task P1.5: Tích hợp `ReadingPanel` và kiểm tra toàn bộ chất lượng G1, G2, G3, G5.
+
+### Phase P2 (Hoàn thành: 2026-11-18)
+- [x] Task P2.1: Tạo dữ liệu Kinh Dịch 64 quẻ (`hexagrams.json`) và tài liệu nguồn gốc (`SOURCES.md`).
+- [x] Task P2.2: Triển khai thuật toán gieo quẻ 3 đồng xu thuần (`hexagram.ts`, `lookup.ts`, `interpret.ts`) và unit tests Vitest 100% test vectors.
+- [x] Task P2.3: Dựng đồ họa 3D Quẻ Kinh Dịch (`Coin.ts`, `HexagramView.ts` dựng hào từ dưới lên, hiệu ứng hào động nhấp nháy chuyển màu).
+- [x] Task P2.4: Triển khai FSM DivinationMode (INTRO -> CONCENTRATE -> THROW(x6) -> BUILD -> CHANGE -> READING -> SAVE).
+- [x] Task P2.5: Tích hợp hiển thị kết quả, kiểm thử chất lượng G1, G2, G3, G5.
+
+### Phase P3 (Hoàn thành: 2026-11-18)
+- [x] Task P3.1: Triển khai hàm thuần `summarizeReading()` trong `services/reading.ts` và dịch vụ `SettingsService` quản lý âm thanh/đồ họa với bộ unit tests.
+- [x] Task P3.2: Triển khai `AudioManager` với Web Audio API procedural synthesizer (ambient drone thiền định + SFX xáo/lật bài/xu rơi/chuông ngân).
+- [x] Task P3.3: Dựng hệ thống hạt khói trầm hương 3D `SmokeParticles.ts` thích ứng cấu hình `QualityLevel`.
+- [x] Task P3.4: Triển khai `share.ts` vẽ thẻ kết quả 2D Canvas 800x1200 px sắc nét, bảo mật thông tin cá nhân.
+- [x] Task P3.5: Hoàn thiện giao diện `ui/History.ts`, `ui/Settings.ts`, nút bật/tắt âm thanh nhanh tại `Menu.ts` và tích hợp nút chia sẻ ảnh trong `ReadingPanel.ts`.
+- [x] Task P3.6: Tích hợp hiệu ứng khói và SFX vào `TarotMode.ts` và `DivinationMode.ts`, kiểm thử toàn bộ cổng G1, G2, G3, G6.
 
 ---
 
