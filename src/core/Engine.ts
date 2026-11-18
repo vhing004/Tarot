@@ -4,12 +4,22 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three';
+import type { Quality } from '@/core/Quality';
 
 interface Animatable {
   eventCallback(type: string, callback?: (...args: unknown[]) => void): unknown;
 }
 
 export type UpdaterFn = (dt: number) => void;
+
+/** Metrics chi tiết cho dev hook G4 (chỉ bật ở DEV mode) */
+export interface EngineMetrics {
+  fpsInstant: number;
+  drawCalls: number;
+  triangles: number;
+  geometries: number;
+  textures: number;
+}
 
 export class Engine {
   public readonly scene: Scene;
@@ -24,6 +34,9 @@ export class Engine {
   private lastTime = 0;
   private rafId = 0;
   private isDisposed = false;
+
+  /** Tham chiếu Quality để recordFrame và cập nhật pixelRatio tự động */
+  private quality: Quality | null = null;
 
   constructor(container: HTMLElement) {
     this.container = container;
@@ -50,17 +63,51 @@ export class Engine {
 
     container.appendChild(this.renderer.domElement);
 
-    // Dev hook cho G3 lifecycle (R07 §3)
+    // Dev hook cho G3 lifecycle + G4 metrics (R07 §3)
     if (import.meta.env.DEV) {
       // allow:R02-any dev hook window.__fh
-      (window as unknown as { __fh: { info: unknown } }).__fh = {
+      (window as unknown as {
+        __fh: {
+          info: unknown;
+          getMetrics: () => EngineMetrics;
+        }
+      }).__fh = {
         info: this.renderer.info,
+        getMetrics: () => this.getMetrics(),
       };
     }
 
     window.addEventListener('resize', this.onResize);
     document.addEventListener('visibilitychange', this.onVisibilityChange);
 
+    this.requestRender();
+  }
+
+  /**
+   * Kết nối Quality manager để Engine tự động:
+   * - gọi recordFrame mỗi tick
+   * - cập nhật pixelRatio khi mức chất lượng thay đổi
+   */
+  attachQuality(quality: Quality): void {
+    this.quality = quality;
+    quality.addChangeListener((level) => {
+      const maxRatio = quality.recommendedMaxPixelRatio();
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      // Trên mobile không vượt baseline cứng 1.5
+      const cap = isMobile ? Math.min(1.5, maxRatio) : maxRatio;
+      this.applyPixelRatio(cap);
+      if (import.meta.env.DEV) {
+        console.info(`[Quality] hạ xuống ${level}, pixelRatio → ${cap}`);
+      }
+    });
+  }
+
+  /**
+   * Cập nhật pixel ratio tại runtime (dùng bởi Quality hoặc Settings thủ công).
+   */
+  applyPixelRatio(maxRatio: number): void {
+    const ratio = Math.min(window.devicePixelRatio, maxRatio);
+    this.renderer.setPixelRatio(ratio);
     this.requestRender();
   }
 
@@ -95,6 +142,22 @@ export class Engine {
     anim.eventCallback('onInterrupt', onEnd);
   }
 
+  /**
+   * Trả về metrics chi tiết cho dev/benchmark.
+   * Dùng trong console: `window.__fh.getMetrics()`
+   */
+  getMetrics(): EngineMetrics {
+    const info = this.renderer.info;
+    const dtMs = this.lastTime > 0 ? performance.now() - this.lastTime : 16.7;
+    return {
+      fpsInstant: dtMs > 0 ? 1000 / dtMs : 0,
+      drawCalls: info.render.calls,
+      triangles: info.render.triangles,
+      geometries: info.memory.geometries,
+      textures: info.memory.textures,
+    };
+  }
+
   private start(): void {
     this.running = true;
     this.lastTime = performance.now();
@@ -104,8 +167,14 @@ export class Engine {
   private tick = (currentTime: number): void => {
     if (!this.running || this.isDisposed) return;
 
-    const dt = Math.min((currentTime - this.lastTime) / 1000, 0.05);
+    const dtMs = currentTime - this.lastTime;
+    const dt = Math.min(dtMs / 1000, 0.05);
     this.lastTime = currentTime;
+
+    // Ghi frame vào Quality monitor (adaptive FPS tracking)
+    if (this.quality) {
+      this.quality.recordFrame(dtMs);
+    }
 
     // Cập nhật các updaters
     for (const updater of this.updaters) {
@@ -152,6 +221,7 @@ export class Engine {
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
 
     this.updaters.clear();
+    this.quality = null;
     this.renderer.dispose();
     this.renderer.domElement.remove();
   }
