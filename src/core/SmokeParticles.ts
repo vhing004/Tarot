@@ -15,6 +15,9 @@ export class SmokeParticles extends Points {
   private initialZ: number;
   private time = 0;
 
+  /** Khi paused = true, update() không làm gì (tiết kiệm CPU/GPU khi đọc kết quả hoặc reducedMotion) */
+  private paused = false;
+
   constructor(
     originX: number,
     originY: number,
@@ -57,7 +60,28 @@ export class SmokeParticles extends Points {
     this.initialZ = originZ;
   }
 
+  /**
+   * Tạm dừng hoạt ảnh hạt khói.
+   * Gọi khi hiển thị ReadingPanel (người dùng đọc kết quả) hoặc bật reducedMotion.
+   * Tiết kiệm CPU/GPU và đạt 0-frame render khi đứng yên (R03 §2).
+   */
+  pause(): void {
+    this.paused = true;
+  }
+
+  /** Tiếp tục hoạt ảnh sau khi pause() */
+  resume(): void {
+    this.paused = false;
+  }
+
+  get isPaused(): boolean {
+    return this.paused;
+  }
+
   update(dt: number): void {
+    // Không cập nhật khi tạm dừng → loop render có thể dừng hẳn (R03 §2)
+    if (this.paused) return;
+
     this.time += dt;
     const positions = this.geometry.attributes.position;
     if (!positions) return;
@@ -70,7 +94,7 @@ export class SmokeParticles extends Points {
       const currentY = this.positionsArray[idx + 1] ?? 0;
       let newY = currentY + speed * dt;
 
-      // Uốn lượn tự nhiên theo sóng sin/cos mà không new Vector3 (R03 §2)
+      // Uốn lượn tự nhiên theo sóng sin/cos mà không new Vector3 (R03 §7 - tái sử dụng biến)
       const sway = Math.sin(this.time * 2 + i) * 0.003;
       const swayZ = Math.cos(this.time * 1.5 + i) * 0.003;
 
