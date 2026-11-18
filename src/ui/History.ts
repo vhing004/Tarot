@@ -131,6 +131,23 @@ export class HistoryView {
       infoBox.appendChild(dateText);
       infoBox.appendChild(itemTitle);
       infoBox.appendChild(itemSub);
+
+      // Dải thumbnail ảnh bài Tarot (nếu là lượt bói Tarot)
+      if (reading.mode === 'tarot' && 'cards' in reading.result) {
+        const thumbRow = document.createElement('div');
+        thumbRow.className = 'history-card-thumbnails';
+        for (const drawn of reading.result.cards) {
+          const thumb = document.createElement('img');
+          thumb.className = drawn.reversed ? 'history-card-thumb reversed' : 'history-card-thumb';
+          thumb.src = drawn.card.image;
+          thumb.alt = drawn.card.nameVi;
+          thumb.title = `${drawn.card.nameVi} (${drawn.reversed ? 'Ngược' : 'Xuôi'})`;
+          thumb.loading = 'lazy';
+          thumbRow.appendChild(thumb);
+        }
+        infoBox.appendChild(thumbRow);
+      }
+
       infoBox.appendChild(itemPreview);
       item.appendChild(infoBox);
 

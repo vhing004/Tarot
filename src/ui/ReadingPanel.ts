@@ -51,6 +51,24 @@ export class ReadingPanel {
       const cardItem = document.createElement('div');
       cardItem.className = 'reading-card-item';
 
+      // Khung ảnh nghệ thuật của lá bài
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'reading-card-img-wrap';
+
+      const img = document.createElement('img');
+      img.className = drawn.reversed ? 'reading-card-img reversed' : 'reading-card-img';
+      img.src = drawn.card.image;
+      img.alt = `${drawn.card.nameVi} (${drawn.card.name})`;
+      img.loading = 'lazy';
+      img.onerror = () => {
+        img.style.display = 'none';
+        const fallback = document.createElement('div');
+        fallback.className = 'reading-card-img-fallback';
+        fallback.textContent = '🃏';
+        imgWrap.appendChild(fallback);
+      };
+      imgWrap.appendChild(img);
+
       const posTitle = document.createElement('span');
       posTitle.className = 'card-position-badge';
       posTitle.textContent = POSITION_LABELS_VI[drawn.position] ?? drawn.position;

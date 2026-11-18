@@ -48,6 +48,7 @@ Quy tắc: không bắt đầu Phase N+1 khi Phase N chưa `[x]`.
 | 2026-11-18 | P4 | G4 | Build bundle size analysis | Đạt | JS gzip tải ban đầu: 15.95 kB (index) + 119.05 kB (three) = 134.9 kB < ngân sách 300 kB; public/ = 1.55 kB |
 | 2026-11-18 | P4 | G6 | CSP + X-Frame-Options + security headers | Đạt | `public/_headers` cấu hình CSP strict, X-Frame-Options: DENY, Permissions-Policy, Cache-Control immutable |
 | 2026-11-18 | Deploy | G7 | Cloudflare Pages readiness & verification | Đạt | Tài liệu hướng dẫn `docs/DEPLOYMENT.md`, xác nhận `dist/_headers` nguyên vẹn, 0 runtime vulnerability, kịch bản rollback rõ ràng |
+| 2026-11-18 | Tarot Polish | G1 | `npm run check` | Đạt | Typecheck 0 error, Vitest 57/57 tests pass, check:rules 47 files 0 vi phạm, hiển thị ảnh lá bài trong ReadingPanel & History |
 ## 4. Quyết định (Decision log)
 |---|---|---|---|---|
 | D-001 | 2026-11-18 | Stack: TypeScript + Three.js + Vite, UI thuần HTML/CSS | Kiểm soát render, dễ tối ưu | R01, R03 |

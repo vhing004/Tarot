@@ -105,6 +105,7 @@
 - [x] Task T.5: Trang bị trọn vẹn bộ ảnh số hóa Rider-Waite-Smith 1909 (Public Domain) thực tế cho toàn bộ 78 lá bài (`public/textures/tarot/*.jpg`), xóa bỏ các file dummy 34 bytes.
 - [x] Task T.6: Mở rộng `cards.json` thành 78 lá bài Tarot chuẩn quốc tế (22 Ẩn Chính + 56 Ẩn Phụ: Wands, Cups, Swords, Pentacles).
 - [x] Task T.7: Tích hợp tùy chọn chọn quy mô bộ bài (22 lá hoặc 78 lá) trong `QuestionForm.ts` và cơ chế fallback an toàn trong `CardInspectOverlay`.
+- [x] Task T.8: Hiển thị tranh ảnh các lá bài đã rút trong Màn hình Tóm tắt kết quả (`ReadingPanel`) và danh sách Lịch sử (`History`) (`PLAN-20261118-summary-card-images`).
 
 ---
 
